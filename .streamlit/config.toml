@@ -1,0 +1,6 @@
+[server]
+maxMessageSize=1000
+
+[theme]
+base='dark'
+#secondaryBackgroundColor='#D3D3D3'
