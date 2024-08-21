@@ -24,6 +24,51 @@ def select_fornecedores():
     return fornecedores
 
 
+def select_produtos():
+    db.cursor.execute('SELECT * FROM produto')
+    produtos = []
+    for row in db.cursor.fetchall():
+        produtos.append(
+            models.Fornecedor(row[0], row[1], row[2])
+        )
+    return produtos
+
+
+def select_estoques():
+    db.cursor.execute('SELECT * FROM estoque')
+    estoques = []
+    for row in db.cursor.fetchall():
+        estoques.append(
+            models.Fornecedor(row[0], row[1], row[2])
+        )
+    return estoques
+
+
+def select_vendas():
+    db.cursor.execute('SELECT * FROM venda')
+    vendas = []
+    for row in db.cursor.fetchall():
+        vendas.append(
+            models.Venda(
+                    row[0], row[1], row[2], row[3], row[4], row[5],
+                    row[6], row[7], row[8], row[9]
+                )
+        )
+    return vendas
+
+
+def select_compras():
+    db.cursor.execute('SELECT * FROM compra')
+    compras = []
+    for row in db.cursor.fetchall():
+        compras.append(
+            models.Compra(
+                    row[0], row[1], row[2], row[3], row[4], row[5], row[6]
+                )
+        )
+    return compras
+
+
 #inserts
 def insert_clientes(cliente):
     try:
@@ -36,4 +81,18 @@ def insert_clientes(cliente):
         db.conn.commit()
         st.success('Cliente inserido!')
     except Exception as e:
-        st.write(f'Error during insertion: {e}')
+        st.write(f'Erro durante inserção: {e}')
+        
+
+def insert_fornecedores(fornecedor):
+    try:
+        count = db.cursor.execute(
+            f"""
+                INSERT INTO fornecedor (nome_fornecedor, tipo_fornecedor, cnpj_fornecedor, endereco_fornecedor, bairro_fornecedor, telefone_fornecedor, referencia_fornecedor, situacao_fornecedor)
+                VALUES ('{fornecedor.nome_fornecedor}', '{fornecedor.cnpj_fornecedor}', '{fornecedor.endereco_fornecedor}', '{fornecedor.bairro_fornecedor}', '{fornecedor.telefone_fornecedor}');
+            """
+        )
+        db.conn.commit()
+        st.success('Fornecedor inserido!')
+    except Exception as e:
+        st.write(f'Erro durante inserção: {e}')
