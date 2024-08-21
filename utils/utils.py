@@ -77,6 +77,7 @@ def consulta_compras():
         )
     return compras
 
+
 #inserts
 #---------------------------------------------------------------
 
@@ -133,10 +134,50 @@ def insert_fornecedores():
             input_bairro_fornecedor = st.text_input(label='Bairro')
         input_button_submit = st.form_submit_button('Inserir')
     
-
     if input_button_submit:
         controllers.insert_fornecedores(
             models.Fornecedor(0, input_nome_fornecedor, input_cnpj_fornecedor, input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
         )
     else:
         pass
+    
+
+#produtos
+def insert_produtos():
+    with st.form(key='insert_produtos'):
+        options = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
+        input_nome_produto = st.text_input(label='Nome')
+        input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', options=options)
+        input_button_submit = st.form_submit_button('Inserir')
+
+    if input_button_submit:
+        controllers.insert_produtos(
+            models.Fornecedor(0, input_nome_produto, input_unidade_medida_produto)
+        )
+    else:
+        pass
+    
+
+#vendas
+'''def insert_vendas():
+    with st.form(key='insert_vendas'):
+        input_cliente_id_cliente = st.text_input(label='Nome')
+        col1, col2 = st.columns([.6, .4])
+        with col1:
+            input_endereco_entrega_venda = st.text_input(label='Telefone')
+        with col2:
+            input_bairro_entrega_venda = st.text_input(label='Telefone')
+        input_observacoes_venda = st.text_input(label='CPF/CNPJ')
+        col1, col2 = st.columns([.6, .4])
+        with col1:
+            input_preco_total_venda = st.text_input(label='Endereço')
+        with col2:
+            input_forma_pagamento_venda = st.text_input(label='Bairro')
+        input_button_submit = st.form_submit_button('Inserir')
+    
+    if input_button_submit:
+        controllers.insert_fornecedores(
+            models.Fornecedor(0, input_nome_fornecedor, input_cnpj_fornecedor, input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
+        )
+    else:
+        pass'''

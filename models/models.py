@@ -40,9 +40,9 @@ class Estoque:
     def __init__(
             self, id_estoque, produto_id_produto, quantidade_estoque
         ):
-        self.id_produto = id_estoque
-        self.nome_produto = produto_id_produto
-        self.unidade_medida_produto = quantidade_estoque
+        self.id_estoque = id_estoque
+        self.produto_id_produto = produto_id_produto
+        self.quantidade_estoque = quantidade_estoque
 
 class Compra:
     def __init__(

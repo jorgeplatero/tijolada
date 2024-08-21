@@ -21,6 +21,7 @@ with col1:
 with col2:
     st.title('Streamlit Materiais de Construção')
 
+#menu
 opcao_menu_cadastros = st.selectbox(
     'Menu', 
     options=['Cliente', 'Fornecedor', 'Produto'],
@@ -54,7 +55,7 @@ elif opcao_menu_cadastros == 'Fornecedor':
 elif opcao_menu_cadastros == 'Produto':
     #formulario
     st.write('Cadastro')
-    #utils.insert_produtos()
+    utils.insert_produtos()
     #dados
     try:
         st.write('Dados')

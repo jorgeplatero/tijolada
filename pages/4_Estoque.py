@@ -5,10 +5,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-columns_estoques = [
-    'ID', 'ID Produto', 'Unidade de Medida',
-]
+columns_estoques = ['ID', 'ID Produto', 'Unidade de Medida',]
 
+#dados
 try:
     st.write('Dados')
     df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=columns_estoques)

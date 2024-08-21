@@ -20,7 +20,7 @@ CREATE TABLE produto (
 --compra
 CREATE TABLE compra (
     ID_compra SERIAL PRIMARY KEY,
-    data_compra DATE NOT NULL,
+    data_compra DATE CURRENT_DATE,
     fornecedor_ID_fornecedor INTEGER REFERENCES fornecedor (ID_fornecedor) ON UPDATE CASCADE,
     preco_total_compra MONEY,
     forma_pagamento_compra VARCHAR(50),
@@ -60,7 +60,7 @@ CREATE TABLE cliente (
 --venda
 CREATE TABLE venda (
     ID_venda SERIAL PRIMARY KEY,
-	data_venda DATE,
+	data_venda DATE CURRENT_DATE,
     cliente_ID_cliente INTEGER REFERENCES cliente (ID_cliente) ON UPDATE CASCADE,
     endereco_entrega_venda VARCHAR(100),
     bairro_entrega_venda VARCHAR(50),

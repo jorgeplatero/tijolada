@@ -24,6 +24,9 @@ with col1:
 with col2:
     st.title('Streamlit Materiais de Construção')
 
+#logo barra lateral
+st.sidebar.image('img/logo.png')
+
 opcao_menu_vendas = st.selectbox(
     'Menu', 
     options=['Cadastrar', 'Editar', 'Consultar'],

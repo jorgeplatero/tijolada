@@ -4,6 +4,8 @@ import models.models as models
 
 
 #consultas
+#---------------------------------------------------------------
+
 def select_clientes():
     db.cursor.execute('SELECT * FROM cliente')
     clientes = []
@@ -70,6 +72,9 @@ def select_compras():
 
 
 #inserts
+#---------------------------------------------------------------
+
+#clientes
 def insert_clientes(cliente):
     try:
         count = db.cursor.execute(
@@ -82,8 +87,9 @@ def insert_clientes(cliente):
         st.success('Cliente inserido!')
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
+       
         
-
+#fornecedores
 def insert_fornecedores(fornecedor):
     try:
         count = db.cursor.execute(
@@ -94,5 +100,20 @@ def insert_fornecedores(fornecedor):
         )
         db.conn.commit()
         st.success('Fornecedor inserido!')
+    except Exception as e:
+        st.write(f'Erro durante inserção: {e}')
+        
+
+#produtos
+def insert_produtos(produto):
+    try:
+        count = db.cursor.execute(
+            f"""
+                INSERT INTO produto (nome_produto, unidade_medida_produto)
+                VALUES ('{produto.nome_produto}', '{produto.unidade_medida_produto}');
+            """
+        )
+        db.conn.commit()
+        st.success('Produto inserido!')
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
