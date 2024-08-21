@@ -82,60 +82,60 @@ CREATE TABLE venda_produto (
 
 --tabelas dimensão
 CREATE TABLE dim_tipo_cliente (
-    ID_tipo_cliente INTEGER PRIMARY KEY,
+    ID_tipo_cliente BOOLEAN PRIMARY KEY,
     descricao_tipo_cliente VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE dim_situacao_pagamento_venda (
-    ID_situacao_pagamento_venda INTEGER PRIMARY KEY,
+    ID_situacao_pagamento_venda BOOLEAN PRIMARY KEY,
     descricao_situacao_pagamento_venda VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE dim_situacao_entrega_venda (
-    ID_situacao_entrega_venda INTEGER PRIMARY KEY,
+    ID_situacao_entrega_venda BOOLEAN PRIMARY KEY,
     descricao_situacao_entrega_venda VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE dim_situacao_pagamento_compra (
-    ID_situacao_pagamento_compra INTEGER PRIMARY KEY,
+    ID_situacao_pagamento_compra BOOLEAN PRIMARY KEY,
     descricao_situacao_pagamento_compra VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE dim_situacao_entrega_compra (
-    ID_situacao_entrega_compra INTEGER PRIMARY KEY,
+    ID_situacao_entrega_compra BOOLEAN PRIMARY KEY,
     descricao_situacao_entrega_compra VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE dim_situacao_cliente (
-    ID_situacao_cliente INTEGER PRIMARY KEY,
+    ID_situacao_cliente BOOLEAN PRIMARY KEY,
     descricao_situacao_cliente VARCHAR(15) NOT NULL
 );
 
 
 --inserts tabelas dimensão
 INSERT INTO dim_tipo_cliente (ID_tipo_cliente, descricao_tipo_cliente) VALUES
-(0, 'Pessoa jurídica'),
-(1, 'Pessoa física');
+(false, 'Pessoa jurídica'),
+(true, 'Pessoa física');
 
 INSERT INTO dim_situacao_pagamento_venda (ID_situacao_pagamento_venda, descricao_situacao_pagamento_venda) VALUES
-(0, 'Não realizada'),
-(1, 'Realizada');
+(false, 'Não realizada'),
+(true, 'Realizada');
 
 INSERT INTO dim_situacao_entrega_venda (ID_situacao_entrega_venda, descricao_situacao_entrega_venda) VALUES
-(0, 'Não realizada'),
-(1, 'Realizada');
+(false, 'Não realizada'),
+(true, 'Realizada');
 
 INSERT INTO dim_situacao_pagamento_compra (ID_situacao_pagamento_compra, descricao_situacao_pagamento_compra) VALUES
-(0, 'Não realizada'),
-(1, 'Realizada');
+(false, 'Não realizada'),
+(true, 'Realizada');
 
 INSERT INTO dim_situacao_entrega_compra (ID_situacao_entrega_compra, descricao_situacao_entrega_compra) VALUES
-(0, 'Não realizada'),
-(1, 'Realizada');
+(false, 'Não realizada'),
+(true, 'Realizada');
 
 INSERT INTO dim_situacao_cliente (ID_situacao_cliente, descricao_situacao_cliente) VALUES
-(0, 'Inadimplente '),
-(1, 'Adimplente');
+(false, 'Inadimplente '),
+(true, 'Adimplente');
 
 --triggers
 

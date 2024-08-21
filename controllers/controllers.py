@@ -3,6 +3,7 @@ import services.database as db
 import models.models as models
 
 
+#consultas
 def select_clientes():
     db.cursor.execute('SELECT * FROM cliente')
     clientes = []
@@ -11,6 +12,7 @@ def select_clientes():
             models.Cliente(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
         )
     return clientes
+
 
 def select_fornecedores():
     db.cursor.execute('SELECT * FROM fornecedor')
@@ -21,6 +23,8 @@ def select_fornecedores():
         )
     return fornecedores
 
+
+#inserts
 def insert_clientes(cliente):
     try:
         count = db.cursor.execute(
@@ -30,5 +34,6 @@ def insert_clientes(cliente):
             """
         )
         db.conn.commit()
+        st.success('Cliente inserido!')
     except Exception as e:
         st.write(f'Error during insertion: {e}')

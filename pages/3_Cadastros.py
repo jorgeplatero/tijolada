@@ -26,16 +26,17 @@ opcao_menu_cadastros = st.selectbox(
     index=None,
     placeholder='Selecione uma opção do menu...'                          
 )
-st.write('Você selecionou:', opcao_menu_cadastros)
-
 if opcao_menu_cadastros == 'Cliente':
     #formulario
+    st.write('Cadastrado')
     utils.insert_clientes()
     #dados
-    st.write('Dados')
-    df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=columns_cliente)
-    st.table(df_clientes)
-
+    try:
+        st.write('Dados')
+        df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=columns_cliente)
+        st.table(df_clientes)
+    except:
+        pass
 elif opcao_menu_cadastros == 'Fornecedor':
     st.write('Dados')
     df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=columns_fornecedor)
