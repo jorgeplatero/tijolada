@@ -48,13 +48,13 @@ CREATE TABLE estoque (
 CREATE TABLE cliente (
     ID_cliente SERIAL PRIMARY KEY,
     nome_cliente VARCHAR(100) UNIQUE NOT NULL,
-	tipo_cliente BOOLEAN,
+	tipo_cliente BOOLEAN DEFAULT TRUE,
     cpf_cnpj_cliente VARCHAR(18) UNIQUE NOT NULL,
     endereco_cliente VARCHAR(100),
     bairro_cliente VARCHAR(50),
 	telefone_cliente VARCHAR(15),
 	referencia_cliente VARCHAR(255),
-	situacao_cliente VARCHAR(15)
+	situacao_cliente BOOLEAN DEFAULT TRUE
 );
 
 --venda
