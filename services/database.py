@@ -2,7 +2,7 @@ import psycopg2 as ps
 
 
 conn = ps.connect(
-    dbname = 'building_supply_stock',
+    dbname = 'loja_materiais_construcao',
     user ='postgres',
     password = 'postgres',
     host = 'localhost',

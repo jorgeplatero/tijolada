@@ -36,7 +36,7 @@ if opcao_menu_cadastros == 'Cliente':
     try:
         st.write('Dados')
         df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=columns_cliente)
-        st.table(df_clientes)
+        st.dataframe(df_clientes, use_container_width=True, hide_index=True)
     except:
         pass
     
@@ -48,7 +48,7 @@ elif opcao_menu_cadastros == 'Fornecedor':
     try:
         st.write('Dados')
         df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=columns_fornecedor)
-        st.table(df_fornecedores)
+        st.dataframe(df_fornecedores, use_container_width=True, hide_index=True)
     except:
         pass
     
@@ -60,6 +60,6 @@ elif opcao_menu_cadastros == 'Produto':
     try:
         st.write('Dados')
         df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=columns_produtos)
-        st.table(df_produtos)
+        st.dataframe(df_produtos, use_container_width=True, hide_index=True)
     except:
         pass
