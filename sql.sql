@@ -13,7 +13,7 @@ CREATE TABLE fornecedor (
 --produto
 CREATE TABLE produto (
     ID_produto SERIAL PRIMARY KEY,
-    nome_produto VARCHAR(30) UNIQUE NOT NULL,
+    nome_produto VARCHAR(255) UNIQUE NOT NULL,
     unidade_medida_produto VARCHAR(10)
 );
 
@@ -22,6 +22,7 @@ CREATE TABLE compra (
     ID_compra SERIAL PRIMARY KEY,
     data_compra DATE DEFAULT CURRENT_DATE,
     fornecedor_ID_fornecedor INTEGER REFERENCES fornecedor (ID_fornecedor) ON UPDATE CASCADE,
+    produto_ID_produto INTEGER REFERENCES produto (ID_produto) ON UPDATE CASCADE,
     preco_total_compra MONEY,
     forma_pagamento_compra VARCHAR(50),
     situacao_pagamento_compra VARCHAR(50),
@@ -33,8 +34,7 @@ CREATE TABLE compra_produto (
     compra_ID_compra INTEGER REFERENCES compra (ID_compra) ON UPDATE CASCADE,
     produto_ID_produto INTEGER REFERENCES produto (ID_produto) ON UPDATE CASCADE,
     preco_unitario_produto_compra MONEY NOT NULL,
-    quantidade_produto_compra REAL NOT NULL,
-    desconto_produto_compra MONEY DEFAULT 0
+    quantidade_produto_compra REAL NOT NULL
 );
 
 --estoque
@@ -75,14 +75,15 @@ CREATE TABLE venda_produto (
     ID_venda_produto SERIAL PRIMARY KEY,
     venda_ID_venda INTEGER REFERENCES venda (ID_venda) ON UPDATE CASCADE,
     produto_ID_produto INTEGER REFERENCES produto (ID_produto) ON UPDATE CASCADE,
-    preco_unitario_produto_venda MONEY NOT NULL,
-    quantidade_produto_venda REAL NOT NULL,
-    desconto_produto_venda MONEY DEFAULT 0
+    preco_unitario_produto_venda MONEY,
+    quantidade_produto_venda REAL NOT NULL
 );
 
 --triggers
 
---trigger para atualizar quantidade total de uma venda
+--venda
+
+--trigger para atualizar preço total de uma venda
 CREATE OR REPLACE FUNCTION calcular_preco_total_venda()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -100,7 +101,9 @@ CREATE TRIGGER calcular_preco_total_trigger
 AFTER INSERT OR UPDATE OR DELETE ON venda_produto
 FOR EACH ROW EXECUTE PROCEDURE calcular_preco_total_venda();
 
---trigger para atualizar quantidade total de uma compra
+--compra
+
+--trigger para atualizar preço total de uma compra
 CREATE OR REPLACE FUNCTION calcular_preco_total_compra()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -118,29 +121,41 @@ CREATE TRIGGER calcular_preco_total_trigger
 AFTER INSERT OR UPDATE OR DELETE ON compra_produto
 FOR EACH ROW EXECUTE PROCEDURE calcular_preco_total_compra();
 
---trigger para atualizar o estoque após uma compra
+--estoque
+
+--trigger para inserir um novo produto no estoque após uma compra inédita
 CREATE OR REPLACE FUNCTION atualizar_estoque_compra()
 RETURNS TRIGGER AS $$
 BEGIN
-    --decrementa a quantidade em estoque para cada produto comprado
-    UPDATE estoque
-    SET quantidade_estoque = quantidade_estoque + NEW.quantidade_produto_compra
-    WHERE produto_ID_produto = NEW.produto_ID_produto;
-
+    -- Verifica se o produto já existe no estoque
+    IF EXISTS (SELECT 1 FROM estoque WHERE produto_ID_produto = NEW.produto_ID_produto) THEN
+        -- Atualiza a quantidade em estoque
+        UPDATE estoque
+        SET quantidade_estoque = quantidade_estoque + NEW.quantidade_produto_compra
+        WHERE produto_ID_produto = NEW.produto_ID_produto;
+    ELSE
+        -- Insere um novo registro no estoque
+        INSERT INTO estoque (produto_ID_produto, quantidade_estoque)
+        VALUES (NEW.produto_ID_produto, NEW.quantidade_produto_compra);
+    END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trg_compra_produto_estoque
-AFTER INSERT OR UPDATE ON compra_produto
+CREATE TRIGGER atualizar_estoque_compra
+AFTER INSERT ON compra_produto
 FOR EACH ROW
-EXECUTE PROCEDURE atualizar_estoque_compra();
+EXECUTE FUNCTION atualizar_estoque_compra();
 
 --trigger para atualizar o estoque após uma venda
-CREATE OR REPLACE FUNCTION atualizar_estoque_venda()
-RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION atualizar_estoque_venda() RETURNS TRIGGER AS $$
 BEGIN
-    --decrementa a quantidade em estoque para cada produto vendido
+    -- Verifica se a nova quantidade em estoque não ficará negativa
+    IF (SELECT quantidade_estoque FROM estoque WHERE produto_ID_produto = NEW.produto_ID_produto) - NEW.quantidade_produto_venda < 0 THEN
+        RAISE EXCEPTION 'Quantidade em estoque insuficiente!';
+    END IF;
+
+    -- Atualiza a quantidade em estoque
     UPDATE estoque
     SET quantidade_estoque = quantidade_estoque - NEW.quantidade_produto_venda
     WHERE produto_ID_produto = NEW.produto_ID_produto;
@@ -149,7 +164,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trg_venda_produto_estoque
-AFTER INSERT OR UPDATE ON venda_produto
+CREATE TRIGGER atualizar_estoque_venda
+AFTER INSERT ON venda_produto
 FOR EACH ROW
-EXECUTE PROCEDURE atualizar_estoque_venda();
+EXECUTE FUNCTION atualizar_estoque_venda();

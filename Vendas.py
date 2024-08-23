@@ -43,6 +43,6 @@ elif opcao_menu_vendas == 'Consultar':
     try:
         st.write('Dados')
         df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=columns_venda)
-        st.table(df_vendas)
+        st.dataframe(df_vendas, hide_index=True)
     except:
         pass

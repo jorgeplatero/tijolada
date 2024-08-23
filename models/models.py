@@ -46,12 +46,13 @@ class Estoque:
 
 class Compra:
     def __init__(
-            self, id_compra, data_compra, fornecedor_id_fornecedor, preco_total_compra, 
+            self, id_compra, data_compra, fornecedor_id_fornecedor, produto_id_produto, preco_total_compra, 
             situacao_pagamento_compra, situacao_entrega_compra, forma_pagamento_compra
         ):
         self.id_compra = id_compra
         self.data_compra = data_compra
         self.fornecedor_id_fornecedor = fornecedor_id_fornecedor
+        self.produto_id_produto = produto_id_produto
         self.preco_total_compra = preco_total_compra
         self.situacao_pagamento_compra = situacao_pagamento_compra
         self.situacao_entrega_compra = situacao_entrega_compra
@@ -61,14 +62,13 @@ class Compra:
 class CompraProduto:
     def __init__(
             self, id_compra_produto, compra_id_compra, produto_id_produto, preco_unitario_produto_compra, 
-            quantidade_produto_compra, desconto_produto_compra
+            quantidade_produto_compra
         ):
         self.id_compra_produto = id_compra_produto
         self.compra_id_compra = compra_id_compra
         self.produto_id_produto = produto_id_produto
         self.preco_unitario_produto_compra = preco_unitario_produto_compra
         self.quantidade_produto_compra = quantidade_produto_compra
-        self.desconto_produto_compra = desconto_produto_compra
         
 class Venda:
     def __init__(
@@ -91,11 +91,10 @@ class Venda:
 class VendaProduto:
     def __init__(
             self, id_venda_produto, venda_id_venda, produto_id_produto, 
-            preco_unitario_produto_venda, quantidade_produto_venda, desconto_produto_venda
+            preco_unitario_produto_venda, quantidade_produto_venda
         ):
         self.id_venda_produto = id_venda_produto
         self.venda_id_venda = venda_id_venda
         self.produto_id_produto = produto_id_produto
         self.preco_unitario_produto_venda = preco_unitario_produto_venda
         self.quantidade_produto_venda = quantidade_produto_venda
-        self.desconto_produto_venda = desconto_produto_venda

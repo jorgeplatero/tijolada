@@ -71,7 +71,7 @@ def consulta_compras():
     for item in controllers.select_compras():
         compras.append(
             [
-                item.id_compra, item.data_compra, item.fornecedor_id_fornecedor,
+                item.id_compra, item.data_compra, item.fornecedor_id_fornecedor, item.produto_id_produto,
                 item.preco_total_compra, item.situacao_pagamento_compra, item.situacao_entrega_compra,
                 item.forma_pagamento_compra
             ]
@@ -107,12 +107,16 @@ def insert_clientes():
         input_tipo_cliente = 'Pessoa Jurídica'
 
     if input_button_submit:
-        controllers.insert_clientes(
-            models.Cliente(
-                0, input_nome_cliente, input_tipo_cliente, input_cpf_cnpj_cliente, input_endereco_cliente, 
-                input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, input_situacao_cliente
+        try:
+            controllers.insert_clientes(
+                models.Cliente(
+                    0, input_nome_cliente, input_tipo_cliente, input_cpf_cnpj_cliente, input_endereco_cliente, 
+                    input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, input_situacao_cliente
+                )
             )
-        )
+            st.success('Cliente inserido!')
+        except:
+            pass
     else:
         pass
 
@@ -134,9 +138,13 @@ def insert_fornecedores():
         input_button_submit = st.form_submit_button('Inserir')
     
     if input_button_submit:
-        controllers.insert_fornecedores(
-            models.Fornecedor(0, input_nome_fornecedor, input_cnpj_fornecedor, input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
-        )
+        try:
+            controllers.insert_fornecedores(
+                models.Fornecedor(0, input_nome_fornecedor, input_cnpj_fornecedor, input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
+            )
+            st.success('Fornecedor inserido!')
+        except:
+            pass
     else:
         pass
     
@@ -150,9 +158,13 @@ def insert_produtos():
         input_button_submit = st.form_submit_button('Inserir')
 
     if input_button_submit:
-        controllers.insert_produtos(
-            models.Produto(0, input_nome_produto, input_unidade_medida_produto)
-        )
+        try:
+            controllers.insert_produtos(
+                models.Produto(0, input_nome_produto, input_unidade_medida_produto)
+            )
+            st.success('Compra inserida!')
+        except:
+            pass
     else:
         pass
     
@@ -161,9 +173,9 @@ def insert_produtos():
 def insert_vendas():
     with st.form(key='insert_vendas'):
         options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
-        df_venda_produto = pd.DataFrame(columns=['ID Produto', 'Preço Unitário', 'Quantidade', 'Desconto'])
+        df_venda_produto = pd.DataFrame(columns=['Código do Produto', 'Quantidade'])
         #venda
-        input_cliente_id_cliente = st.text_input(label='ID Cliente')
+        input_cliente_id_cliente = st.selectbox(label='Código do Cliente', options=[row[0] for row in consulta_clientes()])
         col1, col2 = st.columns([.6, .4])
         with col1:
             input_endereco_entrega_venda = st.text_input(label='Endereço de entrega')
@@ -177,27 +189,110 @@ def insert_vendas():
             input_situacao_entrega_venda = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'])
         input_forma_pagamento_venda = st.selectbox(label='Forma de pagamento', options=options)
         #produtos da venda
-        df_venda_produto = st.data_editor(df_venda_produto, num_rows='dynamic', use_container_width=True)
+        df_venda_produto = st.data_editor(
+            df_venda_produto,
+            column_config={
+                'Código do Produto': st.column_config.SelectboxColumn(
+                    help='Selecione...',
+                    options=[row[0] for row in consulta_produtos()],
+                    required=True
+                ),
+                'Quantidade': st.column_config.NumberColumn(
+                    help='Selecione...',
+                    format='%d',
+                    required=True
+                )
+            },
+            num_rows='dynamic', 
+            use_container_width=False
+        )
         input_button_submit = st.form_submit_button('Inserir')
     if input_button_submit:
-        id_venda = controllers.insert_vendas(
-            models.Venda(
-                    0, 0, input_cliente_id_cliente, input_endereco_entrega_venda, input_bairro_entrega_venda, 
-                    input_observacoes_venda, 0, input_situacao_pagamento_venda, input_situacao_entrega_venda, 
-                    input_forma_pagamento_venda
-                )
-        )
-        for row in df_venda_produto:
-            input_venda_id_venda = id_venda
-            input_produto_id_produto = row[0]
-            input_preco_unitario_produto_venda = row[1]
-            input_quantidade_produto_venda = row[2]
-            input_desconto_produto_venda = row[3]
-            controllers.insert_produtos_vendas(
-                models.VendaProduto(
-                        0, input_venda_id_venda, input_produto_id_produto, input_preco_unitario_produto_venda, 
-                        input_quantidade_produto_venda, input_desconto_produto_venda
+        try:
+            id_venda = controllers.insert_vendas(
+                models.Venda(
+                        0, 0, input_cliente_id_cliente, input_endereco_entrega_venda, input_bairro_entrega_venda, 
+                        input_observacoes_venda, 0, input_situacao_pagamento_venda, input_situacao_entrega_venda, 
+                        input_forma_pagamento_venda
                     )
             )
+            for _, row in df_venda_produto.iterrows():
+                input_venda_id_venda = id_venda
+                input_produto_id_produto = row[0]
+                input_quantidade_produto_venda = row[1]
+                controllers.insert_produtos_vendas(
+                    models.VendaProduto(
+                            0, input_venda_id_venda, input_produto_id_produto, 0,
+                            input_quantidade_produto_venda
+                        )
+                )
+            st.success('Venda inserida!')
+        except:
+            pass
+    else:
+        pass
+
+
+#compras
+def insert_compras():
+    with st.form(key='insert_vendas'):
+        options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
+        df_compra_produto = pd.DataFrame(columns=['Código do Produto', 'Preço Unitário', 'Quantidade'])
+        #compra
+        input_fornecedor_id_fornecedor = st.selectbox(label='Código do Fornecedor', options=[row[0] for row in consulta_fornecedores()])
+        input_produto_id_produto = st.selectbox(label='Código do Produto', options=[row[0] for row in consulta_produtos()])
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            input_situacao_pagamento_compra = st.selectbox(label='Situação do Pagamento', options=['Não realizada', 'Realizado'])
+        with col2:
+            input_situacao_entrega_compra = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'])
+        input_forma_pagamento_compra = st.selectbox(label='Forma de pagamento', options=options)
+        #produtos da venda
+        df_compra_produto = st.data_editor(
+            df_compra_produto,
+            column_config={
+                'Código do Produto': st.column_config.SelectboxColumn(
+                    help='Selecione...',
+                    options=[row[0] for row in consulta_produtos()],
+                    required=True
+                ),
+                'Preço Unitário': st.column_config.NumberColumn(
+                    help='Selecione...',
+                    format='%.2f',
+                    required=True
+                ),
+                'Quantidade': st.column_config.NumberColumn(
+                    help='Selecione...',
+                    format='%d',
+                    required=True
+                )
+            },
+            num_rows='dynamic', 
+            use_container_width=False
+        )
+        input_button_submit = st.form_submit_button('Inserir')
+    if input_button_submit:
+        try:
+            id_compra = controllers.insert_compras(
+                models.Compra(
+                        0, 0, input_fornecedor_id_fornecedor, input_produto_id_produto, 0, 
+                        input_situacao_pagamento_compra, input_situacao_entrega_compra, input_forma_pagamento_compra
+                    )
+            )
+            for _, row in df_compra_produto.iterrows():
+                input_compra_id_compra = id_compra
+                input_produto_id_produto = row[0]
+                input_preco_unitario_produto_compra = row[1]
+                input_quantidade_produto_compra = row[2]
+                controllers.insert_produtos_compras(
+                    models.CompraProduto(
+                            0, input_compra_id_compra, input_produto_id_produto, input_preco_unitario_produto_compra,
+                            input_quantidade_produto_compra
+                        )
+                )
+            st.success('Compra inserida!')
+        except:
+            pass
     else:
         pass

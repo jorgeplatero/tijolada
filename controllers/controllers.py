@@ -41,7 +41,7 @@ def select_estoques():
     estoques = []
     for row in db.cursor.fetchall():
         estoques.append(
-            models.Fornecedor(row[0], row[1], row[2])
+            models.Estoque(row[0], row[1], row[2])
         )
     return estoques
 
@@ -65,7 +65,7 @@ def select_compras():
     for row in db.cursor.fetchall():
         compras.append(
             models.Compra(
-                    row[0], row[1], row[2], row[3], row[4], row[5], row[6]
+                    row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
                 )
         )
     return compras
@@ -77,14 +77,13 @@ def select_compras():
 #clientes
 def insert_clientes(cliente):
     try:
-        count = db.cursor.execute(
+        db.cursor.execute(
             f"""
                 INSERT INTO cliente (nome_cliente, tipo_cliente, cpf_cnpj_cliente, endereco_cliente, bairro_cliente, telefone_cliente, referencia_cliente, situacao_cliente)
-                VALUES ('{cliente.nome_cliente}', {cliente.tipo_cliente}, '{cliente.cpf_cnpj_cliente}', '{cliente.endereco_cliente}', '{cliente.bairro_cliente}', {cliente.telefone_cliente}, '{cliente.referencia_cliente}', '{cliente.situacao_cliente}');
+                VALUES ('{cliente.nome_cliente}', '{cliente.tipo_cliente}', '{cliente.cpf_cnpj_cliente}', '{cliente.endereco_cliente}', '{cliente.bairro_cliente}', {cliente.telefone_cliente}, '{cliente.referencia_cliente}', '{cliente.situacao_cliente}');
             """
         )
         db.conn.commit()
-        st.success('Cliente inserido!')
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
         db.conn.rollback()
@@ -93,14 +92,13 @@ def insert_clientes(cliente):
 #fornecedores
 def insert_fornecedores(fornecedor):
     try:
-        count = db.cursor.execute(
+        db.cursor.execute(
             f"""
                 INSERT INTO fornecedor (nome_fornecedor, cnpj_fornecedor, endereco_fornecedor, bairro_fornecedor, telefone_fornecedor)
                 VALUES ('{fornecedor.nome_fornecedor}', '{fornecedor.cnpj_fornecedor}', '{fornecedor.endereco_fornecedor}', '{fornecedor.bairro_fornecedor}', '{fornecedor.telefone_fornecedor}');
             """
         )
         db.conn.commit()
-        st.success('Fornecedor inserido!')
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
         db.conn.rollback()
@@ -109,14 +107,13 @@ def insert_fornecedores(fornecedor):
 #produtos
 def insert_produtos(produto):
     try:
-        count = db.cursor.execute(
+        db.cursor.execute(
             f"""
                 INSERT INTO produto (nome_produto, unidade_medida_produto)
                 VALUES ('{produto.nome_produto}', '{produto.unidade_medida_produto}');
             """
         )
         db.conn.commit()
-        st.success('Produto inserido!')
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
         db.conn.rollback()
@@ -124,7 +121,7 @@ def insert_produtos(produto):
 #vendas
 def insert_vendas(venda):
     try:
-        count = db.cursor.execute(
+        db.cursor.execute(
             f"""
                 INSERT INTO venda (cliente_ID_cliente, endereco_entrega_venda, bairro_entrega_venda, observacoes_venda,
                 situacao_pagamento_venda, situacao_entrega_venda, forma_pagamento_venda)
@@ -134,26 +131,61 @@ def insert_vendas(venda):
             """
         )
         db.conn.commit()
-        st.success('Venda inserido!')
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
         db.conn.rollback()
-    return db.cursor.execute(f'SELECT LASTVAL() FROM venda')
+    db.cursor.execute(f'SELECT LASTVAL()')
+    return db.cursor.fetchone()[0]
 
 
 #produtos venda
 def insert_produtos_vendas(venda_produto):
     try:
-        count = db.cursor.execute(
+        db.cursor.execute(
             f"""
                 INSERT INTO venda_produto (venda_ID_venda, produto_ID_produto, preco_unitario_produto_venda, 
-                quantidade_produto_venda, desconto_produto_venda)
+                quantidade_produto_venda)
                 VALUES ('{venda_produto.venda_id_venda}', '{venda_produto.produto_id_produto}', '{venda_produto.preco_unitario_produto_venda}',
-                '{venda_produto.quantidade_produto_venda}', '{venda_produto.desconto_produto_venda}');
+                '{venda_produto.quantidade_produto_venda}');
             """
         )
         db.conn.commit()
-        st.success('Produtos da venda inseridos!')
+    except Exception as e:
+        st.write(f'Erro durante inserção: {e}')
+        db.conn.rollback()
+
+
+#compras
+def insert_compras(compra):
+    try:
+        db.cursor.execute(
+            f"""
+                INSERT INTO compra (fornecedor_ID_fornecedor, produto_ID_produto, situacao_pagamento_compra, 
+                situacao_entrega_compra, forma_pagamento_compra)
+                VALUES ('{compra.fornecedor_id_fornecedor}', '{compra.produto_id_produto}', '{compra.situacao_pagamento_compra}', 
+                '{compra.situacao_entrega_compra}', '{compra.forma_pagamento_compra}');
+            """
+        )
+        db.conn.commit()
+    except Exception as e:
+        st.write(f'Erro durante inserção: {e}')
+        db.conn.rollback()
+    db.cursor.execute(f'SELECT LASTVAL()')
+    return db.cursor.fetchone()[0]
+
+
+#produtos compra
+def insert_produtos_compras(compra_produto):
+    try:
+        db.cursor.execute(
+            f"""
+                INSERT INTO compra_produto (compra_ID_compra, produto_ID_produto, preco_unitario_produto_compra, 
+                quantidade_produto_compra)
+                VALUES ('{compra_produto.compra_id_compra}', '{compra_produto.produto_id_produto}', 
+                '{compra_produto.preco_unitario_produto_compra}', '{compra_produto.quantidade_produto_compra}');
+            """
+        )
+        db.conn.commit()
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
         db.conn.rollback()
