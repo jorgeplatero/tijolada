@@ -100,12 +100,6 @@ def insert_clientes():
         input_referencia_cliente = st.text_input(label='Referência')
         input_situacao_cliente = st.selectbox(label='Situação', options=['Adimplente', 'Inadimplente'])
         input_button_submit = st.form_submit_button('Inserir')
-    
-    if input_tipo_cliente == 'Pessoa Física':
-        input_tipo_cliente = 'Pessoa Física'
-    else:
-        input_tipo_cliente = 'Pessoa Jurídica'
-
     if input_button_submit:
         try:
             controllers.insert_clientes(
@@ -129,7 +123,7 @@ def insert_fornecedores():
             input_nome_fornecedor = st.text_input(label='Nome')
         with col2:
             input_telefone_fornecedor = st.text_input(label='Telefone')
-        input_cnpj_fornecedor = st.text_input(label='CPF/CNPJ')
+        input_cnpj_fornecedor = st.text_input(label='CNPJ')
         col1, col2 = st.columns([.6, .4])
         with col1:
             input_endereco_fornecedor = st.text_input(label='Endereço')
@@ -227,7 +221,9 @@ def insert_vendas():
                         )
                 )
             st.success('Venda inserida!')
-        except:
+        except Exception as e:
+            st.error(f'Erro durante inserção: {e}')
+            controllers.delete_vendas(id_venda) 
             pass
     else:
         pass
@@ -235,12 +231,12 @@ def insert_vendas():
 
 #compras
 def insert_compras():
-    with st.form(key='insert_vendas'):
+    with st.form(key='insert_compras'):
         options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
-        df_compra_produto = pd.DataFrame(columns=['Código do Produto', 'Preço Unitário', 'Quantidade'])
+        df_compra_produto = pd.DataFrame(columns=['ID Produto', 'Preço Unitário', 'Quantidade'])
         #compra
-        input_fornecedor_id_fornecedor = st.selectbox(label='Código do Fornecedor', options=[row[0] for row in consulta_fornecedores()])
-        input_produto_id_produto = st.selectbox(label='Código do Produto', options=[row[0] for row in consulta_produtos()])
+        input_fornecedor_id_fornecedor = st.selectbox(label='ID Fornecedor', options=[row[0] for row in consulta_fornecedores()])
+        input_produto_id_produto = st.selectbox(label='ID Produto', options=[row[0] for row in consulta_produtos()])
         
         col1, col2 = st.columns(2)
         with col1:
@@ -252,7 +248,7 @@ def insert_compras():
         df_compra_produto = st.data_editor(
             df_compra_produto,
             column_config={
-                'Código do Produto': st.column_config.SelectboxColumn(
+                'ID Produto': st.column_config.SelectboxColumn(
                     help='Selecione...',
                     options=[row[0] for row in consulta_produtos()],
                     required=True
@@ -292,6 +288,158 @@ def insert_compras():
                         )
                 )
             st.success('Compra inserida!')
+        except Exception as e:
+            st.error(f'Erro durante inserção: {e}')
+            controllers.delete_compras(id_compra) 
+            pass
+    else:
+        pass
+    
+#updates
+#---------------------------------------------------------------
+
+#fornecedores
+def update_fornecedores():
+    with st.form(key='update_fornedores'):
+        #formulário
+        col1, col2 = st.columns([.6, .4])
+        with col1:
+            input_id_fornecedor = st.selectbox(
+                label='ID Fornecedor', placeholder='Insira o ID do fornecedor...', 
+                options=[row[0] for row in consulta_fornecedores()]
+            )
+        with col2:
+            input_nome_fornecedor = st.text_input(label='Nome')
+        col3, col4 = st.columns([.6, .4])
+        with col3:
+            input_cnpj_fornecedor = st.text_input(label='CNPJ')
+        with col4:
+            input_telefone_fornecedor = st.text_input(label='Telefone')
+        col5, col6 = st.columns([.6, .4])
+        with col5:
+            input_endereco_fornecedor = st.text_input(label='Endereço')
+        with col6:
+            input_bairro_fornecedor = st.text_input(label='Bairro')
+        input_button_submit = st.form_submit_button('Inserir')
+        #consulta
+        df_fornecedores = pd.DataFrame(consulta_fornecedores())
+        st.data_editor(
+            df_fornecedores,
+            column_config={
+                'ID_fornecedor': st.column_config.NumberColumn(
+                    disabled=True
+                )
+            },
+            num_rows='dynamic', 
+            hide_index=True,
+            use_container_width=False
+        )
+        input_button_submit = st.form_submit_button('Atualizar')
+    if input_button_submit:
+        try:
+            controllers.update_fornecedores(
+                models.Fornecedor(
+                    input_id_fornecedor, input_nome_fornecedor, input_cnpj_fornecedor, 
+                    input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
+            )
+            st.success('Fornecedor atualizado!')
+        except:
+            pass
+    else:
+        pass
+
+
+#produtos
+def update_produtos():
+    with st.form(key='update_produtos'):
+        options = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
+        #formulário
+        col1, col2 = st.columns([.6, .4])
+        with col1:
+            input_id_produto = st.selectbox(
+                label='ID Produto', placeholder='Insira o ID do produto...', 
+                options=[row[0] for row in consulta_produtos()]
+            )
+        with col2:
+            input_nome_produto = st.text_input(label='Nome')
+        input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', options=options)
+        input_button_submit = st.form_submit_button('Inserir')
+        #consulta
+        df_produtos = pd.DataFrame(consulta_produtos())
+        st.data_editor(
+            df_produtos,
+            column_config={
+                'ID_produtos': st.column_config.NumberColumn(
+                    disabled=True
+                )
+            },
+            num_rows='dynamic', 
+            hide_index=True,
+            use_container_width=False
+        )
+        input_button_submit = st.form_submit_button('Atualizar')
+    if input_button_submit:
+        try:
+            controllers.insert_produtos(
+                models.Produto(input_id_produto, input_nome_produto, input_unidade_medida_produto)
+            )
+            st.success('Produto atualizado!')
+        except:
+            pass
+    else:
+        pass
+    
+
+#cientes
+def update_clientes():
+    with st.form(key='update_clientes'):
+        #formulário
+        col1, col2 = st.columns([.2, .8])
+        with col1:
+            input_id_cliente = st.selectbox(
+                label='ID Cliente', placeholder='Insira o ID do cliente...', 
+                options=[row[0] for row in consulta_clientes()]
+            )
+        with col2:
+            input_nome_cliente = st.text_input(label='Nome')
+            
+        col3, col4 = st.columns([.6, .4])
+        with col3:
+            input_cpf_cnpj_cliente = st.text_input(label='CPF/CNPJ')
+        with col4:
+            input_telefone_cliente = st.text_input(label='Telefone')
+        input_tipo_cliente = st.selectbox(label='Tipo', options=['Pessoa Física', 'Pessoa Jurídica'])
+        col5, col6 = st.columns([.6, .4])
+        with col5:
+            input_endereco_cliente = st.text_input(label='Endereço')
+        with col6:
+            input_bairro_cliente = st.text_input(label='Bairro')
+        input_referencia_cliente = st.text_input(label='Referência')
+        input_situacao_cliente = st.selectbox(label='Situação', options=['Adimplente', 'Inadimplente'])
+        
+        #consulta
+        df_clientes = pd.DataFrame(consulta_clientes())
+        st.data_editor(
+            df_clientes,
+            column_config={
+                'ID_cliente': st.column_config.NumberColumn(
+                    disabled=True
+                )
+            },
+            num_rows='dynamic', 
+            hide_index=True,
+            use_container_width=False
+        )
+        input_button_submit = st.form_submit_button('Atualizar')
+    if input_button_submit:
+        try:
+            controllers.insert_clientes(
+                models.Cliente(
+                    input_id_cliente, input_nome_cliente, input_tipo_cliente, input_cpf_cnpj_cliente, input_endereco_cliente, 
+                    input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, input_situacao_cliente
+                )
+            )
+            st.success('Cliente atualizado!')
         except:
             pass
     else:

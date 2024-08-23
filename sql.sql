@@ -88,9 +88,8 @@ CREATE OR REPLACE FUNCTION calcular_preco_total_venda()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE venda SET preco_total_venda = (
-        SELECT SUM(p.preco_unitario_produto_venda * vp.quantidade_produto_venda)
+        SELECT SUM(vp.preco_unitario_produto_venda * vp.quantidade_produto_venda)
         FROM venda_produto vp
-        JOIN produto p ON vp.produto_ID_produto = p.ID_produto
         WHERE vp.venda_ID_venda = NEW.ID_venda
     );
     RETURN NEW;
@@ -108,9 +107,8 @@ CREATE OR REPLACE FUNCTION calcular_preco_total_compra()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE compra SET preco_total_compra = (
-        SELECT SUM(p.preco_unitario_produto_compra * cp.quantidade_produto_compra)
+        SELECT SUM(cp.preco_unitario_produto_compra * cp.quantidade_produto_compra)
         FROM compra_produto cp
-        JOIN produto p ON cp.produto_ID_produto = p.ID_produto
         WHERE cp.venda_ID_venda = NEW.ID_venda
     );
     RETURN NEW;
