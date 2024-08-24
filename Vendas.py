@@ -25,23 +25,19 @@ with col2:
 
 opcao_menu_vendas = st.selectbox(
     'Menu', 
-    options=['Cadastrar', 'Editar', 'Consultar'],
+    options=['Cadastrar', 'Alterar', 'Consultar'],
     index=None,
     placeholder='Selecione uma opção do menu...'                          
 )
-
 if opcao_menu_vendas == 'Cadastrar':
     #formulario
-    st.write('Cadastro')
     utils.insert_vendas()
-
-elif opcao_menu_vendas == 'Editar':
-    st.write('Edição')
-
+elif opcao_menu_vendas == 'Alterar':
+    #utils.update_vendas()
+    print('Alterar')
 elif opcao_menu_vendas == 'Consultar':
     #dados
     try:
-        st.write('Dados')
         df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=columns_venda)
         st.dataframe(df_vendas, hide_index=True)
     except:

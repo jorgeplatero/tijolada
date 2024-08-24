@@ -23,42 +23,73 @@ with col2:
 
 #menu
 opcao_menu_cadastros = st.selectbox(
-    'Menu', 
+    '**Menu**', 
     options=['Cliente', 'Fornecedor', 'Produto'],
     index=None,
     placeholder='Selecione uma opção do menu...'                          
 )
+
 if opcao_menu_cadastros == 'Cliente':
-    #formulario
-    st.write('Cadastro')
-    utils.insert_clientes()
+    options = st.radio(
+        '**Operação**', ['Cadastrar', 'Alterar'], 
+        captions=[
+            'Incluir cliente',
+            'Alterar cadastro de cliente'
+        ], 
+        horizontal=True
+    )
+    if options =='Cadastrar':
+        #formulario
+        utils.insert_clientes()
+    elif options == 'Alterar':
+        #formulario
+        utils.update_clientes()
     #dados
     try:
-        st.write('Dados')
         df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=columns_cliente)
         st.dataframe(df_clientes, use_container_width=True, hide_index=True)
     except:
         pass
     
 elif opcao_menu_cadastros == 'Fornecedor':
-    #formulario
-    st.write('Cadastro')
-    utils.insert_fornecedores()
+    options = st.radio(
+        '**Operação**', ['Cadastrar', 'Alterar'], 
+        captions=[
+            'Incluir fornecedor',
+            'Alterar cadastro de fornecedor'
+        ], 
+        horizontal=True
+    )
+    if options =='Cadastrar':
+        #formulario
+        utils.insert_fornecedores()
+    elif options == 'Alterar':
+        #formulario
+        utils.update_fornecedores()
     #dados
     try:
-        st.write('Dados')
         df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=columns_fornecedor)
         st.dataframe(df_fornecedores, use_container_width=True, hide_index=True)
     except:
         pass
     
 elif opcao_menu_cadastros == 'Produto':
-    #formulario
-    st.write('Cadastro')
-    utils.insert_produtos()
+    options = st.radio(
+        '**Operação**', ['Cadastrar', 'Alterar'], 
+        captions=[
+            'Incluir produto',
+            'Alterar cadastro de produto'
+        ], 
+        horizontal=True
+    )
+    if options =='Cadastrar':
+        #formulario
+        utils.insert_produtos()
+    elif options == 'Alterar':
+        #formulario
+        utils.update_produtos()
     #dados
     try:
-        st.write('Dados')
         df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=columns_produtos)
         st.dataframe(df_produtos, use_container_width=True, hide_index=True)
     except:

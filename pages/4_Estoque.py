@@ -9,7 +9,6 @@ columns_estoques = ['ID', 'ID Produto', 'Quantidade',]
 
 #dados
 try:
-    st.write('Dados')
     df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=columns_estoques)
     st.dataframe(df_estoques, hide_index=True)
 except:

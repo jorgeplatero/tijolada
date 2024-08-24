@@ -167,9 +167,9 @@ def insert_produtos():
 def insert_vendas():
     with st.form(key='insert_vendas'):
         options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
-        df_venda_produto = pd.DataFrame(columns=['Código do Produto', 'Quantidade'])
+        df_venda_produto = pd.DataFrame(columns=['ID Produto', 'Preço Unitário', 'Quantidade'])
         #venda
-        input_cliente_id_cliente = st.selectbox(label='Código do Cliente', options=[row[0] for row in consulta_clientes()])
+        input_cliente_id_cliente = st.selectbox(label='ID Cliente', options=[row[0] for row in consulta_clientes()])
         col1, col2 = st.columns([.6, .4])
         with col1:
             input_endereco_entrega_venda = st.text_input(label='Endereço de entrega')
@@ -186,9 +186,14 @@ def insert_vendas():
         df_venda_produto = st.data_editor(
             df_venda_produto,
             column_config={
-                'Código do Produto': st.column_config.SelectboxColumn(
+                'ID Produto': st.column_config.SelectboxColumn(
                     help='Selecione...',
                     options=[row[0] for row in consulta_produtos()],
+                    required=True
+                ),
+                'Preço Unitário': st.column_config.NumberColumn(
+                    help='Selecione...',
+                    format='%.2f',
                     required=True
                 ),
                 'Quantidade': st.column_config.NumberColumn(
@@ -213,10 +218,11 @@ def insert_vendas():
             for _, row in df_venda_produto.iterrows():
                 input_venda_id_venda = id_venda
                 input_produto_id_produto = row[0]
-                input_quantidade_produto_venda = row[1]
+                input_preco_unitario_produto_venda = row[1]
+                input_quantidade_produto_venda = row[2]
                 controllers.insert_produtos_vendas(
                     models.VendaProduto(
-                            0, input_venda_id_venda, input_produto_id_produto, 0,
+                            0, input_venda_id_venda, input_produto_id_produto, input_preco_unitario_produto_venda,
                             input_quantidade_produto_venda
                         )
                 )
@@ -282,19 +288,19 @@ def insert_compras():
                 input_preco_unitario_produto_compra = row[1]
                 input_quantidade_produto_compra = row[2]
                 controllers.insert_produtos_compras(
-                    models.CompraProduto(
-                            0, input_compra_id_compra, input_produto_id_produto, input_preco_unitario_produto_compra,
-                            input_quantidade_produto_compra
-                        )
-                )
+                        models.CompraProduto(
+                                0, input_compra_id_compra, input_produto_id_produto, input_preco_unitario_produto_compra,
+                                input_quantidade_produto_compra
+                            )
+                    )
             st.success('Compra inserida!')
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
-            controllers.delete_compras(id_compra) 
+            controllers.delete_compras(id_compra)
             pass
     else:
         pass
-    
+
 #updates
 #---------------------------------------------------------------
 
@@ -320,20 +326,6 @@ def update_fornecedores():
             input_endereco_fornecedor = st.text_input(label='Endereço')
         with col6:
             input_bairro_fornecedor = st.text_input(label='Bairro')
-        input_button_submit = st.form_submit_button('Inserir')
-        #consulta
-        df_fornecedores = pd.DataFrame(consulta_fornecedores())
-        st.data_editor(
-            df_fornecedores,
-            column_config={
-                'ID_fornecedor': st.column_config.NumberColumn(
-                    disabled=True
-                )
-            },
-            num_rows='dynamic', 
-            hide_index=True,
-            use_container_width=False
-        )
         input_button_submit = st.form_submit_button('Atualizar')
     if input_button_submit:
         try:
@@ -363,24 +355,10 @@ def update_produtos():
         with col2:
             input_nome_produto = st.text_input(label='Nome')
         input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', options=options)
-        input_button_submit = st.form_submit_button('Inserir')
-        #consulta
-        df_produtos = pd.DataFrame(consulta_produtos())
-        st.data_editor(
-            df_produtos,
-            column_config={
-                'ID_produtos': st.column_config.NumberColumn(
-                    disabled=True
-                )
-            },
-            num_rows='dynamic', 
-            hide_index=True,
-            use_container_width=False
-        )
         input_button_submit = st.form_submit_button('Atualizar')
     if input_button_submit:
         try:
-            controllers.insert_produtos(
+            controllers.update_produtos(
                 models.Produto(input_id_produto, input_nome_produto, input_unidade_medida_produto)
             )
             st.success('Produto atualizado!')
@@ -390,7 +368,7 @@ def update_produtos():
         pass
     
 
-#cientes
+#clientes
 def update_clientes():
     with st.form(key='update_clientes'):
         #formulário
@@ -416,24 +394,10 @@ def update_clientes():
             input_bairro_cliente = st.text_input(label='Bairro')
         input_referencia_cliente = st.text_input(label='Referência')
         input_situacao_cliente = st.selectbox(label='Situação', options=['Adimplente', 'Inadimplente'])
-        
-        #consulta
-        df_clientes = pd.DataFrame(consulta_clientes())
-        st.data_editor(
-            df_clientes,
-            column_config={
-                'ID_cliente': st.column_config.NumberColumn(
-                    disabled=True
-                )
-            },
-            num_rows='dynamic', 
-            hide_index=True,
-            use_container_width=False
-        )
         input_button_submit = st.form_submit_button('Atualizar')
     if input_button_submit:
         try:
-            controllers.insert_clientes(
+            controllers.update_clientes(
                 models.Cliente(
                     input_id_cliente, input_nome_cliente, input_tipo_cliente, input_cpf_cnpj_cliente, input_endereco_cliente, 
                     input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, input_situacao_cliente

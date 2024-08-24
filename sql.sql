@@ -90,13 +90,14 @@ BEGIN
     UPDATE venda SET preco_total_venda = (
         SELECT SUM(vp.preco_unitario_produto_venda * vp.quantidade_produto_venda)
         FROM venda_produto vp
-        WHERE vp.venda_ID_venda = NEW.ID_venda
-    );
+        WHERE vp.venda_ID_venda = NEW.venda_ID_venda
+    )
+    WHERE ID_venda = NEW.venda_ID_venda;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER calcular_preco_total_trigger
+CREATE OR REPLACE TRIGGER trg_calcular_preco_total_venda
 AFTER INSERT OR UPDATE OR DELETE ON venda_produto
 FOR EACH ROW EXECUTE PROCEDURE calcular_preco_total_venda();
 
@@ -109,13 +110,14 @@ BEGIN
     UPDATE compra SET preco_total_compra = (
         SELECT SUM(cp.preco_unitario_produto_compra * cp.quantidade_produto_compra)
         FROM compra_produto cp
-        WHERE cp.venda_ID_venda = NEW.ID_venda
-    );
+        WHERE cp.compra_ID_compra = NEW.compra_ID_compra
+    )
+    WHERE ID_compra = NEW.compra_ID_compra;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER calcular_preco_total_trigger
+CREATE OR REPLACE TRIGGER trg_calcular_preco_total_compra
 AFTER INSERT OR UPDATE OR DELETE ON compra_produto
 FOR EACH ROW EXECUTE PROCEDURE calcular_preco_total_compra();
 

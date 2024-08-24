@@ -6,16 +6,6 @@ import models.models as models
 #consultas
 #---------------------------------------------------------------
 
-def select_clientes():
-    db.cursor.execute('SELECT * FROM cliente')
-    clientes = []
-    for row in db.cursor.fetchall():
-        clientes.append(
-            models.Cliente(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-        )
-    return clientes
-
-
 def select_fornecedores():
     db.cursor.execute('SELECT * FROM fornecedor')
     fornecedores = []
@@ -70,6 +60,16 @@ def select_compras():
         )
     return compras
 
+def select_clientes():
+    db.cursor.execute('SELECT * FROM cliente')
+    clientes = []
+    for row in db.cursor.fetchall():
+        clientes.append(
+            models.Cliente(
+                    row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]
+                )
+        )
+    return clientes
 
 #inserts
 #---------------------------------------------------------------
@@ -189,7 +189,8 @@ def insert_produtos_compras(compra_produto):
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
         db.conn.rollback()
-        
+
+#deletes
         
 def delete_compras(id_compra):
     try:
@@ -204,7 +205,7 @@ def delete_compras(id_compra):
         db.conn.rollback()
         
 
-def delete_compras(id_venda):
+def delete_vendas(id_venda):
     try:
         db.cursor.execute(
             f"""
