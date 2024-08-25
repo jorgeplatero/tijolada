@@ -1,7 +1,7 @@
 import streamlit as st
 import services.database as db
 import models.models as models
-
+import re
 
 #consultas
 #---------------------------------------------------------------
@@ -150,9 +150,11 @@ def insert_produtos_vendas(venda_produto):
             """
         )
         db.conn.commit()
-    except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.success('Venda inserida!')
+    except db.erro as e:
         db.conn.rollback()
+        delete_vendas(venda_produto.venda_id_venda) 
+        st.error(f'{re.search(r"Quantidade.+insuficiente!", str(e)).group()}')
 
 
 #compras
@@ -186,9 +188,11 @@ def insert_produtos_compras(compra_produto):
             """
         )
         db.conn.commit()
+        st.success('Compra inserida!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
         db.conn.rollback()
+        delete_compras(compra_produto.compra_id_compra)
+        st.error(f'Erro durante inserção: {e}')
 
 #deletes
         
@@ -257,9 +261,9 @@ def update_produtos(produto):
     except Exception as e:
         st.write(f'Erro durante inserção: {e}')
         db.conn.rollback()
- 
 
- #clientes
+
+#clientes
 def update_clientes(cliente):
     try:
         db.cursor.execute(

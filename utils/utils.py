@@ -226,8 +226,8 @@ def insert_vendas():
                             input_quantidade_produto_venda
                         )
                 )
-            st.success('Venda inserida!')
         except Exception as e:
+            print( 'a')
             st.error(f'Erro durante inserção: {e}')
             controllers.delete_vendas(id_venda) 
             pass
@@ -293,7 +293,6 @@ def insert_compras():
                                 input_quantidade_produto_compra
                             )
                     )
-            st.success('Compra inserida!')
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
             controllers.delete_compras(id_compra)

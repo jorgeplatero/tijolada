@@ -9,3 +9,4 @@ conn = ps.connect(
     port = '5432' 
 )
 cursor = conn.cursor()
+erro = ps.Error
