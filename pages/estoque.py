@@ -11,5 +11,5 @@ columns_estoques = ['ID', 'ID Produto', 'Quantidade',]
 try:
     df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=columns_estoques)
     st.dataframe(df_estoques, hide_index=True)
-except:
-    pass
+except Exception as e:
+    print(st.error(e))

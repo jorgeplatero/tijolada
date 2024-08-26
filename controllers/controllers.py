@@ -48,6 +48,16 @@ def select_vendas():
         )
     return vendas
 
+def select_vendas_produtos():
+    db.cursor.execute('SELECT * FROM venda_produto')
+    vendas_produtos = []
+    for row in db.cursor.fetchall():
+        vendas_produtos.append(
+            models.CompraProduto(
+                    row[0], row[1], row[2], row[3], row[4]
+                )
+        )
+    return vendas_produtos
 
 def select_compras():
     db.cursor.execute('SELECT * FROM compra')
@@ -55,10 +65,21 @@ def select_compras():
     for row in db.cursor.fetchall():
         compras.append(
             models.Compra(
-                    row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+                    row[0], row[1], row[2], row[3], row[4], row[5], row[6]
                 )
         )
     return compras
+
+def select_compras_produtos():
+    db.cursor.execute('SELECT * FROM compra_produto')
+    compras_produtos = []
+    for row in db.cursor.fetchall():
+        compras_produtos.append(
+            models.CompraProduto(
+                    row[0], row[1], row[2], row[3], row[4]
+                )
+        )
+    return compras_produtos
 
 def select_clientes():
     db.cursor.execute('SELECT * FROM cliente')
@@ -84,8 +105,9 @@ def insert_clientes(cliente):
             """
         )
         db.conn.commit()
+        st.success('Cliente inserido!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
 
         
@@ -99,8 +121,9 @@ def insert_fornecedores(fornecedor):
             """
         )
         db.conn.commit()
+        st.success('Fornecedor inserido!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
         
 
@@ -114,8 +137,9 @@ def insert_produtos(produto):
             """
         )
         db.conn.commit()
+        st.success('Produto inserido!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
 
 #vendas
@@ -131,8 +155,9 @@ def insert_vendas(venda):
             """
         )
         db.conn.commit()
+        st.success('Venda inserida!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
     db.cursor.execute(f'SELECT LASTVAL()')
     return db.cursor.fetchone()[0]
@@ -150,7 +175,7 @@ def insert_produtos_vendas(venda_produto):
             """
         )
         db.conn.commit()
-        st.success('Venda inserida!')
+        st.success('Iten(s) de venda inserido(s)!')
     except db.erro as e:
         db.conn.rollback()
         delete_vendas(venda_produto.venda_id_venda) 
@@ -162,15 +187,16 @@ def insert_compras(compra):
     try:
         db.cursor.execute(
             f"""
-                INSERT INTO compra (fornecedor_ID_fornecedor, produto_ID_produto, situacao_pagamento_compra, 
+                INSERT INTO compra (fornecedor_ID_fornecedor, situacao_pagamento_compra, 
                 situacao_entrega_compra, forma_pagamento_compra)
-                VALUES ('{compra.fornecedor_id_fornecedor}', '{compra.produto_id_produto}', '{compra.situacao_pagamento_compra}', 
+                VALUES ('{compra.fornecedor_id_fornecedor}', '{compra.situacao_pagamento_compra}', 
                 '{compra.situacao_entrega_compra}', '{compra.forma_pagamento_compra}');
             """
         )
         db.conn.commit()
+        st.success(f'Compra inserida')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
     db.cursor.execute(f'SELECT LASTVAL()')
     return db.cursor.fetchone()[0]
@@ -188,14 +214,17 @@ def insert_produtos_compras(compra_produto):
             """
         )
         db.conn.commit()
-        st.success('Compra inserida!')
+        st.success('Iten(s) de compra inserido(s)!')
     except Exception as e:
         db.conn.rollback()
         delete_compras(compra_produto.compra_id_compra)
         st.error(f'Erro durante inserção: {e}')
 
+
 #deletes
+#---------------------------------------------------------------
         
+#compras
 def delete_compras(id_compra):
     try:
         db.cursor.execute(
@@ -209,6 +238,7 @@ def delete_compras(id_compra):
         db.conn.rollback()
         
 
+#vendas
 def delete_vendas(id_venda):
     try:
         db.cursor.execute(
@@ -220,7 +250,8 @@ def delete_vendas(id_venda):
     except Exception as e:
         st.write(f'Erro durante exclusão: {e}')
         db.conn.rollback()
-        
+
+
 #updates
 #---------------------------------------------------------------
         
@@ -240,8 +271,9 @@ def update_fornecedores(fornecedor):
             """
         )
         db.conn.commit()
+        st.success('Fornecedor atualizado!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
 
 
@@ -258,8 +290,9 @@ def update_produtos(produto):
             """
         )
         db.conn.commit()
+        st.success('Produto atualizado!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
 
 
@@ -282,8 +315,9 @@ def update_clientes(cliente):
             """
         )
         db.conn.commit()
+        st.success('Cliente atualizado!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
         
 
@@ -292,11 +326,8 @@ def update_compras(compra):
     try:
         db.cursor.execute(
             f"""
-                UPDATE compra SET 
-                    data_compra = '{compra.data_compra}', 
+                UPDATE compra SET  
                     fornecedor_ID_fornecedor = '{compra.fornecedor_id_fornecedor}', 
-                    produto_ID_produto = '{compra.produto_id_produto}', 
-                    preco_total_compra = '{compra.preco_total_compra}', 
                     forma_pagamento_compra = '{compra.forma_pagamento_compra}', 
                     situacao_pagamento_compra = '{compra.situacao_pagamento_compra}', 
                     situacao_entrega_compra  = '{compra.situacao_entrega_compra}'
@@ -305,17 +336,18 @@ def update_compras(compra):
             """
         )
         db.conn.commit()
+        st.sucess('Compra atualizada!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
         
 
+#itens de compra
 def update_compras_produtos(compra_produto):
     try:
         db.cursor.execute(
             f"""
-                UPDATE compra_produto SET 
-                    compra_ID_compra = '{compra_produto.compra_id_compra}', 
+                UPDATE compra_produto SET  
                     produto_ID_produto = '{compra_produto.produto_id_produto}', 
                     preco_unitario_produto_compra = '{compra_produto.preco_unitario_produto_compra}', 
                     quantidade_produto_compra = '{compra_produto.quantidade_produto_compra}'
@@ -335,12 +367,10 @@ def update_vendas(venda):
         db.cursor.execute(
             f"""
                 UPDATE venda SET 
-                    data_venda = '{venda.data_venda}', 
                     cliente_ID_cliente = '{venda.cliente_id_cliente}', 
                     endereco_entrega_venda = '{venda.endereco_entrega_venda}', 
                     bairro_entrega_venda = '{venda.bairro_entrega_venda}', 
                     observacoes_venda = '{venda.observacoes_venda}', 
-                    preco_total_venda = '{venda.preco_total_venda}', 
                     situacao_pagamento_venda  = '{venda.situacao_pagamento_venda}',
                     situacao_entrega_venda  = '{venda.situacao_entrega_venda}',
                     forma_pagamento_venda  = '{venda.forma_pagamento_venda}'
@@ -354,12 +384,12 @@ def update_vendas(venda):
         db.conn.rollback()
         
 
+#itens de venda
 def update_vendas_produtos(venda_produto):
     try:
         db.cursor.execute(
             f"""
                 UPDATE venda_produto SET 
-                    venda_ID_venda = '{venda_produto.venda_id_venda}', 
                     produto_ID_produto = '{venda_produto.produto_id_produto}', 
                     preco_unitario_produto_venda = '{venda_produto.preco_unitario_produto_venda}', 
                     quantidade_produto_venda = '{venda_produto.quantidade_produto_venda}'

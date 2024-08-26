@@ -11,7 +11,6 @@ columns_cliente = [
 ]
 
 columns_fornecedor = ['ID', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
-
 columns_produtos = ['ID', 'Nome', 'Unidade de Medida']
 
 #título
@@ -48,9 +47,9 @@ if opcao_menu_cadastros == 'Cliente':
     try:
         df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=columns_cliente)
         st.dataframe(df_clientes, use_container_width=True, hide_index=True)
-    except:
-        pass
-    
+    except Exception as e:
+        st.error(e)
+        
 elif opcao_menu_cadastros == 'Fornecedor':
     options = st.radio(
         '**Operação**', ['Cadastrar', 'Alterar'], 
@@ -70,8 +69,8 @@ elif opcao_menu_cadastros == 'Fornecedor':
     try:
         df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=columns_fornecedor)
         st.dataframe(df_fornecedores, use_container_width=True, hide_index=True)
-    except:
-        pass
+    except Exception as e:
+        st.error(e)
     
 elif opcao_menu_cadastros == 'Produto':
     options = st.radio(
@@ -92,5 +91,5 @@ elif opcao_menu_cadastros == 'Produto':
     try:
         df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=columns_produtos)
         st.dataframe(df_produtos, use_container_width=True, hide_index=True)
-    except:
-        pass
+    except Exception as e:
+        st.error(e)

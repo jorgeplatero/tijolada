@@ -22,7 +22,6 @@ CREATE TABLE compra (
     ID_compra SERIAL PRIMARY KEY,
     data_compra DATE DEFAULT CURRENT_DATE,
     fornecedor_ID_fornecedor INTEGER REFERENCES fornecedor (ID_fornecedor) ON UPDATE CASCADE,
-    produto_ID_produto INTEGER REFERENCES produto (ID_produto) ON UPDATE CASCADE,
     preco_total_compra MONEY,
     forma_pagamento_compra VARCHAR(50),
     situacao_pagamento_compra VARCHAR(50),

@@ -46,13 +46,12 @@ class Estoque:
 
 class Compra:
     def __init__(
-            self, id_compra, data_compra, fornecedor_id_fornecedor, produto_id_produto, preco_total_compra, 
+            self, id_compra, data_compra, fornecedor_id_fornecedor, preco_total_compra, 
             situacao_pagamento_compra, situacao_entrega_compra, forma_pagamento_compra
         ):
         self.id_compra = id_compra
         self.data_compra = data_compra
         self.fornecedor_id_fornecedor = fornecedor_id_fornecedor
-        self.produto_id_produto = produto_id_produto
         self.preco_total_compra = preco_total_compra
         self.situacao_pagamento_compra = situacao_pagamento_compra
         self.situacao_entrega_compra = situacao_entrega_compra

@@ -15,6 +15,7 @@ columns_venda = [
     'ID', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
     'Preço Total', 'Situação do Pagamento', 'Situação da Entrega', 'Forma de Pagamento'
 ]
+columns_itens_venda = ['ID', 'ID Venda', 'ID Produto', 'Preço Unitário', 'Quantidade']
 
 #título
 col1, col2 = st.columns([.2, .8])
@@ -29,12 +30,43 @@ opcao_menu_vendas = st.selectbox(
     index=None,
     placeholder='Selecione uma opção do menu...'                          
 )
+
 if opcao_menu_vendas == 'Cadastrar':
     #formulario
     utils.insert_vendas()
+    
 elif opcao_menu_vendas == 'Alterar':
-    #utils.update_vendas()
-    print('Alterar')
+    options = st.radio(
+        '**Opções**', ['Venda', 'Itens da Venda'], 
+        captions=[
+            'Alterar venda',
+            'Alterar itens de venda'
+        ], 
+        horizontal=True
+    )
+    
+    if options == 'Venda':
+        #formulario
+        utils.update_vendas()
+        #dados
+        try:
+            df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=columns_venda)
+            st.dataframe(df_vendas, hide_index=True)
+        except Exception as e:
+            st.error(e)
+            pass
+        
+    elif options == 'Itens de Venda':
+        #formulario
+        utils.update_vendas_produtos()
+        #dados
+        try:
+            df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=columns_itens_venda)
+            st.dataframe(df_vendas_produtos, hide_index=True)
+        except Exception as e:
+            st.error(e)
+            pass  
+         
 elif opcao_menu_vendas == 'Consultar':
     #dados
     try:
