@@ -17,13 +17,7 @@ columns_venda = [
 ]
 columns_itens_venda = ['ID', 'ID Venda', 'ID Produto', 'Preço Unitário', 'Quantidade']
 
-#título
-col1, col2 = st.columns([.2, .8])
-with col1:
-    st.image('img/logo.png')
-with col2:
-    st.title('Streamlit Materiais de Construção')
-
+#menu
 opcao_menu_vendas = st.selectbox(
     'Menu', 
     options=['Cadastrar', 'Alterar', 'Consultar'],

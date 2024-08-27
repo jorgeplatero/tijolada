@@ -13,13 +13,6 @@ columns_cliente = [
 columns_fornecedor = ['ID', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
 columns_produtos = ['ID', 'Nome', 'Unidade de Medida']
 
-#título
-col1, col2 = st.columns([.2, .8])
-with col1:
-    st.image('img/logo.png')
-with col2:
-    st.title('Streamlit Materiais de Construção')
-
 #menu
 opcao_menu_cadastros = st.selectbox(
     '**Menu**', 
