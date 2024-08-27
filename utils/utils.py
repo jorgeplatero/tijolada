@@ -61,7 +61,7 @@ def consulta_compras_produtos():
     for item in controllers.select_compras_produtos():
         compras_produtos.append(
             [
-                item.id_compra_produto, item.compra_id_compra, item.produto_id_roduto, 
+                item.id_compra_produto, item.compra_id_compra, item.produto_id_produto, 
                 item.preco_unitario_produto_compra, item.quantidade_produto_compra
             ]
         )
@@ -89,11 +89,23 @@ def consulta_vendas_produtos():
     for item in controllers.select_vendas_produtos():
         vendas_produtos.append(
             [
-                item.id_venda_produto, item.venda_id_venda, item.produto_id_roduto, 
+                item.id_venda_produto, item.venda_id_venda, item.produto_id_produto, 
                 item.preco_unitario_produto_venda, item.quantidade_produto_venda
             ]
         )
     return vendas_produtos
+
+
+#estoque
+def consulta_estoques():
+    estoques = []
+    for item in controllers.select_estoques():
+        estoques.append(
+            [
+                item.id_estoque, item.produto_id_produto, item.quantidade_estoque
+            ]
+        )
+    return estoques
 
 
 #inserts
@@ -189,7 +201,7 @@ def insert_compras():
         with col2:
             input_situacao_entrega_compra = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'])
         input_forma_pagamento_compra = st.selectbox(label='Forma de pagamento', options=options)
-        #produtos da venda
+        #itens de venda
         df_compra_produto = st.data_editor(
             df_compra_produto,
             column_config={
@@ -200,8 +212,8 @@ def insert_compras():
                 ),
                 'Preço Unitário': st.column_config.NumberColumn(
                     help='Selecione...',
-                    format='%.2f',
-                    required=True
+                    format='R$ %.2f',
+                    required=True,
                 ),
                 'Quantidade': st.column_config.NumberColumn(
                     help='Selecione...',
@@ -243,7 +255,7 @@ def insert_compras():
 def insert_vendas():
     with st.form(key='insert_vendas'):
         options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
-        df_venda_produto = pd.DataFrame(columns=['ID Produto', 'Preço Unitário', 'Quantidade'])
+        df_venda_produto = pd.DataFrame(columns=['ID Produto', 'Quantidade'])
         #venda
         input_cliente_id_cliente = st.selectbox(label='ID Cliente', options=[row[0] for row in consulta_clientes()])
         col1, col2 = st.columns([.6, .4])
@@ -258,18 +270,13 @@ def insert_vendas():
         with col2:
             input_situacao_entrega_venda = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'])
         input_forma_pagamento_venda = st.selectbox(label='Forma de pagamento', options=options)
-        #produtos da venda
+        #itens de venda
         df_venda_produto = st.data_editor(
             df_venda_produto,
             column_config={
                 'ID Produto': st.column_config.SelectboxColumn(
                     help='Selecione...',
                     options=[row[0] for row in consulta_produtos()],
-                    required=True
-                ),
-                'Preço Unitário': st.column_config.NumberColumn(
-                    help='Selecione...',
-                    format='%.2f',
                     required=True
                 ),
                 'Quantidade': st.column_config.NumberColumn(
@@ -294,11 +301,10 @@ def insert_vendas():
             for _, row in df_venda_produto.iterrows():
                 input_venda_id_venda = id_venda
                 input_produto_id_produto = row[0]
-                input_preco_unitario_produto_venda = row[1]
-                input_quantidade_produto_venda = row[2]
+                input_quantidade_produto_venda = row[1]
                 controllers.insert_produtos_vendas(
                     models.VendaProduto(
-                            0, input_venda_id_venda, input_produto_id_produto, input_preco_unitario_produto_venda,
+                            0, input_venda_id_venda, input_produto_id_produto, 0,
                             input_quantidade_produto_venda
                         )
                 )
@@ -423,11 +429,18 @@ def update_compras():
         col1, col2 = st.columns(2)
         with col1:
             input_id_compra = st.selectbox(
-                    label='ID Compra', placeholder='Insira o ID da compra...', 
-                    options=[row[0] for row in consulta_compras()]
-                )
+                label='ID Compra', 
+                placeholder='Insira o ID da compra...', 
+                options=[row[0] for row in consulta_compras()],
+                index=None
+            )
         with col2:
-            input_fornecedor_id_fornecedor = st.selectbox(label='ID Fornecedor', options=[row[0] for row in consulta_fornecedores()])
+            input_fornecedor_id_fornecedor = st.selectbox(
+                label='ID Fornecedor', 
+                placeholder='Insira o ID do fornecedor...',
+                options=[row[0] for row in consulta_fornecedores()],
+                index=None
+            )
         col1, col2 = st.columns(2)
         with col1:
             input_situacao_pagamento_compra = st.selectbox(label='Situação do Pagamento', options=['Não realizada', 'Realizado'])
@@ -437,7 +450,7 @@ def update_compras():
         input_button_submit = st.form_submit_button('Atualizar')
     if input_button_submit:
         try:
-            controllers.insert_compras(
+            controllers.update_compras(
                 models.Compra(
                         input_id_compra, 0, input_fornecedor_id_fornecedor, 0, 
                         input_situacao_pagamento_compra, input_situacao_entrega_compra, input_forma_pagamento_compra
@@ -456,22 +469,29 @@ def update_compras_produtos():
         col1, col2 = st.columns(2)
         with col1:
             input_id_compra_produto = st.selectbox(
-                    label='ID', placeholder='Insira o ID do item da compra...', 
-                    options=[row[0] for row in consulta_compras_produtos()]
-                )
+                label='ID', 
+                placeholder='Insira o ID do item da compra...', 
+                options=[row[0] for row in consulta_compras_produtos()], 
+                index=None
+            )
         with col2:
-            input_produto_ID_produto = st.selectbox(label='ID Produto', options=[row[0] for row in consulta_produtos()])
+            input_produto_ID_produto = st.selectbox(
+                label='ID Produto', 
+                placeholder='Insira o ID do produto da compra...',
+                options=[row[0] for row in consulta_produtos()], 
+                index=None
+            )
         col1, col2 = st.columns(2)
         with col1:
-            input_preco_unitario_produto_compra = st.number_input(label='Preço Unitário', format='%d')
+            input_preco_unitario_produto_compra = st.number_input(label='Preço Unitário', format='%.2f', step=float(1)) / 10
         with col2:
-            input_quantidade_produto_compra = st.number_input(label='Quantidade', format='%d')
+            input_quantidade_produto_compra = st.text_input(label='Quantidade', placeholder='Insira a quantidade...')
         input_button_submit = st.form_submit_button('Atualizar')
     if input_button_submit:
         try:
             controllers.update_compras_produtos(
                 models.Compra(
-                        input_id_compra_produto, input_produto_ID_produto, input_preco_unitario_produto_compra, 
+                        input_id_compra_produto, 0, input_produto_ID_produto, input_preco_unitario_produto_compra, 
                         input_quantidade_produto_compra
                     )
             )
@@ -489,13 +509,17 @@ def update_vendas():
         col1, col2 = st.columns(2)
         with col1:
             input_id_venda = st.selectbox(
-                        label='ID Venda', placeholder='Insira o ID da venda...', 
-                        options=[row[0] for row in consulta_vendas()]
-                )
+                        label='ID Venda', 
+                        placeholder='Insira o ID da venda...', 
+                        options=[row[0] for row in consulta_vendas()], 
+                        index=None
+                    )
         with col2:
             input_cliente_id_cliente = st.selectbox(
-                        label='ID Venda', placeholder='Insira o ID do cliente...', 
-                        options=[row[0] for row in consulta_clientes()]
+                        label='ID Cliente', 
+                        placeholder='Insira o ID do cliente...', 
+                        options=[row[0] for row in consulta_clientes()],
+                        index=None
                     )
         col1, col2 = st.columns(2)
         with col1:
@@ -512,7 +536,7 @@ def update_vendas():
         input_button_submit = st.form_submit_button('Atualizar')
     if input_button_submit:
         try:
-            controllers.insert_vendas(
+            controllers.update_vendas(
                 models.Venda(
                         input_id_venda, 0, input_cliente_id_cliente, input_endereco_entrega_venda, input_bairro_entrega_venda,
                         input_observacoes_venda, 0, input_situacao_pagamento_venda, input_situacao_entrega_venda, 
@@ -532,22 +556,29 @@ def update_vendas_produtos():
         col1, col2 = st.columns(2)
         with col1:
             input_id_venda_produto = st.selectbox(
-                    label='ID', placeholder='Insira o ID do item da venda...', 
-                    options=[row[0] for row in consulta_vendas_produtos()]
+                    label='ID', 
+                    placeholder='Insira o ID do item da venda...', 
+                    options=[row[0] for row in consulta_vendas_produtos()], 
+                    index=None
                 )
         with col2:
-            input_produto_ID_produto = st.selectbox(label='ID Produto', options=[row[0] for row in consulta_produtos()])
+            input_produto_ID_produto = st.selectbox(
+                label='ID Produto',
+                placeholder='Insira o ID do produto da venda...',
+                options=[row[0] for row in consulta_produtos()], 
+                index=None
+            )
         col1, col2 = st.columns(2)
         with col1:
-            input_preco_unitario_produto_venda = st.number_input(label='Preço Unitário', format='%d')
+            input_preco_unitario_produto_venda = st.number_input(label='Preço Unitário', format='%.2f', step=float(1)) / 10
         with col2:
-            input_quantidade_produto_venda = st.number_input(label='Quantidade', format='%d')
+            input_quantidade_produto_venda = st.text_input(label='Quantidade', placeholder='Insira a quantidade...')
         input_button_submit = st.form_submit_button('Atualizar')
     if input_button_submit:
         try:
             controllers.update_vendas_produtos(
                 models.VendaProduto(
-                        input_id_venda_produto, input_produto_ID_produto, input_preco_unitario_produto_venda, 
+                        input_id_venda_produto, 0, input_produto_ID_produto, input_preco_unitario_produto_venda, 
                         input_quantidade_produto_venda
                     )
             )

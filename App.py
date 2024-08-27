@@ -18,11 +18,11 @@ def logout():
 
 login_page = st.Page(login, title='Log in', icon=':material/login:')
 logout_page = st.Page(logout, title='Log out', icon=':material/logout:')
-cadastros = st.Page('pages/cadastros.py', title='Dashboard', icon=':material/search:')
-compras = st.Page('pages/compras.py', title='Bug reports', icon=':material/search:')
-vendas = st.Page('pages/vendas.py', title='System alerts', icon=':material/search:', default=True)
-estoque = st.Page('pages/estoque.py', title='Search', icon=':material/search:')
-dashboard = st.Page('pages/dashboard.py', title='Search', icon=':material/dashboard:')
+cadastros = st.Page('pages/cadastros.py', title='Cadastro', icon=':material/search:')
+compras = st.Page('pages/compras.py', title='Compras', icon=':material/search:')
+vendas = st.Page('pages/vendas.py', title='Vendas', icon=':material/search:', default=True)
+estoque = st.Page('pages/estoque.py', title='Estoque', icon=':material/search:')
+dashboard = st.Page('pages/dashboard.py', title='Página inicial', icon=':material/dashboard:')
 
 if st.session_state.logged_in:
     pg = st.navigation(

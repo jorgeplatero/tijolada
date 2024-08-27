@@ -53,7 +53,7 @@ def select_vendas_produtos():
     vendas_produtos = []
     for row in db.cursor.fetchall():
         vendas_produtos.append(
-            models.CompraProduto(
+            models.VendaProduto(
                     row[0], row[1], row[2], row[3], row[4]
                 )
         )
@@ -163,14 +163,13 @@ def insert_vendas(venda):
     return db.cursor.fetchone()[0]
 
 
-#produtos venda
+#itens de venda
 def insert_produtos_vendas(venda_produto):
     try:
         db.cursor.execute(
             f"""
-                INSERT INTO venda_produto (venda_ID_venda, produto_ID_produto, preco_unitario_produto_venda, 
-                quantidade_produto_venda)
-                VALUES ('{venda_produto.venda_id_venda}', '{venda_produto.produto_id_produto}', '{venda_produto.preco_unitario_produto_venda}',
+                INSERT INTO venda_produto (venda_ID_venda, produto_ID_produto, quantidade_produto_venda)
+                VALUES ('{venda_produto.venda_id_venda}', '{venda_produto.produto_id_produto}', 
                 '{venda_produto.quantidade_produto_venda}');
             """
         )
@@ -179,7 +178,7 @@ def insert_produtos_vendas(venda_produto):
     except db.erro as e:
         db.conn.rollback()
         delete_vendas(venda_produto.venda_id_venda) 
-        st.error(f'{re.search(r"Quantidade.+insuficiente!", str(e)).group()}')
+        st.error(f'Erro durante inserção: {e}')
 
 
 #compras
@@ -202,7 +201,7 @@ def insert_compras(compra):
     return db.cursor.fetchone()[0]
 
 
-#produtos compra
+#itens de compra
 def insert_produtos_compras(compra_produto):
     try:
         db.cursor.execute(
@@ -336,7 +335,7 @@ def update_compras(compra):
             """
         )
         db.conn.commit()
-        st.sucess('Compra atualizada!')
+        st.success('Compra atualizada!')
     except Exception as e:
         st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
@@ -356,8 +355,9 @@ def update_compras_produtos(compra_produto):
             """
         )
         db.conn.commit()
+        st.success('Item de compra atualizado!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
         
 
@@ -379,8 +379,9 @@ def update_vendas(venda):
             """
         )
         db.conn.commit()
+        st.success('Venda atualizada!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()
         
 
@@ -398,6 +399,7 @@ def update_vendas_produtos(venda_produto):
             """
         )
         db.conn.commit()
+        st.success('Item de venda atualizado!')
     except Exception as e:
-        st.write(f'Erro durante inserção: {e}')
+        st.error(f'Erro durante inserção: {e}')
         db.conn.rollback()

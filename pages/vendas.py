@@ -37,7 +37,7 @@ if opcao_menu_vendas == 'Cadastrar':
     
 elif opcao_menu_vendas == 'Alterar':
     options = st.radio(
-        '**Opções**', ['Venda', 'Itens da Venda'], 
+        '**Opções**', ['Venda', 'Itens de Venda'], 
         captions=[
             'Alterar venda',
             'Alterar itens de venda'
@@ -51,7 +51,7 @@ elif opcao_menu_vendas == 'Alterar':
         #dados
         try:
             df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=columns_venda)
-            st.dataframe(df_vendas, hide_index=True)
+            st.dataframe(df_vendas.sort_values(by='ID'), hide_index=True)
         except Exception as e:
             st.error(e)
             pass
@@ -62,15 +62,14 @@ elif opcao_menu_vendas == 'Alterar':
         #dados
         try:
             df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=columns_itens_venda)
-            st.dataframe(df_vendas_produtos, hide_index=True)
+            st.dataframe(df_vendas_produtos.sort_values(by='ID'), hide_index=True)
         except Exception as e:
             st.error(e)
             pass  
-         
 elif opcao_menu_vendas == 'Consultar':
     #dados
     try:
         df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=columns_venda)
-        st.dataframe(df_vendas, hide_index=True)
+        st.dataframe(df_vendas.sort_values(by='ID'), hide_index=True)
     except:
         pass

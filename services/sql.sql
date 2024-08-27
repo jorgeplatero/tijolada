@@ -23,9 +23,9 @@ CREATE TABLE compra (
     data_compra DATE DEFAULT CURRENT_DATE,
     fornecedor_ID_fornecedor INTEGER REFERENCES fornecedor (ID_fornecedor) ON UPDATE CASCADE,
     preco_total_compra MONEY,
-    forma_pagamento_compra VARCHAR(50),
     situacao_pagamento_compra VARCHAR(50),
-    situacao_entrega_compra VARCHAR(50)
+    situacao_entrega_compra VARCHAR(50),
+    forma_pagamento_compra VARCHAR(50)
 );
 
 CREATE TABLE compra_produto (
@@ -100,6 +100,28 @@ CREATE OR REPLACE TRIGGER trg_calcular_preco_total_venda
 AFTER INSERT OR UPDATE OR DELETE ON venda_produto
 FOR EACH ROW EXECUTE PROCEDURE calcular_preco_total_venda();
 
+--trigger para atualizar o preço unitário do produto em uma venda
+CREATE OR REPLACE FUNCTION calcular_preco_unitario_venda()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Calcula o preço unitário de venda com 20% de markup
+    NEW.preco_unitario_produto_venda := (
+        SELECT cp.preco_unitario_produto_compra * 1.20
+        FROM compra_produto cp
+        JOIN compra c ON cp.compra_ID_compra = c.ID_compra
+        WHERE cp.produto_ID_produto = NEW.produto_ID_produto
+        ORDER BY c.data_compra DESC
+        LIMIT 1
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trg_atualizar_preco_unitario_venda
+BEFORE INSERT OR UPDATE ON venda_produto
+FOR EACH ROW
+EXECUTE PROCEDURE calcular_preco_unitario_venda();
+
 --compra
 
 --trigger para atualizar preço total de uma compra
@@ -141,7 +163,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER atualizar_estoque_compra
+CREATE OR REPLACE TRIGGER trg_atualizar_estoque_compra
 AFTER INSERT ON compra_produto
 FOR EACH ROW
 EXECUTE FUNCTION atualizar_estoque_compra();
@@ -163,7 +185,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER atualizar_estoque_venda
+CREATE OR REPLACE TRIGGER trg_atualizar_estoque_venda
 AFTER INSERT ON venda_produto
 FOR EACH ROW
 EXECUTE FUNCTION atualizar_estoque_venda();

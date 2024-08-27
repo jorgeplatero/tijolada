@@ -6,7 +6,7 @@ warnings.filterwarnings('ignore')
 
 
 columns_compras = [
-    'ID', 'Data', 'ID Fornecedor', 'ID Produto', 'Preço Total', 'Situação do Pagamento', 
+    'ID', 'Data', 'ID Fornecedor', 'Preço Total', 'Situação do Pagamento', 
     'Situação da Entrega', 'Forma de Pagamento'
 ]
 columns_itens_compra = ['ID', 'ID Compra', 'ID Produto', 'Preço Unitário', 'Quantidade']
@@ -31,7 +31,7 @@ if opcao_menu_vendas == 'Cadastrar':
     
 elif opcao_menu_vendas == 'Alterar':
     options = st.radio(
-        '**Opções**', ['Compra', 'Itens da Compra'], 
+        '**Opções**', ['Compra', 'Itens de Compra'], 
         captions=[
             'Alterar compra',
             'Alterar itens da compra'
@@ -45,7 +45,7 @@ elif opcao_menu_vendas == 'Alterar':
         #dados
         try:
             df_compras = pd.DataFrame(utils.consulta_compras(), columns=columns_compras)
-            st.dataframe(df_compras, hide_index=True)
+            st.dataframe(df_compras.sort_values(by='ID'), hide_index=True)
         except Exception as e:
             st.error(e)
             pass
@@ -56,7 +56,7 @@ elif opcao_menu_vendas == 'Alterar':
         #dados
         try:
             df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=columns_itens_compra)
-            st.dataframe(df_compras_produtos, hide_index=True)
+            st.dataframe(df_compras_produtos.sort_values(by='ID'), hide_index=True)
         except Exception as e:
             st.error(e)
             pass   
@@ -65,7 +65,7 @@ elif opcao_menu_vendas == 'Consultar':
     #dados
     try:
         df_compras = pd.DataFrame(utils.consulta_compras(), columns=columns_compras)
-        st.dataframe(df_compras, hide_index=True)
+        st.dataframe(df_compras.sort_values(by='ID'), hide_index=True)
     except Exception as e:
         st.error(e)
         pass
