@@ -10,9 +10,16 @@ if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
 
+'''password = st.text_input('Password', type='password')
+ 
+if password == st.secrets['password']:
+    st.success('Access permitido!')
+else:
+    st.error('Acesso negado!')'''
+    
 def autenticar():
-    names = ['jorge']
-    usernames = ['jorge']
+    names = ['jorge', 'rosana']
+    usernames = ['jorge', 'rosana']
 
     file_path = Path(__file__).parent / 'hashed_pw.pkl'
     with file_path.open('rb') as file:

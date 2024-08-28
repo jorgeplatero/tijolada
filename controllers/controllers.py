@@ -3,9 +3,11 @@ import services.database as db
 import models.models as models
 import re
 
+
 #consultas
 #---------------------------------------------------------------
 
+#fornecedores
 def select_fornecedores():
     db.cursor.execute('SELECT * FROM fornecedor')
     fornecedores = []
@@ -16,6 +18,7 @@ def select_fornecedores():
     return fornecedores
 
 
+#produtos
 def select_produtos():
     db.cursor.execute('SELECT * FROM produto')
     produtos = []
@@ -26,6 +29,7 @@ def select_produtos():
     return produtos
 
 
+#estoque
 def select_estoques():
     db.cursor.execute('SELECT * FROM estoque')
     estoques = []
@@ -36,6 +40,7 @@ def select_estoques():
     return estoques
 
 
+#vendas
 def select_vendas():
     db.cursor.execute('SELECT * FROM venda')
     vendas = []
@@ -48,6 +53,8 @@ def select_vendas():
         )
     return vendas
 
+
+#itens de venda
 def select_vendas_produtos():
     db.cursor.execute('SELECT * FROM venda_produto')
     vendas_produtos = []
@@ -59,6 +66,8 @@ def select_vendas_produtos():
         )
     return vendas_produtos
 
+
+#compras
 def select_compras():
     db.cursor.execute('SELECT * FROM compra')
     compras = []
@@ -70,6 +79,8 @@ def select_compras():
         )
     return compras
 
+
+#itens de compra
 def select_compras_produtos():
     db.cursor.execute('SELECT * FROM compra_produto')
     compras_produtos = []
@@ -81,6 +92,8 @@ def select_compras_produtos():
         )
     return compras_produtos
 
+
+#clientes
 def select_clientes():
     db.cursor.execute('SELECT * FROM cliente')
     clientes = []
@@ -91,6 +104,7 @@ def select_clientes():
                 )
         )
     return clientes
+
 
 #inserts
 #---------------------------------------------------------------
@@ -107,7 +121,7 @@ def insert_clientes(cliente):
         db.conn.commit()
         st.success('Cliente inserido!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
 
         
@@ -123,7 +137,7 @@ def insert_fornecedores(fornecedor):
         db.conn.commit()
         st.success('Fornecedor inserido!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
         
 
@@ -139,8 +153,9 @@ def insert_produtos(produto):
         db.conn.commit()
         st.success('Produto inserido!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
+
 
 #vendas
 def insert_vendas(venda):
@@ -157,7 +172,7 @@ def insert_vendas(venda):
         db.conn.commit()
         st.success('Venda inserida!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
     db.cursor.execute(f'SELECT LASTVAL()')
     return db.cursor.fetchone()[0]
@@ -178,7 +193,7 @@ def insert_produtos_vendas(venda_produto):
     except db.erro as e:
         db.conn.rollback()
         delete_vendas(venda_produto.venda_id_venda) 
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
 
 
 #compras
@@ -195,7 +210,7 @@ def insert_compras(compra):
         db.conn.commit()
         st.success(f'Compra inserida')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
     db.cursor.execute(f'SELECT LASTVAL()')
     return db.cursor.fetchone()[0]
@@ -217,7 +232,7 @@ def insert_produtos_compras(compra_produto):
     except Exception as e:
         db.conn.rollback()
         delete_compras(compra_produto.compra_id_compra)
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
 
 
 #deletes
@@ -272,7 +287,7 @@ def update_fornecedores(fornecedor):
         db.conn.commit()
         st.success('Fornecedor atualizado!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
 
 
@@ -291,7 +306,7 @@ def update_produtos(produto):
         db.conn.commit()
         st.success('Produto atualizado!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
 
 
@@ -316,7 +331,7 @@ def update_clientes(cliente):
         db.conn.commit()
         st.success('Cliente atualizado!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
         
 
@@ -337,7 +352,7 @@ def update_compras(compra):
         db.conn.commit()
         st.success('Compra atualizada!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
         
 
@@ -357,7 +372,7 @@ def update_compras_produtos(compra_produto):
         db.conn.commit()
         st.success('Item de compra atualizado!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
         
 
@@ -381,7 +396,7 @@ def update_vendas(venda):
         db.conn.commit()
         st.success('Venda atualizada!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()
         
 
@@ -401,5 +416,5 @@ def update_vendas_produtos(venda_produto):
         db.conn.commit()
         st.success('Item de venda atualizado!')
     except Exception as e:
-        st.error(f'Erro durante inserção: {e}')
+        st.error(f'{e}')
         db.conn.rollback()

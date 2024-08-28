@@ -20,4 +20,4 @@ try:
     df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=columns_estoques)
     st.dataframe(df_estoques, hide_index=True)
 except Exception as e:
-    print(st.error(e))
+    print(st.error(f'Erro durante consulta: {e}'))

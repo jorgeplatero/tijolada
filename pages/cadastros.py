@@ -47,7 +47,7 @@ if opcao_menu_cadastros == 'Cliente':
         df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=columns_cliente)
         st.dataframe(df_clientes.sort_values(by='ID'), use_container_width=True, hide_index=True)
     except Exception as e:
-        st.error(e)
+        st.error(f'Erro durante consulta: {e}')
         
 elif opcao_menu_cadastros == 'Fornecedor':
     options = st.radio(
@@ -69,7 +69,7 @@ elif opcao_menu_cadastros == 'Fornecedor':
         df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=columns_fornecedor)
         st.dataframe(df_fornecedores.sort_values(by='ID'), use_container_width=True, hide_index=True)
     except Exception as e:
-        st.error(e)
+        st.error(f'Erro durante consulta: {e}')
     
 elif opcao_menu_cadastros == 'Produto':
     options = st.radio(
@@ -91,4 +91,4 @@ elif opcao_menu_cadastros == 'Produto':
         df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=columns_produtos)
         st.dataframe(df_produtos.sort_values(by='ID'), use_container_width=True, hide_index=True)
     except Exception as e:
-        st.error(e)
+        st.error(f'Erro durante consulta: {e}')

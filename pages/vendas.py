@@ -48,8 +48,7 @@ elif opcao_menu_vendas == 'Alterar':
             df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=columns_venda)
             st.dataframe(df_vendas.sort_values(by='ID'), hide_index=True)
         except Exception as e:
-            st.error(e)
-            pass
+            st.error(f'Erro durante consulta: {e}')
         
     elif options == 'Itens de Venda':
         #formulario
@@ -59,12 +58,11 @@ elif opcao_menu_vendas == 'Alterar':
             df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=columns_itens_venda)
             st.dataframe(df_vendas_produtos.sort_values(by='ID'), hide_index=True)
         except Exception as e:
-            st.error(e)
-            pass  
+            st.error(f'Erro durante consulta: {e}')  
 elif opcao_menu_vendas == 'Consultar':
     #dados
     try:
         df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=columns_venda)
         st.dataframe(df_vendas.sort_values(by='ID'), hide_index=True)
-    except:
-        pass
+    except Exception as e:
+        st.error(f'Erro durante consulta: {e}')  

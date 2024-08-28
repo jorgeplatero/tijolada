@@ -10,101 +10,125 @@ import models.models as models
 #clientes
 def consulta_clientes():
     clientes = []
-    for item in controllers.select_clientes():
-        clientes.append(
-            [
-                item.id_cliente, item.nome_cliente, item.tipo_cliente, item.cpf_cnpj_cliente,
-                item.endereco_cliente, item.bairro_cliente, item.telefone_cliente, 
-                item.referencia_cliente, item.situacao_cliente
-            ]
-        )
+    try:
+        for item in controllers.select_clientes():
+            clientes.append(
+                [
+                    item.id_cliente, item.nome_cliente, item.tipo_cliente, item.cpf_cnpj_cliente,
+                    item.endereco_cliente, item.bairro_cliente, item.telefone_cliente, 
+                    item.referencia_cliente, item.situacao_cliente
+                ]
+            )
+    except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
     return clientes
 
 
 #fornecedores
 def consulta_fornecedores():
     fornecedores = []
-    for item in controllers.select_fornecedores():
-        fornecedores.append(
-            [
-                item.id_fornecedor, item.nome_fornecedor, item.cnpj_fornecedor,
-                item.endereco_fornecedor, item.bairro_fornecedor, item.telefone_fornecedor
-            ]
-        )
+    try:
+        for item in controllers.select_fornecedores():
+            fornecedores.append(
+                [
+                    item.id_fornecedor, item.nome_fornecedor, item.cnpj_fornecedor,
+                    item.endereco_fornecedor, item.bairro_fornecedor, item.telefone_fornecedor
+                ]
+            )
+    except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
     return fornecedores
 
 
 #produtos
 def consulta_produtos():
     produtos = []
-    for item in controllers.select_produtos():
-        produtos.append([item.id_produto, item.nome_produto, item.unidade_medida_produto])
+    try:
+        for item in controllers.select_produtos():
+            produtos.append([item.id_produto, item.nome_produto, item.unidade_medida_produto])
+    except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
     return produtos
 
 
 #compras
 def consulta_compras():
     compras = []
-    for item in controllers.select_compras():
-        compras.append(
-            [
-                item.id_compra, item.data_compra, item.fornecedor_id_fornecedor, item.preco_total_compra, 
-                item.situacao_pagamento_compra, item.situacao_entrega_compra, item.forma_pagamento_compra
-            ]
-        )
+    try:
+        for item in controllers.select_compras():
+            compras.append(
+                [
+                    item.id_compra, item.data_compra, item.fornecedor_id_fornecedor, item.preco_total_compra, 
+                    item.situacao_pagamento_compra, item.situacao_entrega_compra, item.forma_pagamento_compra
+                ]
+            )
+    except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
     return compras
 
 
 #itens de compras
 def consulta_compras_produtos():
     compras_produtos = []
-    for item in controllers.select_compras_produtos():
-        compras_produtos.append(
-            [
-                item.id_compra_produto, item.compra_id_compra, item.produto_id_produto, 
-                item.preco_unitario_produto_compra, item.quantidade_produto_compra
-            ]
-        )
+    try:
+        for item in controllers.select_compras_produtos():
+            compras_produtos.append(
+                [
+                    item.id_compra_produto, item.compra_id_compra, item.produto_id_produto, 
+                    item.preco_unitario_produto_compra, item.quantidade_produto_compra
+                ]
+            )
+    except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
     return compras_produtos
 
 
 #vendas
 def consulta_vendas():
     vendas = []
-    for item in controllers.select_vendas():
-        vendas.append(
-            [
-                item.id_venda, item.data_venda, item.cliente_id_cliente,
-                item.endereco_entrega_venda, item.bairro_entrega_venda, item.observacoes_venda,
-                item.preco_total_venda, item.situacao_pagamento_venda, item.situacao_entrega_venda,
-                item.forma_pagamento_venda
-            ]
-        )
+    try:
+        for item in controllers.select_vendas():
+            vendas.append(
+                [
+                    item.id_venda, item.data_venda, item.cliente_id_cliente,
+                    item.endereco_entrega_venda, item.bairro_entrega_venda, item.observacoes_venda,
+                    item.preco_total_venda, item.situacao_pagamento_venda, item.situacao_entrega_venda,
+                    item.forma_pagamento_venda
+                ]
+            )
+    except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
     return vendas
 
 
 #itens de vendas
 def consulta_vendas_produtos():
     vendas_produtos = []
-    for item in controllers.select_vendas_produtos():
-        vendas_produtos.append(
-            [
-                item.id_venda_produto, item.venda_id_venda, item.produto_id_produto, 
-                item.preco_unitario_produto_venda, item.quantidade_produto_venda
-            ]
-        )
+    try:
+        for item in controllers.select_vendas_produtos():
+            vendas_produtos.append(
+                [
+                    item.id_venda_produto, item.venda_id_venda, item.produto_id_produto, 
+                    item.preco_unitario_produto_venda, item.quantidade_produto_venda
+                ]
+            )
+    except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
     return vendas_produtos
 
 
 #estoque
 def consulta_estoques():
     estoques = []
-    for item in controllers.select_estoques():
-        estoques.append(
-            [
-                item.id_estoque, item.produto_id_produto, item.quantidade_estoque
-            ]
-        )
+    try:
+        for item in controllers.select_estoques():
+            estoques.append(
+                [
+                    item.id_estoque, item.produto_id_produto, item.quantidade_estoque
+                ]
+            )
+    except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
     return estoques
 
 
@@ -139,7 +163,6 @@ def insert_clientes():
             )
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
-            pass
     else:
         pass
 
@@ -167,7 +190,6 @@ def insert_fornecedores():
             )
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
-            pass
     else:
         pass
     
@@ -186,7 +208,6 @@ def insert_produtos():
             )
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
-            pass
     else:
         pass
     
@@ -209,17 +230,17 @@ def insert_compras():
             df_compra_produto,
             column_config={
                 'ID Produto': st.column_config.SelectboxColumn(
-                    help='Selecione...',
+                    help='Selecione o ID do produto...',
                     options=[row[0] for row in consulta_produtos()],
                     required=True
                 ),
                 'Preço Unitário': st.column_config.NumberColumn(
-                    help='Selecione...',
+                    help='Selecione o preço unitário do produto...',
                     format='R$ %.2f',
                     required=True,
                 ),
                 'Quantidade': st.column_config.NumberColumn(
-                    help='Selecione...',
+                    help='Selecione a quantidade do produto...',
                     format='%d',
                     required=True
                 )
@@ -249,7 +270,6 @@ def insert_compras():
                     )
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
-            pass
     else:
         pass
     
@@ -278,12 +298,12 @@ def insert_vendas():
             df_venda_produto,
             column_config={
                 'ID Produto': st.column_config.SelectboxColumn(
-                    help='Selecione...',
+                    help='Selecione o ID do produto...',
                     options=[row[0] for row in consulta_produtos()],
                     required=True
                 ),
                 'Quantidade': st.column_config.NumberColumn(
-                    help='Selecione...',
+                    help='Selecione a quantidade do produto...',
                     format='%d',
                     required=True
                 )
@@ -314,7 +334,6 @@ def insert_vendas():
         except Exception as e:
             print( 'a')
             st.error(f'Erro durante inserção: {e}')
-            pass
     else:
         pass
 
@@ -357,8 +376,8 @@ def update_clientes():
                     input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, input_situacao_cliente
                 )
             )
-        except:
-            pass
+        except Exception as e:
+            st.error(f'Erro durante update: {e}')
     else:
         pass
     
@@ -394,8 +413,7 @@ def update_fornecedores():
                     input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
             )
         except Exception as e:
-            st.error(f'Erro durante inserção: {e}')
-            pass
+            st.error(f'Erro durante update: {e}')
     else:
         pass
 
@@ -421,8 +439,7 @@ def update_produtos():
                 models.Produto(input_id_produto, input_nome_produto, input_unidade_medida_produto)
             )
         except Exception as e:
-            st.error(f'Erro durante inserção: {e}')
-            pass
+            st.error(f'Erro durante update: {e}')
     else:
         pass
     
@@ -462,8 +479,7 @@ def update_compras():
                     )
             )
         except Exception as e:
-            st.error(f'Erro durante inserção: {e}')
-            pass
+            st.error(f'Erro durante update: {e}')
     else:
         pass
 
@@ -501,8 +517,7 @@ def update_compras_produtos():
                     )
             )
         except Exception as e:
-            st.error(f'Erro durante inserção: {e}')
-            pass
+            st.error(f'Erro durante update: {e}')
     else:
         pass
     
@@ -549,8 +564,7 @@ def update_vendas():
                     )
             )
         except Exception as e:
-            st.error(f'Erro durante inserção: {e}')
-            pass
+            st.error(f'Erro durante update: {e}')
     else:
         pass
 
@@ -588,7 +602,6 @@ def update_vendas_produtos():
                     )
             )
         except Exception as e:
-            st.error(f'Erro durante inserção: {e}')
-            pass
+            st.error(f'Erro durante update: {e}')
     else:
         pass
