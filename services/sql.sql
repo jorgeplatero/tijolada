@@ -118,7 +118,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER trg_atualizar_preco_unitario_venda
-BEFORE INSERT OR UPDATE ON venda_produto
+BEFORE INSERT ON venda_produto
 FOR EACH ROW
 EXECUTE PROCEDURE calcular_preco_unitario_venda();
 

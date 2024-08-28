@@ -2,9 +2,9 @@ import psycopg2 as ps
 
 
 conn = ps.connect(
-    dbname = 'loja_materiais_construcao',
-    user ='postgres',
-    password = 'postgres',
+    dbname = 'tijolada',
+    user ='xxxxxxxx',
+    password = 'xxxxxxxx',
     host = 'localhost',
     port = '5432' 
 )

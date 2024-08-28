@@ -10,10 +10,17 @@ columns_compras = [
     'Situação da Entrega', 'Forma de Pagamento'
 ]
 columns_itens_compra = ['ID', 'ID Compra', 'ID Produto', 'Preço Unitário', 'Quantidade']
-    
+
+col1, col2 = st.columns([.2, .8])
+with col1:
+    st.image('img/logo.png')
+with col2:
+    st.title('Tijolada')
+    st.subheader('Compras')
+
 #menu    
 opcao_menu_vendas = st.selectbox(
-    '**Menu**', 
+    '**Operações**', 
     options=['Cadastrar', 'Alterar', 'Consultar'],
     index=None,
     placeholder='Selecione uma opção do menu...'                          

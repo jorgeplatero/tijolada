@@ -137,7 +137,8 @@ def insert_clientes():
                     input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, input_situacao_cliente
                 )
             )
-        except:
+        except Exception as e:
+            st.error(f'Erro durante inserção: {e}')
             pass
     else:
         pass
@@ -164,7 +165,8 @@ def insert_fornecedores():
             controllers.insert_fornecedores(
                 models.Fornecedor(0, input_nome_fornecedor, input_cnpj_fornecedor, input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
             )
-        except:
+        except Exception as e:
+            st.error(f'Erro durante inserção: {e}')
             pass
     else:
         pass
@@ -182,7 +184,8 @@ def insert_produtos():
             controllers.insert_produtos(
                 models.Produto(0, input_nome_produto, input_unidade_medida_produto)
             )
-        except:
+        except Exception as e:
+            st.error(f'Erro durante inserção: {e}')
             pass
     else:
         pass
@@ -390,7 +393,8 @@ def update_fornecedores():
                     input_id_fornecedor, input_nome_fornecedor, input_cnpj_fornecedor, 
                     input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
             )
-        except:
+        except Exception as e:
+            st.error(f'Erro durante inserção: {e}')
             pass
     else:
         pass
@@ -416,7 +420,8 @@ def update_produtos():
             controllers.update_produtos(
                 models.Produto(input_id_produto, input_nome_produto, input_unidade_medida_produto)
             )
-        except:
+        except Exception as e:
+            st.error(f'Erro durante inserção: {e}')
             pass
     else:
         pass

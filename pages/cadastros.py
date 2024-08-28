@@ -9,13 +9,19 @@ columns_cliente = [
     'ID', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
     'Referência', 'Situação'
 ]
-
 columns_fornecedor = ['ID', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
 columns_produtos = ['ID', 'Nome', 'Unidade de Medida']
 
+col1, col2 = st.columns([.2, .8])
+with col1:
+    st.image('img/logo.png')
+with col2:
+    st.title('Tijolada')
+    st.subheader('Cadastros')
+
 #menu
 opcao_menu_cadastros = st.selectbox(
-    '**Menu**', 
+    '**Opções**', 
     options=['Cliente', 'Fornecedor', 'Produto'],
     index=None,
     placeholder='Selecione uma opção do menu...'                          
