@@ -45,7 +45,7 @@ if opcao_menu_cadastros == 'Cliente':
     #dados
     try:
         df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=columns_cliente)
-        st.dataframe(df_clientes.sort_values(by='ID'), use_container_width=True, hide_index=True)
+        st.dataframe(df_clientes.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
         
@@ -67,7 +67,7 @@ elif opcao_menu_cadastros == 'Fornecedor':
     #dados
     try:
         df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=columns_fornecedor)
-        st.dataframe(df_fornecedores.sort_values(by='ID'), use_container_width=True, hide_index=True)
+        st.dataframe(df_fornecedores.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
     
@@ -89,6 +89,6 @@ elif opcao_menu_cadastros == 'Produto':
     #dados
     try:
         df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=columns_produtos)
-        st.dataframe(df_produtos.sort_values(by='ID'), use_container_width=True, hide_index=True)
+        st.dataframe(df_produtos.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')

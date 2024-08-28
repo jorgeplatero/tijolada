@@ -1,7 +1,4 @@
 import streamlit as st
-import streamlit_authenticator as stauth
-import pickle
-from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -10,43 +7,28 @@ if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
 
-'''password = st.text_input('Password', type='password')
- 
-if password == st.secrets['password']:
-    st.success('Access permitido!')
-else:
-    st.error('Acesso negado!')'''
-    
-def autenticar():
-    names = ['jorge', 'rosana']
-    usernames = ['jorge', 'rosana']
-
-    file_path = Path(__file__).parent / 'hashed_pw.pkl'
-    with file_path.open('rb') as file:
-        hashed_passwords = pickle.load(file)
-    authenticator = stauth.Authenticate(names, usernames, hashed_passwords, 'tijolada', 'abcde')
-    name, authentication_status, username = authenticator.login('Login', 'sidebar')
-    if authentication_status == False:
-        st.write('')
-        st.error('Usuário/senha incorretos')
-    elif authentication_status == None:
-        st.write('')
-        st.warning('Digite usuário e senha')
-    return authentication_status, name, username 
-
-
 def login():
-    col1, col2 = st.columns([.2, .8])
+    col1, col2 = st.columns([.6, .4])
     with col1:
-        st.image('img/logo.png')
+        col3, col4 = st.columns([.2, .8])
+        with col3:
+            st.image('img/logo.png')
+        with col4:
+            st.title('Tijolada')
+            st.subheader('Materiais para sua construção')
     with col2:
-        st.title('Tijolada')
-        st.subheader('Materiais para sua construção')
-    if 'authentication_status' not in st.session_state or not st.session_state.authentication_status:
-        st.session_state.authentication_status, st.session_state.name, st.session_state.username = autenticar()
-    if st.session_state.authentication_status:
-        st.session_state.logged_in = True
-        st.rerun()
+        with st.form(key='login'):
+            usuario = st.text_input(label='Usuário')
+            senha = st.text_input(label='Senha', type='password')
+            botao_login = st.form_submit_button('Entrar')
+            st.warning('Insira usuário e senha!')
+        if botao_login:
+            if usuario == st.secrets['usuario'] and senha == st.secrets['senha']:
+                st.session_state.logged_in = True
+                st.success('Accesso permitido!')
+                st.rerun()
+            else:
+                st.error('Acesso negado! Usuário e/ou senha incorretos!')
 
 
 def logout():
@@ -62,7 +44,7 @@ st.set_page_config(
 )
 
 login_page = st.Page(login, title='Log in', icon=':material/login:')
-logout_page = st.Page(logout, title='Log out', icon=':material/login:')
+logout_page = st.Page(logout, title=' ', icon=':material/settings:')
 cadastros = st.Page('pages/cadastros.py', title='Cadastro', icon=':material/app_registration:')
 compras = st.Page('pages/compras.py', title='Compras', icon=':material/add_shopping_cart:')
 vendas = st.Page('pages/vendas.py', title='Vendas', icon=':material/remove_shopping_cart:')

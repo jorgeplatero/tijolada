@@ -3,8 +3,8 @@ import psycopg2 as ps
 
 conn = ps.connect(
     dbname = 'tijolada',
-    user ='xxxxxxxx',
-    password = 'xxxxxxxx',
+    user ='postgres',
+    password = 'postgres',
     host = 'localhost',
     port = '5432' 
 )
