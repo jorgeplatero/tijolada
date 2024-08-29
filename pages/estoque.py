@@ -5,7 +5,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-columns_estoques = ['ID', 'ID Produto', 'Quantidade',]
+colunas_estoques = ['ID', 'ID Produto', 'Quantidade']
+colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 
 col1, col2 = st.columns([.2, .8])
 with col1:
@@ -17,7 +18,9 @@ with col2:
 #dados
 try:
     st.write('')
-    df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=columns_estoques)
-    st.dataframe(df_estoques, hide_index=True)
+    df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=colunas_estoques)[['ID Produto', 'Quantidade']]
+    df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
+    df_estoques_produtos = pd.merge(df_produtos, df_estoques, how='outer', on='ID Produto')
+    st.dataframe(df_estoques_produtos.sort_values(by='ID Produto'), hide_index=True)
 except Exception as e:
     print(st.error(f'Erro durante consulta: {e}'))

@@ -235,37 +235,6 @@ def insert_produtos_compras(compra_produto):
         st.error(f'{e}')
 
 
-#deletes
-#---------------------------------------------------------------
-        
-#compras
-def delete_compras(id_compra):
-    try:
-        db.cursor.execute(
-            f"""
-                DELETE FROM compra WHERE ID_compra = {id_compra};
-            """
-        )
-        db.conn.commit()
-    except Exception as e:
-        st.write(f'Erro durante exclusão: {e}')
-        db.conn.rollback()
-        
-
-#vendas
-def delete_vendas(id_venda):
-    try:
-        db.cursor.execute(
-            f"""
-                DELETE FROM venda WHERE ID_venda = {id_venda};
-            """
-        )
-        db.conn.commit()
-    except Exception as e:
-        st.write(f'Erro durante exclusão: {e}')
-        db.conn.rollback()
-
-
 #updates
 #---------------------------------------------------------------
         
@@ -417,4 +386,67 @@ def update_vendas_produtos(venda_produto):
         st.success('Item de venda atualizado!')
     except Exception as e:
         st.error(f'{e}')
+        db.conn.rollback()
+
+
+#deletes
+#---------------------------------------------------------------
+        
+#compras
+def delete_compras(id_compra):
+    try:
+        db.cursor.execute(
+            f"""
+                DELETE FROM compra WHERE ID_compra = {id_compra};
+            """
+        )
+        db.conn.commit()
+        st.success('Compra excluída!')
+    except Exception as e:
+        st.error(f'Erro durante exclusão: {e}')
+        db.conn.rollback()
+
+
+#itens de compra
+def delete_compras_produtos(id_compra_produto):
+    try:
+        db.cursor.execute(
+            f"""
+                DELETE FROM compra_produto WHERE ID_compra_produto = {id_compra_produto};
+            """
+        )
+        db.conn.commit()
+        st.success('Item de compra excluído!')
+    except Exception as e:
+        st.error(f'Erro durante exclusão: {e}')
+        db.conn.rollback()
+
+
+#vendas
+def delete_vendas(id_venda):
+    try:
+        db.cursor.execute(
+            f"""
+                DELETE FROM venda WHERE ID_venda = {id_venda};
+            """
+        )
+        db.conn.commit()
+        st.success('Venda excluída!')
+    except Exception as e:
+        st.error(f'Erro durante exclusão: {e}')
+        db.conn.rollback()
+
+
+#itens de venda
+def delete_vendas_produtos(id_venda_produto):
+    try:
+        db.cursor.execute(
+            f"""
+                DELETE FROM venda_produto WHERE ID_venda_produto = {id_venda_produto};
+            """
+        )
+        db.conn.commit()
+        st.success('Item de venda excluído!')
+    except Exception as e:
+        st.error(f'Erro durante exclusão: {e}')
         db.conn.rollback()

@@ -5,19 +5,19 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-columns_cliente = [
+colunas_cliente = [
     'ID', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
     'Referência', 'Situação'
 ]
-columns_fornecedor = ['ID', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
-columns_produtos = ['ID', 'Nome', 'Unidade de Medida']
+colunas_fornecedor = ['ID', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
+colunas_produtos = ['ID', 'Nome', 'Unidade de Medida']
 
 col1, col2 = st.columns([.2, .8])
 with col1:
     st.image('img/logo.png')
 with col2:
     st.title('Tijolada')
-    st.subheader('Cadastros')
+    st.subheader('Cadastro')
 
 #menu
 opcao_menu_cadastros = st.selectbox(
@@ -28,7 +28,7 @@ opcao_menu_cadastros = st.selectbox(
 )
 
 if opcao_menu_cadastros == 'Cliente':
-    options = st.radio(
+    opcoes_cadastro_clientes = st.radio(
         '**Operação**', ['Cadastrar', 'Alterar'], 
         captions=[
             'Incluir cliente',
@@ -36,21 +36,21 @@ if opcao_menu_cadastros == 'Cliente':
         ], 
         horizontal=True
     )
-    if options =='Cadastrar':
+    if opcoes_cadastro_clientes =='Cadastrar':
         #formulario
         utils.insert_clientes()
-    elif options == 'Alterar':
+    elif opcoes_cadastro_clientes == 'Alterar':
         #formulario
         utils.update_clientes()
     #dados
     try:
-        df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=columns_cliente)
+        df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=colunas_cliente)
         st.dataframe(df_clientes.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
         
 elif opcao_menu_cadastros == 'Fornecedor':
-    options = st.radio(
+    opcoes_cadastro_fornecedor = st.radio(
         '**Operação**', ['Cadastrar', 'Alterar'], 
         captions=[
             'Incluir fornecedor',
@@ -58,21 +58,21 @@ elif opcao_menu_cadastros == 'Fornecedor':
         ], 
         horizontal=True
     )
-    if options =='Cadastrar':
+    if opcoes_cadastro_fornecedor =='Cadastrar':
         #formulario
         utils.insert_fornecedores()
-    elif options == 'Alterar':
+    elif opcoes_cadastro_fornecedor == 'Alterar':
         #formulario
         utils.update_fornecedores()
     #dados
     try:
-        df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=columns_fornecedor)
+        df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedor)
         st.dataframe(df_fornecedores.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
     
 elif opcao_menu_cadastros == 'Produto':
-    options = st.radio(
+    opcoes_cadastro_produto = st.radio(
         '**Operação**', ['Cadastrar', 'Alterar'], 
         captions=[
             'Incluir produto',
@@ -80,15 +80,15 @@ elif opcao_menu_cadastros == 'Produto':
         ], 
         horizontal=True
     )
-    if options =='Cadastrar':
+    if opcoes_cadastro_produto =='Cadastrar':
         #formulario
         utils.insert_produtos()
-    elif options == 'Alterar':
+    elif opcoes_cadastro_produto == 'Alterar':
         #formulario
         utils.update_produtos()
     #dados
     try:
-        df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=columns_produtos)
+        df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
         st.dataframe(df_produtos.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')

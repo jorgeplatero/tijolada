@@ -21,35 +21,34 @@ def login():
             usuario = st.text_input(label='Usuário')
             senha = st.text_input(label='Senha', type='password')
             botao_login = st.form_submit_button('Entrar')
-            st.warning('Insira usuário e senha!')
         if botao_login:
             if usuario == st.secrets['usuario'] and senha == st.secrets['senha']:
                 st.session_state.logged_in = True
-                st.success('Accesso permitido!')
                 st.rerun()
             else:
-                st.error('Acesso negado! Usuário e/ou senha incorretos!')
+                st.error('Aceso negado! Usuário e/ou senha incorretos.')
 
 
 def logout():
+    st.success('Bem-vindo!')
     if st.button('Log out'):
         st.session_state.logged_in = False
         st.session_state.authentication_status = None
         st.rerun()
 
 st.set_page_config(
-    page_title='Página Inicial', 
+    page_title='Tijolada', 
     page_icon='🧱',
     layout='wide'
 )
 
 login_page = st.Page(login, title='Log in', icon=':material/login:')
-logout_page = st.Page(logout, title=' ', icon=':material/settings:')
+logout_page = st.Page(logout, title='Configurações', icon=':material/settings:', default =True)
 cadastros = st.Page('pages/cadastros.py', title='Cadastro', icon=':material/app_registration:')
-compras = st.Page('pages/compras.py', title='Compras', icon=':material/add_shopping_cart:')
+compras = st.Page('pages/compras.py', title='Compras', icon=':material/add_shopping_cart:',)
 vendas = st.Page('pages/vendas.py', title='Vendas', icon=':material/remove_shopping_cart:')
 estoque = st.Page('pages/estoque.py', title='Estoque', icon=':material/warehouse:')
-dashboard = st.Page('pages/dashboard.py', title='Dashboard', icon=':material/dashboard:', default =True)
+dashboard = st.Page('pages/dashboard.py', title='Dashboard', icon=':material/dashboard:')
 
 if st.session_state.logged_in:
     pg = st.navigation(
@@ -61,5 +60,5 @@ if st.session_state.logged_in:
     )
 else:
     pg = st.navigation([login_page])
-
+    
 pg.run()

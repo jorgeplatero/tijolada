@@ -152,8 +152,8 @@ def insert_clientes():
             input_bairro_cliente = st.text_input(label='Bairro')
         input_referencia_cliente = st.text_input(label='Referência')
         input_situacao_cliente = st.selectbox(label='Situação', options=['Adimplente', 'Inadimplente'])
-        input_button_submit = st.form_submit_button('Inserir')
-    if input_button_submit:
+        input_botao_inserir_cliente = st.form_submit_button('Inserir')
+    if input_botao_inserir_cliente:
         try:
             controllers.insert_clientes(
                 models.Cliente(
@@ -181,9 +181,8 @@ def insert_fornecedores():
             input_endereco_fornecedor = st.text_input(label='Endereço')
         with col2:
             input_bairro_fornecedor = st.text_input(label='Bairro')
-        input_button_submit = st.form_submit_button('Inserir')
-    
-    if input_button_submit:
+        input_botao_inserir_fornecedor = st.form_submit_button('Inserir')
+    if input_botao_inserir_fornecedor:
         try:
             controllers.insert_fornecedores(
                 models.Fornecedor(0, input_nome_fornecedor, input_cnpj_fornecedor, input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
@@ -197,11 +196,11 @@ def insert_fornecedores():
 #produtos
 def insert_produtos():
     with st.form(key='insert_produtos'):
-        options = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
+        opcoes_unidade_medida = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
         input_nome_produto = st.text_input(label='Nome')
-        input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', options=options)
-        input_button_submit = st.form_submit_button('Inserir')
-    if input_button_submit:
+        input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', options=opcoes_unidade_medida)
+        input_botao_inserir_produto = st.form_submit_button('Inserir')
+    if input_botao_inserir_produto:
         try:
             controllers.insert_produtos(
                 models.Produto(0, input_nome_produto, input_unidade_medida_produto)
@@ -215,7 +214,7 @@ def insert_produtos():
 #compras
 def insert_compras():
     with st.form(key='insert_compras'):
-        options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
+        opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         df_compra_produto = pd.DataFrame(columns=['ID Produto', 'Preço Unitário', 'Quantidade'])
         #compra
         input_fornecedor_id_fornecedor = st.selectbox(label='ID Fornecedor', options=[row[0] for row in consulta_fornecedores()])
@@ -224,7 +223,7 @@ def insert_compras():
             input_situacao_pagamento_compra = st.selectbox(label='Situação do Pagamento', options=['Não realizada', 'Realizado'])
         with col2:
             input_situacao_entrega_compra = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'])
-        input_forma_pagamento_compra = st.selectbox(label='Forma de pagamento', options=options)
+        input_forma_pagamento_compra = st.selectbox(label='Forma de pagamento', options=opcoes_pagamento)
         #itens de venda
         df_compra_produto = st.data_editor(
             df_compra_produto,
@@ -248,8 +247,8 @@ def insert_compras():
             num_rows='dynamic', 
             use_container_width=False
         )
-        input_button_submit = st.form_submit_button('Inserir')
-    if input_button_submit:
+        input_botao_inserir_compra = st.form_submit_button('Inserir')
+    if input_botao_inserir_compra:
         try:
             id_compra = controllers.insert_compras(
                 models.Compra(
@@ -277,7 +276,7 @@ def insert_compras():
 #vendas
 def insert_vendas():
     with st.form(key='insert_vendas'):
-        options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
+        opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         df_venda_produto = pd.DataFrame(columns=['ID Produto', 'Quantidade'])
         #venda
         input_cliente_id_cliente = st.selectbox(label='ID Cliente', options=[row[0] for row in consulta_clientes()])
@@ -292,7 +291,7 @@ def insert_vendas():
             input_situacao_pagamento_venda = st.selectbox(label='Situação do Pagamento', options=['Não realizada', 'Realizado'])
         with col2:
             input_situacao_entrega_venda = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'])
-        input_forma_pagamento_venda = st.selectbox(label='Forma de pagamento', options=options)
+        input_forma_pagamento_venda = st.selectbox(label='Forma de pagamento', options=opcoes_pagamento)
         #itens de venda
         df_venda_produto = st.data_editor(
             df_venda_produto,
@@ -311,8 +310,8 @@ def insert_vendas():
             num_rows='dynamic', 
             use_container_width=False
         )
-        input_button_submit = st.form_submit_button('Inserir')
-    if input_button_submit:
+        input_botao_inserir_venda = st.form_submit_button('Inserir')
+    if input_botao_inserir_venda:
         try:
             id_venda = controllers.insert_vendas(
                 models.Venda(
@@ -332,7 +331,6 @@ def insert_vendas():
                         )
                 )
         except Exception as e:
-            print( 'a')
             st.error(f'Erro durante inserção: {e}')
     else:
         pass
@@ -367,8 +365,8 @@ def update_clientes():
             input_bairro_cliente = st.text_input(label='Bairro')
         input_referencia_cliente = st.text_input(label='Referência')
         input_situacao_cliente = st.selectbox(label='Situação', options=['Adimplente', 'Inadimplente'])
-        input_button_submit = st.form_submit_button('Atualizar')
-    if input_button_submit:
+        input_botao_alterar_cliente = st.form_submit_button('Atualizar')
+    if input_botao_alterar_cliente:
         try:
             controllers.update_clientes(
                 models.Cliente(
@@ -404,8 +402,8 @@ def update_fornecedores():
             input_endereco_fornecedor = st.text_input(label='Endereço')
         with col2:
             input_bairro_fornecedor = st.text_input(label='Bairro')
-        input_button_submit = st.form_submit_button('Atualizar')
-    if input_button_submit:
+        input_botao_alterar_fornecedor = st.form_submit_button('Atualizar')
+    if input_botao_alterar_fornecedor:
         try:
             controllers.update_fornecedores(
                 models.Fornecedor(
@@ -421,7 +419,7 @@ def update_fornecedores():
 #produtos
 def update_produtos():
     with st.form(key='update_produtos'):
-        options = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
+        opcoes_unidade_medida = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
         #formulário
         col1, col2 = st.columns([.6, .4])
         with col1:
@@ -431,9 +429,9 @@ def update_produtos():
             )
         with col2:
             input_nome_produto = st.text_input(label='Nome')
-        input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', options=options)
-        input_button_submit = st.form_submit_button('Atualizar')
-    if input_button_submit:
+        input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', options=opcoes_unidade_medida)
+        input_botao_alterar_produto = st.form_submit_button('Atualizar')
+    if input_botao_alterar_produto:
         try:
             controllers.update_produtos(
                 models.Produto(input_id_produto, input_nome_produto, input_unidade_medida_produto)
@@ -447,7 +445,7 @@ def update_produtos():
 #compras
 def update_compras():
     with st.form(key='update_compras'):
-        options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
+        opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         col1, col2 = st.columns(2)
         with col1:
             input_id_compra = st.selectbox(
@@ -468,9 +466,9 @@ def update_compras():
             input_situacao_pagamento_compra = st.selectbox(label='Situação do Pagamento', options=['Não realizada', 'Realizado'])
         with col2:
             input_situacao_entrega_compra = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'])
-        input_forma_pagamento_compra = st.selectbox(label='Forma de pagamento', options=options)
-        input_button_submit = st.form_submit_button('Atualizar')
-    if input_button_submit:
+        input_forma_pagamento_compra = st.selectbox(label='Forma de pagamento', options=opcoes_pagamento)
+        input_botao_alterar_compra = st.form_submit_button('Atualizar')
+    if input_botao_alterar_compra:
         try:
             controllers.update_compras(
                 models.Compra(
@@ -507,8 +505,8 @@ def update_compras_produtos():
             input_preco_unitario_produto_compra = st.number_input(label='Preço Unitário', format='%.2f', step=float(1)) / 10
         with col2:
             input_quantidade_produto_compra = st.text_input(label='Quantidade', placeholder='Insira a quantidade...')
-        input_button_submit = st.form_submit_button('Atualizar')
-    if input_button_submit:
+        input_botao_alterar_item_compra = st.form_submit_button('Atualizar')
+    if input_botao_alterar_item_compra:
         try:
             controllers.update_compras_produtos(
                 models.Compra(
@@ -525,7 +523,7 @@ def update_compras_produtos():
 #vendas
 def update_vendas():
     with st.form(key='update_vendas'):
-        options = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
+        opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         col1, col2 = st.columns(2)
         with col1:
             input_id_venda = st.selectbox(
@@ -552,9 +550,9 @@ def update_vendas():
             input_situacao_pagamento_venda = st.selectbox(label='Situação do Pagamento', options=['Não realizada', 'Realizado'])
         with col2:
             input_situacao_entrega_venda = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'])
-        input_forma_pagamento_venda = st.selectbox(label='Forma de pagamento', options=options)
-        input_button_submit = st.form_submit_button('Atualizar')
-    if input_button_submit:
+        input_forma_pagamento_venda = st.selectbox(label='Forma de pagamento', options=opcoes_pagamento)
+        input_botao_alterar_venda = st.form_submit_button('Atualizar')
+    if input_botao_alterar_venda:
         try:
             controllers.update_vendas(
                 models.Venda(
@@ -592,8 +590,8 @@ def update_vendas_produtos():
             input_preco_unitario_produto_venda = st.number_input(label='Preço Unitário', format='%.2f', step=float(1)) / 10
         with col2:
             input_quantidade_produto_venda = st.text_input(label='Quantidade', placeholder='Insira a quantidade...')
-        input_button_submit = st.form_submit_button('Atualizar')
-    if input_button_submit:
+        input_botao_alterar_item_venda = st.form_submit_button('Atualizar')
+    if input_botao_alterar_item_venda:
         try:
             controllers.update_vendas_produtos(
                 models.VendaProduto(
@@ -605,3 +603,92 @@ def update_vendas_produtos():
             st.error(f'Erro durante update: {e}')
     else:
         pass
+
+
+#deletes
+#---------------------------------------------------------------
+
+#compras
+def delete_compras():
+    col1, _ = st.columns(2)
+    with col1:
+        with st.form(key='delete_compras'):
+            input_id_compra = st.selectbox(
+                label='ID', 
+                placeholder='Insira o ID da compra...', 
+                options=[row[0] for row in consulta_compras()], 
+                index=None,
+
+            )
+            input_botao_excluir_compra = st.form_submit_button('Excluír')
+    if input_botao_excluir_compra:
+        try:
+            controllers.delete_compras(input_id_compra)
+        except Exception as e:
+            st.error(f'Erro durante exclusão: {e}')
+    else:
+        pass
+
+
+#itens de compra
+def delete_compras_produtos():
+    col1, _ = st.columns(2)
+    with col1:
+        with st.form(key='delete_compras_produtos'):
+            input_id_compra_produto = st.selectbox(
+                label='ID', 
+                placeholder='Insira o ID do item de compra...', 
+                options=[row[0] for row in consulta_compras_produtos()], 
+                index=None
+            )
+            input_botao_excluir_item_compra = st.form_submit_button('Excluír')
+    if input_botao_excluir_item_compra:
+        try:
+            controllers.delete_compras_produtos(input_id_compra_produto)
+        except Exception as e:
+            st.error(f'Erro durante exclusão: {e}')
+    else:
+        pass
+
+
+#vendas
+def delete_vendas():
+    col1, _ = st.columns(2)
+    with col1:
+        with st.form(key='delete_vendas'):
+            input_id_venda = st.selectbox(
+                label='ID', 
+                placeholder='Insira o ID da vendas...', 
+                options=[row[0] for row in consulta_vendas()], 
+                index=None
+            )
+            input_botao_excluir_venda = st.form_submit_button('Excluír')
+    if input_botao_excluir_venda:
+        try:
+            controllers.delete_vendas(input_id_venda)
+        except Exception as e:
+            st.error(f'Erro durante exclusão: {e}')
+    else:
+        pass
+
+
+#itens de venda
+def delete_vendas_produtos():
+    col1, _ = st.columns(2)
+    with col1:
+        with st.form(key='delete_compras_produtos'):
+            input_id_venda_produto = st.selectbox(
+                label='ID', 
+                placeholder='Insira o ID do item de venda...', 
+                options=[row[0] for row in consulta_vendas_produtos()], 
+                index=None
+            )
+            input_botao_excluir_item_venda = st.form_submit_button('Excluír')
+    if input_botao_excluir_item_venda:
+        try:
+            controllers.delete_vendas_produtos(input_id_venda_produto)
+        except Exception as e:
+            st.error(f'Erro durante exclusão: {e}')
+    else:
+        pass
+
