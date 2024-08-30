@@ -5,6 +5,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+st.set_page_config(
+    page_title='Tijolada | Cadastro', 
+    page_icon='img/ico.ico',
+    layout='wide'
+)
+
 colunas_cliente = [
     'ID', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
     'Referência', 'Situação'

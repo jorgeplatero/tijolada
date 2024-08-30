@@ -5,6 +5,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+st.set_page_config(
+    page_title='Tijolada | Compras', 
+    page_icon='img/ico.ico',
+    layout='wide'
+)
+
 colunas_compras = [
     'ID', 'Data', 'ID Fornecedor', 'Preço Total', 'Situação do Pagamento', 
     'Situação da Entrega', 'Forma de Pagamento'

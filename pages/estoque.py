@@ -5,6 +5,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+st.set_page_config(
+    page_title='Tijolada | Estoque', 
+    page_icon='img/ico.ico',
+    layout='wide'
+)
+
 colunas_estoques = ['ID', 'ID Produto', 'Quantidade']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 

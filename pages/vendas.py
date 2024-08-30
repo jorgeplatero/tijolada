@@ -5,6 +5,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+st.set_page_config(
+    page_title='Tijolada | Vendas', 
+    page_icon='img/ico.ico',
+    layout='wide'
+)
+
 colunas_venda = [
     'ID', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
     'Preço Total', 'Situação do Pagamento', 'Situação da Entrega', 'Forma de Pagamento'

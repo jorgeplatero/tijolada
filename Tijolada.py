@@ -8,6 +8,11 @@ if 'logged_in' not in st.session_state:
 
 
 def login():
+    st.set_page_config(
+        page_title='Tijolada | Cadastro', 
+        page_icon='img/ico.ico',
+        layout='wide'
+    )
     col1, col2 = st.columns([.6, .4])
     with col1:
         col3, col4 = st.columns([.2, .8])
@@ -30,17 +35,17 @@ def login():
 
 
 def logout():
-    st.success('Bem-vindo!')
+    st.set_page_config(
+        page_title='Tijolada | Configurações', 
+        page_icon='img/ico.ico',
+        layout='wide'
+        
+    )
     if st.button('Log out'):
         st.session_state.logged_in = False
         st.session_state.authentication_status = None
         st.rerun()
 
-st.set_page_config(
-    page_title='Tijolada', 
-    page_icon='🧱',
-    layout='wide'
-)
 
 login_page = st.Page(login, title='Log in', icon=':material/login:')
 logout_page = st.Page(logout, title='Configurações', icon=':material/settings:', default =True)

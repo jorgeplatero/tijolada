@@ -502,14 +502,14 @@ def update_compras_produtos():
             )
         col1, col2 = st.columns(2)
         with col1:
-            input_preco_unitario_produto_compra = st.number_input(label='Preço Unitário', format='%.2f', step=float(1)) / 10
+            input_preco_unitario_produto_compra = st.number_input(label='Preço Unitário', format='%.2f', step=float(1))
         with col2:
             input_quantidade_produto_compra = st.text_input(label='Quantidade', placeholder='Insira a quantidade...')
         input_botao_alterar_item_compra = st.form_submit_button('Atualizar')
     if input_botao_alterar_item_compra:
         try:
             controllers.update_compras_produtos(
-                models.Compra(
+                models.CompraProduto(
                         input_id_compra_produto, 0, input_produto_ID_produto, input_preco_unitario_produto_compra, 
                         input_quantidade_produto_compra
                     )
@@ -587,7 +587,7 @@ def update_vendas_produtos():
             )
         col1, col2 = st.columns(2)
         with col1:
-            input_preco_unitario_produto_venda = st.number_input(label='Preço Unitário', format='%.2f', step=float(1)) / 10
+            input_preco_unitario_produto_venda = st.number_input(label='Preço Unitário', format='%.2f', step=float(1))
         with col2:
             input_quantidade_produto_venda = st.text_input(label='Quantidade', placeholder='Insira a quantidade...')
         input_botao_alterar_item_venda = st.form_submit_button('Atualizar')
