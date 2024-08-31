@@ -9,19 +9,18 @@ if 'logged_in' not in st.session_state:
 
 def login():
     st.set_page_config(
-        page_title='Tijolada | Cadastro', 
+        page_title='Tijolada | Login', 
         page_icon='img/ico.ico',
         layout='wide'
     )
-    col1, col2 = st.columns([.6, .4])
-    with col1:
-        col3, col4 = st.columns([.2, .8])
-        with col3:
+    _, col2, _ = st.columns([.3, .4, .3])
+    with col2:
+        col1, col2 = st.columns([.4, .6])
+        with col1:
             st.image('img/logo.png')
-        with col4:
+        with col2:
             st.title('Tijolada')
             st.subheader('Materiais para sua construção')
-    with col2:
         with st.form(key='login'):
             usuario = st.text_input(label='Usuário')
             senha = st.text_input(label='Senha', type='password')
