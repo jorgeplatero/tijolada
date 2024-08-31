@@ -2,9 +2,9 @@
 
 ## Descrição do Projeto
 
-Este projeto se traduz em uma aplicação que oferece uma interface intuitiva para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. Ademais, a aplicação conta com um dashboard dinâmico desenvolvido com a biblioteca Plotly, para uma análise completa dos dados regsitrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights valiosos para a tomada de decisões do negócio.
+Este projeto consiste em uma aplicação que oferece uma interface intuitiva para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. Ademais, a aplicação conta com um dashboard dinâmico desenvolvido com a biblioteca Plotly, para uma análise completa dos dados regsitrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights valiosos para a tomada de decisões do negócio.
 
-Benefícios das ferramentas utilizadas
+**Benefícios das ferramentas utilizadas**
 
 Desenvolvimento acelerado: o Streamlit simplifica o desenvolvimento de aplicações web, permitindo a criação de interfaces rapidamente.
 Facilidade de uso: a interface amigável do Streamlit facilita a interação com o banco de dados, mesmo para usuários não técnicos.
@@ -32,4 +32,4 @@ Os dados são extraídos da interface Streamlit dada as requisições do usuári
 
 ## Fontes de Dados
 
-Os dados foram gerados para teste via Google AI Studio. Os <a style='text-decoration:none;'href='https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/prompts.txt' target='_blank'>prompts</a> e as <a style='text-decoration:none;'href='https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/inserts.sql' target='_blank'>requisições</a>, assim como as <a style='text-decoration:none;'href='https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/tables.sql' target='_blank'>tabelas</a> podem ser conultados no repositório.
+Os dados foram gerados para teste via Google AI Studio. Os [prompts](https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/prompts.txt) e as [requisições](https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/inserts.sql), assim como as [tabelas](https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/tables.sql), podem ser conultados no repositório.
