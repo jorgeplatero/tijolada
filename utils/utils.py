@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 import controllers.controllers as controllers
 import models.models as models
 
@@ -692,3 +693,154 @@ def delete_vendas_produtos():
     else:
         pass
 
+
+#formatacoes
+#---------------------------------------------------------------
+
+#valores
+def formata_valor(valor, prefixo = ''):
+    for unidade in ['', 'mil']:
+        if valor < 1000:
+            return f'{prefixo} {valor:.2f} {unidade}'
+        valor /= 1000
+    return f'{prefixo} {valor:.2f} milhões'
+
+
+#graficos
+#---------------------------------------------------------------
+
+#custo mensal no ano selecionado
+def fig_custo_mensal(df, data, meses):
+    df_compras_custo_mensal = df[df['Situação do Pagamento'] == 'Realizado']
+    df_compras_custo_mensal['Mês'] = df_compras_custo_mensal['Data'].dt.to_period('M')
+    df_compras_custo_mensal = df_compras_custo_mensal.groupby('Mês')['Custo (R$)'].sum().reset_index()
+    df_compras_custo_mensal['Mês'] = df_compras_custo_mensal['Mês'].dt.strftime('%B')
+    df_compras_custo_mensal['Mês'] = df_compras_custo_mensal['Mês'].map(meses)
+    fig = px.line(
+        data_frame=df_compras_custo_mensal, 
+        x='Mês', 
+        y='Custo (R$)',
+        text=df_compras_custo_mensal['Custo (R$)'].apply(lambda x: f'R$ {x:.2f}'),
+        hover_name='Mês'
+    )
+    fig.update_layout(
+        title=f'Custo Mensal em {data.year}',
+        xaxis_title='Mês', 
+        yaxis_showticklabels=False
+    )
+    fig.update_traces(
+        textposition='top center',
+        hovertemplate='Mês: %{hovertext}<br>Custo: R$ %{y:.2f}'
+    )
+    st.plotly_chart(fig)
+
+
+#custo por fornecedor no ano selecionado
+def fig_custo_fornecedor(df, data):
+    df_custo_por_fornecedor = df[df['Situação do Pagamento'] == 'Realizado']
+    df_custo_por_fornecedor = df_custo_por_fornecedor.groupby('Nome')['Custo (R$)'].sum().reset_index()
+    df_custo_por_fornecedor = df_custo_por_fornecedor.sort_values('Custo (R$)', ascending=False).head()
+    df_custo_por_fornecedor['Custo (R$)'] = df_custo_por_fornecedor['Custo (R$)'].astype('float64')
+    fig = px.bar(
+        data_frame=df_custo_por_fornecedor, 
+        x='Nome', 
+        y='Custo (R$)',
+        text=df_custo_por_fornecedor['Custo (R$)'].apply(lambda x: f'R$ {x:.2f}'),
+        color='Custo (R$)',
+        hover_name='Nome'
+    )
+    fig.update_layout(
+        title=f'Top 5 Clientes em {data.year}',
+        xaxis_type='category',
+        yaxis_showticklabels=False
+    )
+    fig.update_traces(
+        showlegend=False,
+        textposition='outside',
+        hovertemplate='Nome: %{hovertext}<br>Custo: R$ %{y:.2f}'
+    )
+    fig.update_xaxes(
+        tickangle=45
+    )
+    st.plotly_chart(fig)
+    
+#custo mensal por produto no ano selecionado
+def fig_custo_por_produto(df, data, produtos, meses):
+    df_custo_por_produto = df
+    df_custo_por_produto['Mês'] = df_custo_por_produto['Data'].dt.to_period('M')
+    df_custo_por_produto = df_custo_por_produto.groupby('Mês')['Custo (R$)'].sum().reset_index()
+    df_custo_por_produto['Mês'] = df_custo_por_produto['Mês'].dt.strftime('%B')
+    df_custo_por_produto['Mês'] = df_custo_por_produto['Mês'].map(meses)
+    df_custo_por_produto = df_custo_por_produto[df_custo_por_produto['Nome' in produtos]]
+    fig = px.line(
+        data_frame=df_custo_por_produto, 
+        x='Mês', 
+        y='Custo (R$)',
+        text=df_custo_por_produto['Custo (R$)'].apply(lambda x: f'R$ {x:.2f}'),
+        hover_name='Mês'
+    )
+    fig.update_layout(
+        title=f'Custo Mensal Por Produto em {data.year}',
+        xaxis_title='Mês', 
+        yaxis_showticklabels=False
+    )
+    fig.update_traces(
+        textposition='top center',
+        hovertemplate='Mês: %{hovertext}<br>Custo: R$ %{y:.2f}'
+    )
+    st.plotly_chart(fig)
+
+
+#faturamento mensal
+def fig_faturamento_mensal(df, data, meses):
+    df_vendas_faturamento_mensal = df[df['Situação do Pagamento'] == 'Realizado']
+    df_vendas_faturamento_mensal['Mês'] = df_vendas_faturamento_mensal['Data'].dt.to_period('M')
+    df_vendas_faturamento_mensal = df_vendas_faturamento_mensal.groupby('Mês')['Faturamento (R$)'].sum().reset_index()
+    df_vendas_faturamento_mensal['Mês'] = df_vendas_faturamento_mensal['Mês'].dt.strftime('%B')
+    df_vendas_faturamento_mensal['Mês'] = df_vendas_faturamento_mensal['Mês'].map(meses)
+    fig = px.line(
+        data_frame=df_vendas_faturamento_mensal, 
+        x='Mês', 
+        y='Faturamento (R$)',
+        text=df_vendas_faturamento_mensal['Faturamento (R$)'].apply(lambda x: f'R$ {x:.2f}'),
+        hover_name='Mês'
+    )
+    fig.update_layout(
+        title=f'Faturamento Mensal em {data.year}',
+        xaxis_title='Mês', 
+        yaxis_showticklabels=False
+    )
+    fig.update_traces(
+        textposition='top center',
+        hovertemplate='Mês: %{hovertext}<br>Faturamento: R$ %{y:.2f}'
+    )
+    st.plotly_chart(fig)
+    
+
+def fig_faturamento_cliente(df, data):
+    df_faturamento_por_cliente = df[df['Situação do Pagamento'] == 'Realizado']
+    df_faturamento_por_cliente = df_faturamento_por_cliente.groupby('Nome')['Faturamento (R$)'].sum().reset_index()
+    df_faturamento_por_cliente = df_faturamento_por_cliente.sort_values('Faturamento (R$)', ascending=False).head()
+    df_faturamento_por_cliente['Faturamento (R$)'] = df_faturamento_por_cliente['Faturamento (R$)'].astype('float64')
+    fig = px.bar(
+        data_frame=df_faturamento_por_cliente, 
+        x='Nome', 
+        y='Faturamento (R$)',
+        text=df_faturamento_por_cliente['Faturamento (R$)'].apply(lambda x: f'R$ {x:.2f}'),
+        color='Faturamento (R$)',
+        hover_name='Nome'
+    )
+    fig.update_layout(
+        title=f'Top 5 Clientes em {data.year}',
+        xaxis_type='category',
+        yaxis_showticklabels=False
+    )
+    fig.update_traces(
+        showlegend=False,
+        textposition='outside',
+        hovertemplate='Nome: %{hovertext}<br>Faturamento: R$ %{y:.2f}'
+    )
+    fig.update_xaxes(
+        tickangle=45
+    )
+    st.plotly_chart(fig)
