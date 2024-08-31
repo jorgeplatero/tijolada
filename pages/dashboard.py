@@ -142,11 +142,11 @@ with tab1:
     #dashboard
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric(f'**Custo total em {data.day}/{data.month}/{data.year}**', f'R$ {total_custo_dia}')
+        st.metric('**Custo total do dia**', f'R$ {total_custo_dia}')
     with col2:
-        st.metric(f'**Custo total em {data.month}/{data.year}**', f'R$ {total_custo_mes}')
+        st.metric('**Custo total do mês**', f'R$ {total_custo_mes}')
     with col3:
-        st.metric(f'**Custo total em {data.year}**', f'R$ {total_custo_ano}')
+        st.metric('**Custo total do ano**', f'R$ {total_custo_ano}')
     #graficos
     st.plotly_chart(fig_custo_mensal)
     st.plotly_chart(fig_custo_fornecedor)
@@ -174,9 +174,9 @@ with tab2:
     df_clientes = pd.merge(df_vendas, df_clientes, how='outer', on='ID Cliente')
     #cards
     #---------------------------------------------------------------
-    total_faturado_dia = formata_valor(df_vendas[(df_vendas.Data.dt.date == data) & (df_vendas['Situação do Pagamento'] == 'Realizado')]['Faturamento (R$)'].astype('float').sum())
-    total_faturado_mes = formata_valor(df_vendas[(df_vendas.Data.dt.month == data.month) & (df_vendas['Situação do Pagamento'] == 'Realizado')]['Faturamento (R$)'].astype('float').sum())
-    total_faturado_ano = formata_valor(df_vendas[df_vendas['Situação do Pagamento'] == 'Realizado']['Faturamento (R$)'].astype('float').sum())
+    total_faturamento_dia = formata_valor(df_vendas[(df_vendas.Data.dt.date == data) & (df_vendas['Situação do Pagamento'] == 'Realizado')]['Faturamento (R$)'].astype('float').sum())
+    total_faturamento_mes = formata_valor(df_vendas[(df_vendas.Data.dt.month == data.month) & (df_vendas['Situação do Pagamento'] == 'Realizado')]['Faturamento (R$)'].astype('float').sum())
+    total_faturamento_ano = formata_valor(df_vendas[df_vendas['Situação do Pagamento'] == 'Realizado']['Faturamento (R$)'].astype('float').sum())
 
     #figuras
     #---------------------------------------------------------------
@@ -233,11 +233,11 @@ with tab2:
     #dashboard
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric(f'**Total faturado em {data.day}/{data.month}/{data.year}**', f'R$ {total_faturado_dia}')
+        st.metric('**Faturamento total do dia**', f'R$ {total_faturamento_dia}')
     with col2:
-        st.metric(f'**Total faturado em {data.month}/{data.year}**', f'R$ {total_faturado_mes}')
+        st.metric('**Faturamento total do mes**', f'R$ {total_faturamento_mes}')
     with col3:
-        st.metric(f'**Total faturado em {data.year}**', f'R$ {total_faturado_ano}')
+        st.metric('**Faturamento total do ano**', f'R$ {total_faturamento_ano}')
     #graficos
     st.plotly_chart(fig_faturamento_mensal)
     st.plotly_chart(fig_faturamento_cliente)
