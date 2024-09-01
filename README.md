@@ -2,20 +2,22 @@
 
 ## Descrição do Projeto
 
-Este projeto consiste em uma aplicação que oferece uma interface para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. Ademais, a aplicação conta com um dashboard dinâmico desenvolvido com a biblioteca Plotly, para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights valiosos para a tomada de decisões do negócio.
+Este projeto consiste em uma aplicação que oferece uma interface para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico desenvolvido com a biblioteca Plotly para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights para a tomada de decisões do negócio.
 
 **Benefícios das ferramentas utilizadas**
 
-⚡Desenvolvimento acelerado: o Streamlit simplifica o desenvolvimento de aplicações web, permitindo a criação e alteração de interfaces rapidamente.
-💡Análise de dados aprimorada: o dashboard de Plotly oferece insights valiosos sobre os dados, permitindo uma melhor tomada de decisões.
+⚡Desenvolvimento acelerado: o Streamlit simplifica o desenvolvimento de aplicações web, permitindo a criação e alteração de interfaces de forma rápida e eficiente.
+
+💡Análise de dados aprimorada: um dashboard construído com a biblioteca Plotly é dinâmico e suporta uma infinidade de customizações.
 
 ## Arquitetura do Projeto
 
+<img src='https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/arquitetura_projeto_crud.png' width='300'/>
 ![arquitetura do projeto](https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/arquitetura_projeto_crud.png)
 
 ### Banco de Dados
 
-O ERD abaixo ilustra o esquema utilizado.
+O banco de dados conta com triggers que têm por funcionalidade inserir os valores totais de compras e vendas dado de itens de compra que contêm e também de atualizar o estoque dada compra ou venda de produtos. O ERD abaixo ilustra o esquema utilizado.
 
 ![erd](https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/erd_tijolada.png)
 
@@ -31,4 +33,4 @@ Os dados são extraídos da interface Streamlit dada as requisições do usuári
 
 ## Fontes de Dados
 
-Os dados foram gerados para teste via Google AI Studio. Os [prompts](https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/prompts.txt) e as [requisições](https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/inserts.sql), assim como as [tabelas](https://github.com/jorgeplatero/building_supply_stock/blob/2cbf74051f8710545d9bb2e31f8365c1bf8d1242/services/tables.sql), podem ser conultados no repositório.
+Os dados foram gerados para teste via [Google AI Studio](https://aistudio.google.com/app/prompts/new_chat?pli=1). Os prompts e os comandos SQL utilizados para construção da base de dados e inserção de dados estão disponíveis neste [repositório](https://github.com/jorgeplatero/building_supply_stock/tree/cff6147441cef4ab3b8044f47283de4e42f504aa/services).
