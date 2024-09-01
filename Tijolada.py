@@ -1,8 +1,16 @@
 import streamlit as st
+import os
 import warnings
 warnings.filterwarnings('ignore')
 
 
+#importando o arquivo CSS
+current_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(current_dir, 'style.css')
+
+with open(file_path) as f:
+    css = f.read()
+    
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
@@ -22,8 +30,8 @@ def login():
             st.title('Tijolada')
             st.subheader('Materiais para sua construção')
         with st.form(key='login'):
-            usuario = st.text_input(label='Usuário')
-            senha = st.text_input(label='Senha', type='password')
+            usuario = st.text_input(label='**Usuário**')
+            senha = st.text_input(label='**Senha**', type='password')
             botao_login = st.form_submit_button('Entrar')
         if botao_login:
             if usuario == st.secrets['usuario'] and senha == st.secrets['senha']:
@@ -73,3 +81,5 @@ else:
     pg = st.navigation([login_page])
     
 pg.run()
+
+st.write(f'<style>{css}</style>', unsafe_allow_html=True)
