@@ -16,12 +16,12 @@ colunas_venda = [
     'ID Venda', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
     'Faturamento (R$)', 'Situação do Pagamento', 'Situação da Entrega', 'Forma de Pagamento'
 ]
-colunas_vendas_produtos = ['ID Item Compra', 'ID Venda', 'ID Produto', 'Preço Unitário', 'Quantidade']
+colunas_vendas_produtos = ['ID Item Compra', 'ID Venda', 'ID Produto', 'Preço Unitário (R$)', 'Quantidade']
 colunas_compras = [
     'ID Compra', 'Data', 'ID Fornecedor', 'Custo (R$)', 'Situação do Pagamento', 
     'Situação da Entrega', 'Forma de Pagamento'
 ]
-colunas_compras_produtos = ['ID Item Compra', 'ID Compra', 'ID Produto', 'Preço Unitário', 'Quantidade']
+colunas_compras_produtos = ['ID Item Compra', 'ID Compra', 'ID Produto', 'Preço Unitário (R$)', 'Quantidade']
 colunas_cliente = [
     'ID Cliente', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
     'Referência', 'Situação'
@@ -29,20 +29,6 @@ colunas_cliente = [
 colunas_fornecedor = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 colunas_estoques = ['ID Estoque', 'ID Produto', 'Quantidade']
-meses = {
-    'January': 'Janeiro',
-    'February': 'Fevereiro',
-    'March': 'Março',
-    'April': 'Abril',
-    'May': 'Maio',
-    'June': 'Junho',
-    'July': 'Julho',
-    'August': 'Agosto',
-    'September': 'Setembro',
-    'October': 'Outubro',
-    'November': 'Novembro',
-    'December': 'Dezembro'
-}
 
 #título da página
 col1, col2 = st.columns([.2, .8])
@@ -56,14 +42,6 @@ with col2:
 tab1, tab2, tab3, tab4 = st.tabs(['Compras', 'Vendas', 'Produtos', 'Estoque'])
 
 with tab1:
-    colunas_compras = [
-    'ID Compra', 'Data', 'ID Fornecedor', 'Custo (R$)', 'Situação do Pagamento', 
-    'Situação da Entrega', 'Forma de Pagamento'
-    ]
-    colunas_compras_produtos = ['ID Item Compra', 'ID Compra', 'ID Produto', 'Preço Unitário', 'Quantidade']
-    colunas_fornecedor = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
-    colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
-    
     st.subheader('Indicadores de Compras 🛒')
     st.write('')
     #seletor data
@@ -86,8 +64,8 @@ with tab1:
     #produtos no ano selecionado
     df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
     df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_compras_produtos)
-    df_compras_produtos = pd.merge(df_compras, df_compras_produtos, how='outer', on='ID Compra')
-    df_compras_produtos = pd.merge(df_compras_produtos, df_produtos, how='outer', on='ID Produto')
+    df_compras_produtos = pd.merge(df_compras_produtos, df_compras, how='outer', on='ID Compra')
+    df_compras_produtos = pd.merge(df_compras_produtos, df_produtos, how='left', on='ID Produto')
     #cards
     #---------------------------------------------------------------
     total_custo_dia = utils.formata_valor(df_compras[(df_compras.Data.dt.date == data) & (df_compras['Situação do Pagamento'] == 'Realizado')]['Custo (R$)'].astype('float').sum())
@@ -96,42 +74,30 @@ with tab1:
     #dashboard
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric('**Custo total do dia**', f'R$ {total_custo_dia}')
+        st.metric('**Despesa do dia**', f'R$ {total_custo_dia}')
     with col2:
-        st.metric('**Custo total do mês**', f'R$ {total_custo_mes}')
+        st.metric('**Despesa do mês**', f'R$ {total_custo_mes}')
     with col3:
-        st.metric('**Custo total do ano**', f'R$ {total_custo_ano}')
+        st.metric('**Despesa do ano**', f'R$ {total_custo_ano}')
     #graficos
     #---------------------------------------------------------------
     #custo mensal no ano selecionado
-    utils.fig_custo_mensal(df_compras, data, meses)
+    utils.fig_custo_mensal(df_compras, data)
     #custo por fornecedor no ano selecionado
     utils.fig_custo_fornecedor(df_fornecedor, data)
     #custo mensal por produto no ano selecionado
-    df_compras_produtos
     input_produtos = st.multiselect(
         key='seletor_produtos_compra',
-        label='Produtos',
+        label='**Produtos**',
         options=[row[1] for row in utils.consulta_produtos()],
-        default=[row[1] for row in utils.consulta_produtos()],
+        default=[row[1] for row in utils.consulta_produtos()][0],
         max_selections=10,
         help='Selecione produtos para análise'
     )
-    produtos = list(input_produtos.values())
-    utils.fig_custo_por_produto(df_compras_produtos, data, produtos, meses)
-    st.warning('Em desenvolvimento')
+    produtos = list(input_produtos)
+    utils.fig_custo_por_produto(df_compras_produtos, data, produtos)
 
 with tab2:
-    colunas_venda = [
-    'ID Venda', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
-    'Faturamento (R$)', 'Situação do Pagamento', 'Situação da Entrega', 'Forma de Pagamento'
-    ]
-    colunas_vendas_produtos = ['ID Item Compra', 'ID Venda', 'ID Produto', 'Preço Unitário', 'Quantidade']
-    colunas_cliente = [
-    'ID Cliente', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
-    'Referência', 'Situação'
-    ]
-    
     st.subheader('Indicadores de Vendas 🛒')
     st.write('')
     #seletor data
@@ -154,7 +120,7 @@ with tab2:
     #cards
     #---------------------------------------------------------------
     total_faturamento_dia = utils.formata_valor(df_vendas[(df_vendas.Data.dt.date == data) & (df_vendas['Situação do Pagamento'] == 'Realizado')]['Faturamento (R$)'].astype('float').sum())
-    total_faturamento_mes = utils.(df_vendas[(df_vendas.Data.dt.month == data.month) & (df_vendas['Situação do Pagamento'] == 'Realizado')]['Faturamento (R$)'].astype('float').sum())
+    total_faturamento_mes = utils.formata_valor(df_vendas[(df_vendas.Data.dt.month == data.month) & (df_vendas['Situação do Pagamento'] == 'Realizado')]['Faturamento (R$)'].astype('float').sum())
     total_faturamento_ano = utils.formata_valor(df_vendas[df_vendas['Situação do Pagamento'] == 'Realizado']['Faturamento (R$)'].astype('float').sum())
     #dashboard
     #---------------------------------------------------------------
@@ -162,18 +128,17 @@ with tab2:
     #---------------------------------------------------------------
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric('**Faturamento total do dia**', f'R$ {total_faturamento_dia}')
+        st.metric('**Faturamento do dia**', f'R$ {total_faturamento_dia}')
     with col2:
-        st.metric('**Faturamento total do mes**', f'R$ {total_faturamento_mes}')
+        st.metric('**Faturamento do mes**', f'R$ {total_faturamento_mes}')
     with col3:
-        st.metric('**Faturamento total do ano**', f'R$ {total_faturamento_ano}')
+        st.metric('**Faturamento do ano**', f'R$ {total_faturamento_ano}')
     #graficos
     #---------------------------------------------------------------
     #faturamento mensal
-    utils.fig_faturamento_mensal(df_vendas, data, meses)
+    utils.fig_faturamento_mensal(df_vendas, data)
     #faturamento por cliente
     utils.fig_faturamento_cliente(df_clientes, data)
-    st.warning('Em desenvolvimento')
 
 with tab3:
     st.subheader('Produtos 🛍️')

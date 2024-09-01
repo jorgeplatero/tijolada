@@ -40,6 +40,13 @@ def logout():
         layout='wide'
         
     )
+    #título da página
+    col1, col2 = st.columns([.2, .8])
+    with col1:
+        st.image('img/logo.png')
+    with col2:
+        st.title('Tijolada')
+        st.subheader('Configurações')
     if st.button('Log out'):
         st.session_state.logged_in = False
         st.session_state.authentication_status = None

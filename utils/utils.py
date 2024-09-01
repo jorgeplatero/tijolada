@@ -709,33 +709,33 @@ def formata_valor(valor, prefixo = ''):
 #graficos
 #---------------------------------------------------------------
 
-#custo mensal no ano selecionado
-def fig_custo_mensal(df, data, meses):
-    df_compras_custo_mensal = df[df['Situação do Pagamento'] == 'Realizado']
-    df_compras_custo_mensal['Mês'] = df_compras_custo_mensal['Data'].dt.to_period('M')
-    df_compras_custo_mensal = df_compras_custo_mensal.groupby('Mês')['Custo (R$)'].sum().reset_index()
-    df_compras_custo_mensal['Mês'] = df_compras_custo_mensal['Mês'].dt.strftime('%B')
-    df_compras_custo_mensal['Mês'] = df_compras_custo_mensal['Mês'].map(meses)
+#evolução de despesas no ano selecionado
+def fig_custo_mensal(df, data):
+    df_compras_custo_mensal = df.sort_values('Data')
+    df_compras_custo_mensal['Data'] = df_compras_custo_mensal['Data'].dt.date
+    df_compras_custo_mensal = df_compras_custo_mensal[df_compras_custo_mensal['Situação do Pagamento'] == 'Realizado']
+    df_compras_custo_mensal = df_compras_custo_mensal.groupby('Data')['Custo (R$)'].sum().reset_index()
     fig = px.line(
         data_frame=df_compras_custo_mensal, 
-        x='Mês', 
+        x='Data', 
         y='Custo (R$)',
-        text=df_compras_custo_mensal['Custo (R$)'].apply(lambda x: f'R$ {x:.2f}'),
-        hover_name='Mês'
+        color_discrete_sequence=['#00441b'],
+        hover_name='Data',
+        labels={'Custo (R$)': 'Despesa (R$)'}
     )
     fig.update_layout(
-        title=f'Custo Mensal em {data.year}',
-        xaxis_title='Mês', 
-        yaxis_showticklabels=False
+        title=f'Evolução de Despesas em {data.year}',
+        xaxis_title='Data', 
+        yaxis_showticklabels=True
     )
     fig.update_traces(
         textposition='top center',
-        hovertemplate='Mês: %{hovertext}<br>Custo: R$ %{y:.2f}'
+        hovertemplate='Data: %{hovertext}<br>Custo: R$ %{y:.2f}'
     )
     st.plotly_chart(fig)
 
 
-#custo por fornecedor no ano selecionado
+#despesa por fornecedor no ano selecionado
 def fig_custo_fornecedor(df, data):
     df_custo_por_fornecedor = df[df['Situação do Pagamento'] == 'Realizado']
     df_custo_por_fornecedor = df_custo_por_fornecedor.groupby('Nome')['Custo (R$)'].sum().reset_index()
@@ -747,7 +747,9 @@ def fig_custo_fornecedor(df, data):
         y='Custo (R$)',
         text=df_custo_por_fornecedor['Custo (R$)'].apply(lambda x: f'R$ {x:.2f}'),
         color='Custo (R$)',
-        hover_name='Nome'
+        color_continuous_scale='Greens',
+        hover_name='Nome',
+        labels={'Custo (R$)': 'Despesa (R$)'}
     )
     fig.update_layout(
         title=f'Top 5 Clientes em {data.year}',
@@ -763,56 +765,53 @@ def fig_custo_fornecedor(df, data):
         tickangle=45
     )
     st.plotly_chart(fig)
-    
-#custo mensal por produto no ano selecionado
-def fig_custo_por_produto(df, data, produtos, meses):
-    df_custo_por_produto = df
-    df_custo_por_produto['Mês'] = df_custo_por_produto['Data'].dt.to_period('M')
-    df_custo_por_produto = df_custo_por_produto.groupby('Mês')['Custo (R$)'].sum().reset_index()
-    df_custo_por_produto['Mês'] = df_custo_por_produto['Mês'].dt.strftime('%B')
-    df_custo_por_produto['Mês'] = df_custo_por_produto['Mês'].map(meses)
-    df_custo_por_produto = df_custo_por_produto[df_custo_por_produto['Nome' in produtos]]
+
+#evolução da média de preços por produto no ano selecionad
+def fig_custo_por_produto(df, data, produtos):
+    df_custo_por_produto = df.sort_values('Data')
+    df_custo_por_produto['Data'] = df_custo_por_produto['Data'].dt.date
+    df_custo_por_produto = df_custo_por_produto.groupby(['Data', 'Nome'])['Preço Unitário (R$)'].median().reset_index().sort_values('Data')
+    df_custo_por_produto = df_custo_por_produto[df_custo_por_produto['Nome'].isin(produtos)]
     fig = px.line(
         data_frame=df_custo_por_produto, 
-        x='Mês', 
-        y='Custo (R$)',
-        text=df_custo_por_produto['Custo (R$)'].apply(lambda x: f'R$ {x:.2f}'),
-        hover_name='Mês'
+        x='Data', 
+        y='Preço Unitário (R$)',
+        text=df_custo_por_produto['Preço Unitário (R$)'].apply(lambda x: f'R$ {x:.2f}'),
+        hover_name='Nome',
+        color='Nome'
     )
     fig.update_layout(
-        title=f'Custo Mensal Por Produto em {data.year}',
-        xaxis_title='Mês', 
+        title=f'Evolução do Preço Médio Por Produto em {data.year}',
+        xaxis_title='Data', 
         yaxis_showticklabels=False
     )
     fig.update_traces(
         textposition='top center',
-        hovertemplate='Mês: %{hovertext}<br>Custo: R$ %{y:.2f}'
+        hovertemplate='Produto: %{hovertext}<br>Preço Unitário (R$): %{y:.2f}<br>Data: %{x}'
     )
     st.plotly_chart(fig)
 
 
-#faturamento mensal
-def fig_faturamento_mensal(df, data, meses):
-    df_vendas_faturamento_mensal = df[df['Situação do Pagamento'] == 'Realizado']
-    df_vendas_faturamento_mensal['Mês'] = df_vendas_faturamento_mensal['Data'].dt.to_period('M')
-    df_vendas_faturamento_mensal = df_vendas_faturamento_mensal.groupby('Mês')['Faturamento (R$)'].sum().reset_index()
-    df_vendas_faturamento_mensal['Mês'] = df_vendas_faturamento_mensal['Mês'].dt.strftime('%B')
-    df_vendas_faturamento_mensal['Mês'] = df_vendas_faturamento_mensal['Mês'].map(meses)
+#evolucao do faturamento no ano selecionado
+def fig_faturamento_mensal(df, data):
+    df_vendas_faturamento_mensal = df.sort_values('Data')
+    df_vendas_faturamento_mensal['Data'] = df_vendas_faturamento_mensal['Data'].dt.date
+    df_vendas_faturamento_mensal = df_vendas_faturamento_mensal[df_vendas_faturamento_mensal['Situação do Pagamento'] == 'Realizado']
+    df_vendas_faturamento_mensal = df_vendas_faturamento_mensal.groupby('Data')['Faturamento (R$)'].sum().reset_index()
     fig = px.line(
         data_frame=df_vendas_faturamento_mensal, 
-        x='Mês', 
+        x='Data', 
         y='Faturamento (R$)',
-        text=df_vendas_faturamento_mensal['Faturamento (R$)'].apply(lambda x: f'R$ {x:.2f}'),
-        hover_name='Mês'
+        color_discrete_sequence=['#00441b'],
+        hover_name='Data'
     )
     fig.update_layout(
         title=f'Faturamento Mensal em {data.year}',
-        xaxis_title='Mês', 
-        yaxis_showticklabels=False
+        xaxis_title='Data'
     )
     fig.update_traces(
         textposition='top center',
-        hovertemplate='Mês: %{hovertext}<br>Faturamento: R$ %{y:.2f}'
+        hovertemplate='Data: %{hovertext}<br>Faturamento: R$ %{y:.2f}'
     )
     st.plotly_chart(fig)
     
@@ -828,6 +827,7 @@ def fig_faturamento_cliente(df, data):
         y='Faturamento (R$)',
         text=df_faturamento_por_cliente['Faturamento (R$)'].apply(lambda x: f'R$ {x:.2f}'),
         color='Faturamento (R$)',
+        color_continuous_scale='Greens',
         hover_name='Nome'
     )
     fig.update_layout(
