@@ -1,9 +1,8 @@
 [data-testid='stForm'] {
-    background: #FEE135; /* Cor de fundo do formulário */
-    padding: 20px; /* Espaçamento interno do formulário */
-    /*border-radius: 10px; /* Arredondar as bordas do formulário */
-    border: none;
-    box-shadow: 5px 5px 5px #262730; /* Sombra leve */
+    background: #FEE135; 
+    padding: 20px; 
+    border: 1px solid #262730;
+    box-shadow: 5px 5px 5px #262730;
 }
 
 [data-testid='stForm'] input[type='text'],
@@ -11,32 +10,35 @@
 [data-testid='stForm'] input[type='password'],
 [data-testid='stForm'] textarea {
     background: #FFFFFF;
+    border: none;
 }
 
 [data-testid='stForm'] .stButton > button {
-    background: #f0f0f5; /* Cor de fundo ao passar o mouse */
-    color: #262730; /* Cor do texto do botão */
-    border: none; /* Borda */
+    background: #f0f0f5; 
+    color: #262730;
+    border: 1px solid #262730;
+    box-shadow: 5px 5px 5px #262730;
 }
 
-[data-testid="stForm"] .stButton > button:hover {
-    background: #262730; /* Cor de fundo do botão */
-    color: #f0f0f5; /* Cor do texto do botão */
-    border: none; /* Borda */
+[data-testid='stForm'] .stButton > button:hover {
+    background: #262730;
+    color: #f0f0f5;
+    border: 1px solid #262730; 
+    box-shadow: none;
 }
 
 .stButton > button {
-    background: #262730; /* Cor de fundo do botão */
-    color: #f0f0f5; /* Cor do texto do botão */
-    border: none; /* Borda */
+    background: #f0f0f5;
+    color: #262730;
+    border: 1px solid #262730;
+    width: 70px;
+    box-sizing: border-box;
+    box-shadow: 5px 5px 5px #262730;
 }
 
 .stButton > button:hover {
-    background: #f0f0f5; /* Cor de fundo do botão */
-    color: #262730; /* Cor do texto do botão */
-    border: 1px solid #262730; /* Borda */
-}
-
-[data-testid="stForm"] input[type='password'] label > div > span {
-    font-weight: bold; /* Texto das labels em negrito */
+    background: #262730;
+    color: #f0f0f5;
+    border: 1px solid #262730;
+    box-shadow: none;
 }

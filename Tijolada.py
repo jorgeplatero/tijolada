@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import time
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -10,7 +11,7 @@ file_path = os.path.join(current_dir, 'style.css')
 
 with open(file_path) as f:
     css = f.read()
-    
+
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
@@ -32,13 +33,13 @@ def login():
         with st.form(key='login'):
             usuario = st.text_input(label='**Usuário**')
             senha = st.text_input(label='**Senha**', type='password')
-            botao_login = st.form_submit_button('Entrar')
+            botao_login = st.form_submit_button('**Entrar**')
         if botao_login:
             if usuario == st.secrets['usuario'] and senha == st.secrets['senha']:
                 st.session_state.logged_in = True
                 st.rerun()
             else:
-                st.error('Aceso negado! Usuário e/ou senha incorretos.')
+                st.error('Acesso negado! Usuário e/ou senha incorretos.')
 
 
 def logout():
@@ -46,7 +47,7 @@ def logout():
         page_title='Tijolada | Configurações', 
         page_icon='img/ico.ico',
         layout='wide'
-        
+
     )
     #título da página
     col1, col2 = st.columns([.2, .8])
@@ -55,7 +56,8 @@ def logout():
     with col2:
         st.title('Tijolada')
         st.subheader('Configurações')
-    if st.button('Log out'):
+    st.write('Bem-vindo ao Tijolada!')
+    if st.button('**Sair**'):
         st.session_state.logged_in = False
         st.session_state.authentication_status = None
         st.rerun()
@@ -79,7 +81,7 @@ if st.session_state.logged_in:
     )
 else:
     pg = st.navigation([login_page])
-    
+
 pg.run()
 
 st.write(f'<style>{css}</style>', unsafe_allow_html=True)
