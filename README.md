@@ -1,6 +1,6 @@
 # CRUD com PostgreSQL e Streamlit
 
-![logo do projeto](https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/logo.png)
+<img src='https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/logo.png' width='150'/>
 
 ## Descrição do Projeto
 
