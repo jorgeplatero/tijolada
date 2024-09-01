@@ -19,13 +19,14 @@ colunas_itens_venda = ['ID', 'ID Venda', 'ID Produto', 'Preço Unitário', 'Quan
 colunas_estoques = ['ID', 'ID Produto', 'Quantidade em Estoque']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 
+#titulo da pagina
 col1, col2 = st.columns([.2, .8])
 with col1:
     st.image('img/logo.png')
 with col2:
     st.title('Tijolada')
     st.subheader('Vendas')
-
+    
 #menu
 opcoes_menu_vendas = st.selectbox(
     '**Operações**', 
@@ -33,7 +34,7 @@ opcoes_menu_vendas = st.selectbox(
     index=None,
     placeholder='Selecione uma opção do menu...'                          
 )
-
+#opcao cadastrar
 if opcoes_menu_vendas == 'Cadastrar':
     #formulario
     utils.insert_vendas()
@@ -46,7 +47,7 @@ if opcoes_menu_vendas == 'Cadastrar':
         st.dataframe(df_estoques_produtos.sort_values(by='ID Produto'), hide_index=True)
     except Exception as e:
         print(st.error(f'Erro durante consulta: {e}'))
-
+#opcao alterar
 elif opcoes_menu_vendas == 'Alterar':
     opcoes_alterar = st.radio(
         '**Opções**', ['Venda', 'Itens de Venda'], 
@@ -56,7 +57,6 @@ elif opcoes_menu_vendas == 'Alterar':
         ], 
         horizontal=True
     )
-    
     if opcoes_alterar == 'Venda':
         #formulario
         utils.update_vendas()
@@ -66,7 +66,6 @@ elif opcoes_menu_vendas == 'Alterar':
             st.dataframe(df_vendas.sort_values(by='ID'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
-        
     elif opcoes_alterar == 'Itens de Venda':
         #formulario
         utils.update_vendas_produtos()
@@ -76,7 +75,7 @@ elif opcoes_menu_vendas == 'Alterar':
             st.dataframe(df_vendas_produtos.sort_values(by='ID'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')  
-
+#opcao excluir
 elif opcoes_menu_vendas == 'Excluír':
     opcoes_excluir = st.radio(
         '**Opções**', ['Venda', 'Itens de Venda'], 
@@ -104,7 +103,7 @@ elif opcoes_menu_vendas == 'Excluír':
             st.dataframe(df_vendas_produtos.sort_values(by='ID'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
-
+#opcao consultar
 elif opcoes_menu_vendas == 'Consultar':
     opcoes_consultar = st.radio(
         '**Opções**', ['Venda', 'Itens de Venda'], 

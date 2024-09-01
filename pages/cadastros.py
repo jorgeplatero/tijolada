@@ -18,6 +18,7 @@ colunas_cliente = [
 colunas_fornecedor = ['ID', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
 colunas_produtos = ['ID', 'Nome', 'Unidade de Medida']
 
+#titulo da pagina
 col1, col2 = st.columns([.2, .8])
 with col1:
     st.image('img/logo.png')
@@ -32,7 +33,7 @@ opcao_menu_cadastros = st.selectbox(
     index=None,
     placeholder='Selecione uma opção do menu...'                          
 )
-
+#opcao cliente
 if opcao_menu_cadastros == 'Cliente':
     opcoes_cadastro_clientes = st.radio(
         '**Operação**', ['Cadastrar', 'Alterar'], 
@@ -54,7 +55,7 @@ if opcao_menu_cadastros == 'Cliente':
         st.dataframe(df_clientes.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
-        
+#opcao fornecedor        
 elif opcao_menu_cadastros == 'Fornecedor':
     opcoes_cadastro_fornecedor = st.radio(
         '**Operação**', ['Cadastrar', 'Alterar'], 
@@ -76,7 +77,7 @@ elif opcao_menu_cadastros == 'Fornecedor':
         st.dataframe(df_fornecedores.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
-    
+#opcao cadastro
 elif opcao_menu_cadastros == 'Produto':
     opcoes_cadastro_produto = st.radio(
         '**Operação**', ['Cadastrar', 'Alterar'], 

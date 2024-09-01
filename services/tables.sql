@@ -1,6 +1,5 @@
---tabelas
-
 --fornecedor
+----------------------------------------------------------------
 CREATE TABLE fornecedor (
     ID_fornecedor SERIAL PRIMARY KEY,
     nome_fornecedor VARCHAR(100) UNIQUE NOT NULL,
@@ -11,6 +10,7 @@ CREATE TABLE fornecedor (
 );
 
 --produto
+----------------------------------------------------------------
 CREATE TABLE produto (
     ID_produto SERIAL PRIMARY KEY,
     nome_produto VARCHAR(255) UNIQUE NOT NULL,
@@ -18,6 +18,7 @@ CREATE TABLE produto (
 );
 
 --compra
+----------------------------------------------------------------
 CREATE TABLE compra (
     ID_compra SERIAL PRIMARY KEY,
     data_compra TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
@@ -28,6 +29,8 @@ CREATE TABLE compra (
     forma_pagamento_compra VARCHAR(50)
 );
 
+--itens de compra
+----------------------------------------------------------------
 CREATE TABLE compra_produto (
     ID_compra_produto SERIAL PRIMARY KEY,
     compra_ID_compra INTEGER REFERENCES compra (ID_compra) ON UPDATE CASCADE,
@@ -37,6 +40,7 @@ CREATE TABLE compra_produto (
 );
 
 --estoque
+----------------------------------------------------------------
 CREATE TABLE estoque (
     ID_estoque SERIAL PRIMARY KEY,
     produto_ID_produto INTEGER REFERENCES produto (ID_produto) ON UPDATE CASCADE,
@@ -44,6 +48,7 @@ CREATE TABLE estoque (
 );
 
 --cliente
+----------------------------------------------------------------
 CREATE TABLE cliente (
     ID_cliente SERIAL PRIMARY KEY,
     nome_cliente VARCHAR(100) UNIQUE NOT NULL,
@@ -57,6 +62,7 @@ CREATE TABLE cliente (
 );
 
 --venda
+----------------------------------------------------------------
 CREATE TABLE venda (
     ID_venda SERIAL PRIMARY KEY,
 	data_venda TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
@@ -70,6 +76,8 @@ CREATE TABLE venda (
     forma_pagamento_venda VARCHAR(50)
 );
 
+--itens de venda
+----------------------------------------------------------------
 CREATE TABLE venda_produto (
     ID_venda_produto SERIAL PRIMARY KEY,
     venda_ID_venda INTEGER REFERENCES venda (ID_venda) ON UPDATE CASCADE,

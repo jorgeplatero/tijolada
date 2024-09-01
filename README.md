@@ -1,12 +1,14 @@
 # CRUD com PostgreSQL e Streamlit
 
+![logo do projeto](https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/logo.png)
+
 ## Descrição do Projeto
 
 Este projeto consiste em uma aplicação que oferece uma interface para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico desenvolvido com a biblioteca Plotly para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights para a tomada de decisões do negócio.
 
 **Benefícios das ferramentas utilizadas**
 
-⚡Desenvolvimento acelerado: o Streamlit simplifica o desenvolvimento de aplicações web, permitindo a criação e alteração de interfaces de forma rápida e eficiente.
+🚀Desenvolvimento acelerado: o Streamlit simplifica o desenvolvimento de aplicações web, permitindo a criação e alteração de interfaces de forma rápida e eficiente.
 
 💡Análise de dados aprimorada: um dashboard construído com a biblioteca Plotly é dinâmico e suporta uma infinidade de customizações.
 

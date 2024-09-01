@@ -1,7 +1,5 @@
---triggers
-
 --venda
-
+----------------------------------------------------------------
 --trigger para atualizar preço total de uma venda
 CREATE OR REPLACE FUNCTION calcular_preco_total_venda()
 RETURNS TRIGGER AS $$
@@ -43,7 +41,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE calcular_preco_unitario_venda();
 
 --compra
-
+----------------------------------------------------------------
 --trigger para atualizar preço total de uma compra
 CREATE OR REPLACE FUNCTION calcular_preco_total_compra()
 RETURNS TRIGGER AS $$
@@ -63,7 +61,7 @@ AFTER INSERT OR UPDATE OR DELETE ON compra_produto
 FOR EACH ROW EXECUTE PROCEDURE calcular_preco_total_compra();
 
 --estoque
-
+----------------------------------------------------------------
 --trigger para inserir um novo produto no estoque após uma compra inédita
 CREATE OR REPLACE FUNCTION atualizar_estoque_compra()
 RETURNS TRIGGER AS $$

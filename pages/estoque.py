@@ -14,13 +14,14 @@ st.set_page_config(
 colunas_estoques = ['ID', 'ID Produto', 'Quantidade']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 
+#titulo da pagina
 col1, col2 = st.columns([.2, .8])
 with col1:
     st.image('img/logo.png')
 with col2:
     st.title('Tijolada')
     st.subheader('Estoque')
-
+    
 #dados
 try:
     st.write('')

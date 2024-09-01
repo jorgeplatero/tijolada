@@ -710,10 +710,9 @@ def formata_valor(valor, prefixo = ''):
 #---------------------------------------------------------------
 
 #evolução de despesas no ano selecionado
-def fig_custo_mensal(df, data):
+def fig_evolucao_despesa(df, data):
     df_compras_custo_mensal = df.sort_values('Data')
     df_compras_custo_mensal['Data'] = df_compras_custo_mensal['Data'].dt.date
-    df_compras_custo_mensal = df_compras_custo_mensal[df_compras_custo_mensal['Situação do Pagamento'] == 'Realizado']
     df_compras_custo_mensal = df_compras_custo_mensal.groupby('Data')['Custo (R$)'].sum().reset_index()
     fig = px.line(
         data_frame=df_compras_custo_mensal, 
@@ -736,8 +735,8 @@ def fig_custo_mensal(df, data):
 
 
 #despesa por fornecedor no ano selecionado
-def fig_custo_fornecedor(df, data):
-    df_custo_por_fornecedor = df[df['Situação do Pagamento'] == 'Realizado']
+def fig_despesa_por_fornecedor(df, data):
+    df_custo_por_fornecedor = df
     df_custo_por_fornecedor = df_custo_por_fornecedor.groupby('Nome')['Custo (R$)'].sum().reset_index()
     df_custo_por_fornecedor = df_custo_por_fornecedor.sort_values('Custo (R$)', ascending=False).head()
     df_custo_por_fornecedor['Custo (R$)'] = df_custo_por_fornecedor['Custo (R$)'].astype('float64')
@@ -766,8 +765,9 @@ def fig_custo_fornecedor(df, data):
     )
     st.plotly_chart(fig)
 
+
 #evolução da média de preços por produto no ano selecionad
-def fig_custo_por_produto(df, data, produtos):
+def fig_evolucao_preco_medio_produto(df, data, produtos):
     df_custo_por_produto = df.sort_values('Data')
     df_custo_por_produto['Data'] = df_custo_por_produto['Data'].dt.date
     df_custo_por_produto = df_custo_por_produto.groupby(['Data', 'Nome'])['Preço Unitário (R$)'].median().reset_index().sort_values('Data')
@@ -793,7 +793,7 @@ def fig_custo_por_produto(df, data, produtos):
 
 
 #evolucao do faturamento no ano selecionado
-def fig_faturamento_mensal(df, data):
+def fig_evolucao_faturamento(df, data):
     df_vendas_faturamento_mensal = df.sort_values('Data')
     df_vendas_faturamento_mensal['Data'] = df_vendas_faturamento_mensal['Data'].dt.date
     df_vendas_faturamento_mensal = df_vendas_faturamento_mensal[df_vendas_faturamento_mensal['Situação do Pagamento'] == 'Realizado']
@@ -816,7 +816,8 @@ def fig_faturamento_mensal(df, data):
     st.plotly_chart(fig)
     
 
-def fig_faturamento_cliente(df, data):
+#faturamento por cliente no ano selecionado
+def fig_faturamento_por_cliente(df, data):
     df_faturamento_por_cliente = df[df['Situação do Pagamento'] == 'Realizado']
     df_faturamento_por_cliente = df_faturamento_por_cliente.groupby('Nome')['Faturamento (R$)'].sum().reset_index()
     df_faturamento_por_cliente = df_faturamento_por_cliente.sort_values('Faturamento (R$)', ascending=False).head()

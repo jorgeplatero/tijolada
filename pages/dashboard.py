@@ -30,7 +30,7 @@ colunas_fornecedor = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'T
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 colunas_estoques = ['ID Estoque', 'ID Produto', 'Quantidade']
 
-#título da página
+#titulo da pagina
 col1, col2 = st.columns([.2, .8])
 with col1:
     st.image('img/logo.png')
@@ -38,10 +38,11 @@ with col2:
     st.title('Tijolada')
     st.subheader('Dashboard')
 
-#abas da página
+#abas da pagina
 tab1, tab2, tab3, tab4 = st.tabs(['Compras', 'Vendas', 'Produtos', 'Estoque'])
 
 with tab1:
+    #titulo da aba
     st.subheader('Indicadores de Compras 🛒')
     st.write('')
     #seletor data
@@ -68,24 +69,23 @@ with tab1:
     df_compras_produtos = pd.merge(df_compras_produtos, df_produtos, how='left', on='ID Produto')
     #cards
     #---------------------------------------------------------------
-    total_custo_dia = utils.formata_valor(df_compras[(df_compras.Data.dt.date == data) & (df_compras['Situação do Pagamento'] == 'Realizado')]['Custo (R$)'].astype('float').sum())
-    total_custo_mes = utils.formata_valor(df_compras[(df_compras.Data.dt.month == data.month) & (df_compras['Situação do Pagamento'] == 'Realizado')]['Custo (R$)'].astype('float').sum())
-    total_custo_ano = utils.formata_valor(df_compras[df_compras['Situação do Pagamento'] == 'Realizado']['Custo (R$)'].astype('float').sum())
+    total_despesa_dia = utils.formata_valor(df_compras[(df_compras.Data.dt.date == data) & (df_compras['Situação do Pagamento'] == 'Realizado')]['Custo (R$)'].astype('float').sum())
+    total_despesa_mes = utils.formata_valor(df_compras[(df_compras.Data.dt.month == data.month) & (df_compras['Situação do Pagamento'] == 'Realizado')]['Custo (R$)'].astype('float').sum())
+    total_despesa_ano = utils.formata_valor(df_compras[df_compras['Situação do Pagamento'] == 'Realizado']['Custo (R$)'].astype('float').sum())
     #dashboard
+    #---------------------------------------------------------------
+    #cards
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric('**Despesa do dia**', f'R$ {total_custo_dia}')
+        st.metric('**Despesa do dia**', f'R$ {total_despesa_dia}')
     with col2:
-        st.metric('**Despesa do mês**', f'R$ {total_custo_mes}')
+        st.metric('**Despesa do mês**', f'R$ {total_despesa_mes}')
     with col3:
-        st.metric('**Despesa do ano**', f'R$ {total_custo_ano}')
+        st.metric('**Despesa do ano**', f'R$ {total_despesa_ano}')
     #graficos
     #---------------------------------------------------------------
-    #custo mensal no ano selecionado
-    utils.fig_custo_mensal(df_compras, data)
-    #custo por fornecedor no ano selecionado
-    utils.fig_custo_fornecedor(df_fornecedor, data)
-    #custo mensal por produto no ano selecionado
+    utils.fig_evolucao_despesa(df_compras, data)
+    utils.fig_despesa_por_fornecedor(df_fornecedor, data)
     input_produtos = st.multiselect(
         key='seletor_produtos_compra',
         label='**Produtos**',
@@ -95,9 +95,10 @@ with tab1:
         help='Selecione produtos para análise'
     )
     produtos = list(input_produtos)
-    utils.fig_custo_por_produto(df_compras_produtos, data, produtos)
+    utils.fig_evolucao_preco_medio_produto(df_compras_produtos, data, produtos)
 
 with tab2:
+    #titulo da aba
     st.subheader('Indicadores de Vendas 🛒')
     st.write('')
     #seletor data
@@ -125,7 +126,6 @@ with tab2:
     #dashboard
     #---------------------------------------------------------------
     #cars
-    #---------------------------------------------------------------
     col1, col2, col3 = st.columns(3)
     with col1:
         st.metric('**Faturamento do dia**', f'R$ {total_faturamento_dia}')
@@ -134,12 +134,10 @@ with tab2:
     with col3:
         st.metric('**Faturamento do ano**', f'R$ {total_faturamento_ano}')
     #graficos
-    #---------------------------------------------------------------
-    #faturamento mensal
-    utils.fig_faturamento_mensal(df_vendas, data)
-    #faturamento por cliente
-    utils.fig_faturamento_cliente(df_clientes, data)
+    utils.fig_evolucao_faturamento(df_vendas, data)
+    utils.fig_faturamento_por_cliente(df_clientes, data)
 
 with tab3:
+    #titulo da aba
     st.subheader('Produtos 🛍️')
     st.warning('Em desenvolvimento')

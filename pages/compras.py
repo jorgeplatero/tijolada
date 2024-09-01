@@ -18,6 +18,7 @@ colunas_compras = [
 colunas_itens_compra = ['ID', 'ID Compra', 'ID Produto', 'Preço Unitário', 'Quantidade']
 colunas_produtos = ['ID', 'Nome', 'Unidade de Medida']
 
+#titulo da pagina
 col1, col2 = st.columns([.2, .8])
 with col1:
     st.image('img/logo.png')
@@ -32,7 +33,7 @@ opcoes_menu_compras = st.selectbox(
     index=None,
     placeholder='Selecione uma opção do menu...'                          
 )
-
+#opcao cadastrar
 if opcoes_menu_compras == 'Cadastrar':
     #formulario
     utils.insert_compras()
@@ -42,7 +43,7 @@ if opcoes_menu_compras == 'Cadastrar':
         st.dataframe(df_produtos.sort_values(by='ID'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
-    
+#opcao alterar
 elif opcoes_menu_compras == 'Alterar':
     opcoes_alterar = st.radio(
         '**Opções**', ['Compra', 'Itens de Compra'], 
@@ -52,7 +53,6 @@ elif opcoes_menu_compras == 'Alterar':
         ], 
         horizontal=True
     )
-    
     if opcoes_alterar == 'Compra':
         #formulario
         utils.update_compras()
@@ -63,7 +63,6 @@ elif opcoes_menu_compras == 'Alterar':
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass
-        
     elif opcoes_alterar == 'Itens de Compra':
         #formulario
         utils.update_compras_produtos()
@@ -74,7 +73,7 @@ elif opcoes_menu_compras == 'Alterar':
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass   
-
+#opcao excluir
 elif opcoes_menu_compras == 'Excluír':
     opcoes_excluir = st.radio(
         '**Opções**', ['Compra', 'Itens de Compra'], 
@@ -104,7 +103,7 @@ elif opcoes_menu_compras == 'Excluír':
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass  
-        
+#opcao consultar
 elif opcoes_menu_compras == 'Consultar':
     opcoes_consultar = st.radio(
         '**Opções**', ['Compra', 'Itens de Compra'], 

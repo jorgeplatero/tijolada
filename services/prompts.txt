@@ -1,5 +1,5 @@
 Vendas
-
+----------------------------------------------------------------
 CREATE TABLE venda (
     ID_venda SERIAL PRIMARY KEY,
 	data_venda TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
@@ -17,7 +17,7 @@ Crie inserts postgresql para a tabela acima. Considere que o campo cliente_ID_cl
 O campo situacao_pagamento_venda deve ser preenchido com o valor 'Não realizado' ou com o valor 'Realizado'. O campo  situacao_entrega_venda deve ser preenchido  
 com o valor 'Não realizada' ou com o valor 'Realizada' e o campo forma_pagamento_venda deve ser preenchido com um dos valores a seguir: 'Crédito', 'Débito', 
 'Dinheiro', 'PIX'. Desconsidere o campo preco_total_venda e considere que o campo observacoes_venda deve ser preenchido com detalhes de entrega, como a quem chamar 
-para receber o produto ou outro fato que seja importante para a entrega. O campo data_venda deve conter valores para o ano de 2023 com meses e dias diferentes. Faça 40 linhas.
+para receber o produto ou outro fato que seja importante para a entrega. Insira no campo data_venda valores para o ano de 2023 e 2024 com meses e dias diferentes. Faça apenas 40 linhas.
 
 CREATE TABLE venda_produto (
     ID_venda_produto SERIAL PRIMARY KEY,
@@ -31,7 +31,7 @@ Crie inserts postgresql para a tabela acima. Considere que o campo venda_ID_vend
 deve ser necessariamente preenchido com um valor entre 1 e 68. O campo quantidade_produto_venda deve ser deve ser necessariamente preenchido com um valor entre 1 e 10. 
 
 Compras
-
+----------------------------------------------------------------
 CREATE TABLE compra (
     ID_compra SERIAL PRIMARY KEY,
     data_compra TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
@@ -45,7 +45,7 @@ CREATE TABLE compra (
 Crie inserts postgresql para a tabela acima. Considere que o campo fornecedor_ID_fornecedor deve ser necessariamente preenchido com um valor entre 1 e 12. 
 O campo situacao_pagamento_compra deve ser preenchido com o valor 'Não realizado' ou com o valor 'Realizado'. O campo  situacao_entrega_compra deve ser preenchido  
 com o valor 'Não realizada' ou com o valor 'Realizada' e o campo forma_pagamento_venda deve ser preenchido com um dos valores a seguir: 'Crédito', 'Débito', 
-'Dinheiro', 'PIX'. Desconsidere o campo preco_total_compra. O campo data_venda deve conter valores para o ano de 2023 com meses e dias diferentes. Faça 24 linhas.
+'Dinheiro', 'PIX'. Desconsidere o campo preco_total_compra. Insira no campo data_compra valores para o ano de 2023 e 2024 com meses e dias diferentes. Faça apenas 24 linhas.
 
 CREATE TABLE compra_produto (
     ID_compra_produto SERIAL PRIMARY KEY,
