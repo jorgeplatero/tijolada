@@ -28,11 +28,13 @@ with col2:
     st.subheader('Vendas')
     
 #menu
+st.write('**Operações**')
 opcoes_menu_vendas = st.selectbox(
-    '**Operações**', 
+    label='**Operações**', 
     options=['Cadastrar', 'Alterar', 'Excluír', 'Consultar'],
     index=None,
-    placeholder='Selecione uma opção do menu...'                          
+    placeholder='Selecione uma opção do menu',
+    label_visibility='collapsed'                  
 )
 #opcao cadastrar
 if opcoes_menu_vendas == 'Cadastrar':
@@ -49,13 +51,16 @@ if opcoes_menu_vendas == 'Cadastrar':
         print(st.error(f'Erro durante consulta: {e}'))
 #opcao alterar
 elif opcoes_menu_vendas == 'Alterar':
+    st.write('**Opções**')
     opcoes_alterar = st.radio(
-        '**Opções**', ['Venda', 'Itens de Venda'], 
+        label='**Opções**', 
+        options=['Venda', 'Itens de Venda'], 
         captions=[
             'Alterar venda',
             'Alterar itens de venda'
         ], 
-        horizontal=True
+        horizontal=True,
+        label_visibility='collapsed'
     )
     if opcoes_alterar == 'Venda':
         #formulario
@@ -77,13 +82,16 @@ elif opcoes_menu_vendas == 'Alterar':
             st.error(f'Erro durante consulta: {e}')  
 #opcao excluir
 elif opcoes_menu_vendas == 'Excluír':
+    st.write('**Opções**')
     opcoes_excluir = st.radio(
-        '**Opções**', ['Venda', 'Itens de Venda'], 
+        label='**Opções**', 
+        options=['Venda', 'Itens de Venda'], 
         captions=[
             'Excluír venda',
             'Excluír itens de venda'
         ], 
-        horizontal=True
+        horizontal=True,
+        label_visibility='collapsed'
     )
     if opcoes_excluir == 'Venda':
         #formulario
@@ -105,13 +113,16 @@ elif opcoes_menu_vendas == 'Excluír':
             st.error(f'Erro durante consulta: {e}')
 #opcao consultar
 elif opcoes_menu_vendas == 'Consultar':
+    st.write('**Opções**')
     opcoes_consultar = st.radio(
-        '**Opções**', ['Venda', 'Itens de Venda'], 
+        label='**Opções**', 
+        options=['Venda', 'Itens de Venda'], 
         captions=[
             'Consultar venda',
             'Consultar itens de venda'
         ], 
-        horizontal=True
+        horizontal=True,
+        label_visibility='collapsed'
     )
     if opcoes_consultar == 'Venda':
         #dados

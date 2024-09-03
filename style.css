@@ -1,44 +1,46 @@
+/* #e0e0ef, #aeaebd, #7f7f8d, #535360, #2b2b36 */
+
 [data-testid='stForm'] {
-    background: #FEE135; 
     padding: 20px; 
-    border: 1px solid #262730;
-    box-shadow: 5px 5px 5px #262730;
+    border: 1px solid #E0E0EF;
+    box-shadow: 5px 5px 5px #aeaebd;
+    max-width: 1000px;
 }
 
 [data-testid='stForm'] input[type='text'],
 [data-testid='stForm'] input[type='email'],
 [data-testid='stForm'] input[type='password'],
+[data-testid='stForm'] select,
 [data-testid='stForm'] textarea {
     background: #FFFFFF;
+    color: #535360;
     border: none;
 }
 
 [data-testid='stForm'] .stButton > button {
-    background: #f0f0f5; 
-    color: #262730;
-    border: 1px solid #262730;
-    box-shadow: 5px 5px 5px #262730;
+    background: #7f7f8d;
+    color: #F0F0F5;
+    border: none;
+    width: 83px;
 }
 
 [data-testid='stForm'] .stButton > button:hover {
-    background: #262730;
-    color: #f0f0f5;
-    border: 1px solid #262730; 
-    box-shadow: none;
+    background: #E0E0EF;
+    color: #535360;
+    border: none;
+    box-shadow: 5px 5px 5px #aeaebd;
 }
 
 .stButton > button {
-    background: #f0f0f5;
-    color: #262730;
-    border: 1px solid #262730;
-    width: 70px;
-    box-sizing: border-box;
-    box-shadow: 5px 5px 5px #262730;
+    background: #7f7f8d;
+    color: #F0F0F5;
+    border: none;
+    width: 83px;
 }
 
 .stButton > button:hover {
-    background: #262730;
-    color: #f0f0f5;
-    border: 1px solid #262730;
-    box-shadow: none;
+    background: #E0E0EF;
+    color: #535360;
+    border: none;
+    box-shadow: 5px 5px 5px #aeaebd;
 }

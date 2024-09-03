@@ -56,7 +56,19 @@ def logout():
     with col2:
         st.title('Tijolada')
         st.subheader('Configurações')
-    st.write('Bem-vindo ao Tijolada!')
+    st.markdown(
+        '''
+            <div style="text-align: justify;">
+                <p>
+                    Bem-vindo ao Tijolada!
+
+            Este projeto consiste em uma aplicação que oferece uma interface para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights para a tomada de decisões do negócio.
+                </p>
+            </div>
+        
+        ''',
+        unsafe_allow_html=True
+    )
     if st.button('**Sair**'):
         st.session_state.logged_in = False
         st.session_state.authentication_status = None

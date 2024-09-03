@@ -27,11 +27,13 @@ with col2:
     st.subheader('Compras')
 
 #menu    
+st.write('**Operações**')
 opcoes_menu_compras = st.selectbox(
-    '**Operações**', 
+    label='**Operações**', 
     options=['Cadastrar', 'Alterar', 'Excluír', 'Consultar'],
     index=None,
-    placeholder='Selecione uma opção do menu...'                          
+    placeholder='Selecione uma opção do menu'    ,
+    label_visibility='collapsed'                      
 )
 #opcao cadastrar
 if opcoes_menu_compras == 'Cadastrar':

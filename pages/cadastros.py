@@ -27,21 +27,26 @@ with col2:
     st.subheader('Cadastro')
 
 #menu
+st.write('**Opções**')
 opcao_menu_cadastros = st.selectbox(
-    '**Opções**', 
+    label='**Opções**', 
     options=['Cliente', 'Fornecedor', 'Produto'],
     index=None,
-    placeholder='Selecione uma opção do menu...'                          
+    placeholder='Selecione uma opção do menu',
+    label_visibility='collapsed'                          
 )
 #opcao cliente
 if opcao_menu_cadastros == 'Cliente':
+    st.write('**Operação**')
     opcoes_cadastro_clientes = st.radio(
-        '**Operação**', ['Cadastrar', 'Alterar'], 
+        label='**Operação**', 
+        options=['Cadastrar', 'Alterar'], 
         captions=[
             'Incluir cliente',
             'Alterar cadastro de cliente'
         ], 
-        horizontal=True
+        horizontal=True,
+        label_visibility='collapsed'
     )
     if opcoes_cadastro_clientes =='Cadastrar':
         #formulario
@@ -57,13 +62,16 @@ if opcao_menu_cadastros == 'Cliente':
         st.error(f'Erro durante consulta: {e}')
 #opcao fornecedor        
 elif opcao_menu_cadastros == 'Fornecedor':
+    st.write('**Operação**')
     opcoes_cadastro_fornecedor = st.radio(
-        '**Operação**', ['Cadastrar', 'Alterar'], 
+        label='**Operação**', 
+        options=['Cadastrar', 'Alterar'], 
         captions=[
             'Incluir fornecedor',
             'Alterar cadastro de fornecedor'
         ], 
-        horizontal=True
+        horizontal=True,
+        label_visibility='collapsed'
     )
     if opcoes_cadastro_fornecedor =='Cadastrar':
         #formulario
@@ -79,13 +87,16 @@ elif opcao_menu_cadastros == 'Fornecedor':
         st.error(f'Erro durante consulta: {e}')
 #opcao cadastro
 elif opcao_menu_cadastros == 'Produto':
+    st.write('**Operação**')
     opcoes_cadastro_produto = st.radio(
-        '**Operação**', ['Cadastrar', 'Alterar'], 
+        label='**Operação**', 
+        options=['Cadastrar', 'Alterar'], 
         captions=[
             'Incluir produto',
             'Alterar cadastro de produto'
         ], 
-        horizontal=True
+        horizontal=True,
+        label_visibility='collapsed'
     )
     if opcoes_cadastro_produto =='Cadastrar':
         #formulario
