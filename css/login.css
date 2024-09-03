@@ -1,46 +1,37 @@
-/* #e0e0ef, #aeaebd, #7f7f8d, #535360, #2b2b36 */
+/*#E0E0Ef, #AEAEBD, #7F7F8D, #535360, #2B2B36*/
 
+/*formulario
+--------------------------------------------------------------*/
+
+/*fundo*/
 [data-testid='stForm'] {
     padding: 20px; 
-    border: 1px solid #E0E0EF;
-    box-shadow: 5px 5px 5px #aeaebd;
+    border: none;
+    box-shadow: 5px 5px 5px #AEAEBD;
     max-width: 1000px;
 }
-
+/*campos*/
 [data-testid='stForm'] input[type='text'],
 [data-testid='stForm'] input[type='email'],
 [data-testid='stForm'] input[type='password'],
-[data-testid='stForm'] select,
+[data-testid='stForm'] select[type='box'],
 [data-testid='stForm'] textarea {
     background: #FFFFFF;
     color: #535360;
     border: none;
 }
-
+/*botoes*/
 [data-testid='stForm'] .stButton > button {
-    background: #7f7f8d;
-    color: #F0F0F5;
+    background: #7F7F8D;
+    color: #e0e0ef;
     border: none;
     width: 83px;
+    box-shadow: none;
 }
-
 [data-testid='stForm'] .stButton > button:hover {
     background: #E0E0EF;
-    color: #535360;
-    border: none;
-    box-shadow: 5px 5px 5px #aeaebd;
-}
-
-.stButton > button {
-    background: #7f7f8d;
-    color: #F0F0F5;
+    color: #7F7F8D;
     border: none;
     width: 83px;
-}
-
-.stButton > button:hover {
-    background: #E0E0EF;
-    color: #535360;
-    border: none;
-    box-shadow: 5px 5px 5px #aeaebd;
+    box-shadow: 5px 5px 5px #AEAEBD;
 }

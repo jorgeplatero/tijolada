@@ -5,16 +5,19 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-#importando o arquivo CSS
-current_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(current_dir, 'style.css')
-
-with open(file_path) as f:
-    css = f.read()
-
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
+#importando css
+if not st.session_state.logged_in:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_dir, 'css/login.css') 
+else:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_dir, 'css/pages.css')
+
+with open(file_path) as f:
+    css = f.read()
 
 def login():
     st.set_page_config(
@@ -31,8 +34,10 @@ def login():
             st.title('Tijolada')
             st.subheader('Materiais para sua construção')
         with st.form(key='login'):
-            usuario = st.text_input(label='**Usuário**')
-            senha = st.text_input(label='**Senha**', type='password')
+            st.write('**Usuário**')
+            usuario = st.text_input(label='**Usuário**', label_visibility='collapsed')
+            st.write('**Senha**')
+            senha = st.text_input(label='**Senha**', type='password', label_visibility='collapsed')
             botao_login = st.form_submit_button('**Entrar**')
         if botao_login:
             if usuario == st.secrets['usuario'] and senha == st.secrets['senha']:
@@ -58,11 +63,11 @@ def logout():
         st.subheader('Configurações')
     st.markdown(
         '''
-            <div style="text-align: justify;">
+            <div style='text-align: justify;'>
                 <p>
-                    Bem-vindo ao Tijolada!
-
-            Este projeto consiste em uma aplicação que oferece uma interface para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights para a tomada de decisões do negócio.
+                    Bem-vindo ao Tijolada!</br>
+                    </br>
+                    Este projeto consiste em uma aplicação que oferece uma interface para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights para a tomada de decisões do negócio.
                 </p>
             </div>
         
