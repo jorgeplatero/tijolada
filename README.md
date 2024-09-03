@@ -14,7 +14,7 @@ Este projeto consiste em uma aplicação que oferece uma interface para interaç
 
 ## Arquitetura do Projeto
 
-<img src='https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/arquitetura_projeto_crud.png' width='300'/>
+<img src='https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/arquitetura_projeto_crud.png' width='500'/>
 
 ### Banco de Dados
 
