@@ -801,11 +801,12 @@ def fig_evolucao_despesa(df, data):
     fig.update_layout(
         title=f'Evolução de Despesas em {data.year}',
         xaxis_title='Data', 
-        yaxis_showticklabels=True
+        yaxis_showticklabels=True,
+        height=500
     )
     fig.update_traces(
         textposition='top center',
-        hovertemplate='Data: %{hovertext}<br>Custo: R$ %{y:.2f}'
+        hovertemplate='Data: %{hovertext}<br>Despesa: R$ %{y:.2f}'
     )
     st.plotly_chart(fig)
 
@@ -828,7 +829,8 @@ def fig_despesa_por_fornecedor(df, data):
     fig.update_layout(
         title=f'Top 5 Clientes em {data.year}',
         xaxis_type='category',
-        yaxis_showticklabels=False
+        yaxis_showticklabels=False,
+        height=500
     )
     fig.update_traces(
         showlegend=False,

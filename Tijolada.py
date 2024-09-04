@@ -1,23 +1,8 @@
 import streamlit as st
 import os
-import time
 import warnings
 warnings.filterwarnings('ignore')
 
-
-if 'logged_in' not in st.session_state:
-    st.session_state.logged_in = False
-
-#importando css
-if not st.session_state.logged_in:
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(current_dir, 'css/login.css') 
-else:
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(current_dir, 'css/pages.css')
-
-with open(file_path) as f:
-    css = f.read()
 
 def login():
     st.set_page_config(
@@ -64,9 +49,10 @@ def logout():
     st.markdown(
         '''
             <div style='text-align: justify;'>
+                <h3>
+                    Bem-vindo ao Tijolada!
+                </h3>
                 <p>
-                    Bem-vindo ao Tijolada!</br>
-                    </br>
                     Este projeto consiste em uma aplicação que oferece uma interface para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights para a tomada de decisões do negócio.
                 </p>
             </div>
@@ -88,6 +74,15 @@ vendas = st.Page('pages/vendas.py', title='Vendas', icon=':material/remove_shopp
 estoque = st.Page('pages/estoque.py', title='Estoque', icon=':material/warehouse:')
 dashboard = st.Page('pages/dashboard.py', title='Dashboard', icon=':material/dashboard:')
 
+if 'logged_in' not in st.session_state:
+    st.session_state.logged_in = False
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(current_dir, 'css/style.css')
+
+with open(file_path) as f:
+    css = f.read()
+
 if st.session_state.logged_in:
     pg = st.navigation(
         {
@@ -100,5 +95,6 @@ else:
     pg = st.navigation([login_page])
 
 pg.run()
+
 
 st.write(f'<style>{css}</style>', unsafe_allow_html=True)

@@ -43,7 +43,7 @@ tab1, tab2, tab3, tab4 = st.tabs(['Compras', 'Vendas', 'Produtos', 'Estoque'])
 
 with tab1:
     #titulo da aba
-    st.subheader('Indicadores de Compras 🛒')
+    st.subheader('Indicadores de Compras 🚚')
     st.write('')
     #seletor data
     col1, _ = st.columns([.2, .8])
@@ -139,5 +139,10 @@ with tab2:
 
 with tab3:
     #titulo da aba
-    st.subheader('Produtos 🛍️')
+    st.subheader('Produtos ⚒️')
+    st.warning('Em desenvolvimento')
+
+with tab4:
+    #titulo da aba
+    st.subheader('Estoque 📦')
     st.warning('Em desenvolvimento')

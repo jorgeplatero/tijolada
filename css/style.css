@@ -1,13 +1,19 @@
-/*#E0E0Ef, #AEAEBD, #7F7F8D, #535360, #2B2B36*/
+
+/*
+primaryColor='#F2C63A'
+backgroundColor='#0E1117'
+secondaryBackgroundColor='#262730'
+textColor='#FAFAFA'
+*/
 
 /*formulario
 --------------------------------------------------------------*/
 
 /*fundo*/
 [data-testid='stForm'] {
+    background: #F2C63A;
     padding: 20px; 
     border: none;
-    box-shadow: 5px 5px 5px #AEAEBD;
     max-width: 1000px;
 }
 /*campos*/
@@ -17,21 +23,22 @@
 [data-testid='stForm'] select[type='box'],
 [data-testid='stForm'] textarea {
     background: #FFFFFF;
-    color: #535360;
     border: none;
 }
 /*botoes*/
-[data-testid='stForm'] .stButton > button {
-    background: #7F7F8D;
-    color: #e0e0ef;
+.stButton > button {
+    background: #262730;
+    color: #FAFAFA;
     border: none;
-    width: 83px;
+    width: 88px;
+    margin-top: 20px;
     box-shadow: none;
 }
-[data-testid='stForm'] .stButton > button:hover {
-    background: #E0E0EF;
-    color: #7F7F8D;
+.stButton > button:hover {
+    background: #FAFAFA;
+    color: #262730;
     border: none;
-    width: 83px;
-    box-shadow: 5px 5px 5px #AEAEBD;
+    width: 88px;
+    margin-top: 20px;
+    box-shadow: 5px 5px 5px #262730;
 }
