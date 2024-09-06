@@ -95,7 +95,7 @@ with tab1:
         help='Selecione produtos para análise'
     )
     produtos = list(input_produtos)
-    utils.fig_evolucao_preco_medio_produto(df_compras_produtos, data, produtos)
+    utils.fig_evolucao_preco_medio_produto_compra(df_compras_produtos, data, produtos)
 
 with tab2:
     #titulo da aba
@@ -118,6 +118,11 @@ with tab2:
     #clientes no ano selecionado
     df_clientes =  pd.DataFrame(utils.consulta_clientes(), columns=colunas_cliente)
     df_clientes = pd.merge(df_vendas, df_clientes, how='outer', on='ID Cliente')
+    #produtos no ano selecionado
+    df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
+    df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_vendas_produtos)
+    df_vendas_produtos = pd.merge(df_vendas_produtos, df_vendas, how='outer', on='ID venda')
+    df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='left', on='ID Produto')
     #cards
     #---------------------------------------------------------------
     total_faturamento_dia = utils.formata_valor(df_vendas[(df_vendas.Data.dt.date == data) & (df_vendas['Situação do Pagamento'] == 'Realizado')]['Faturamento (R$)'].astype('float').sum())
@@ -136,6 +141,16 @@ with tab2:
     #graficos
     utils.fig_evolucao_faturamento(df_vendas, data)
     utils.fig_faturamento_por_cliente(df_clientes, data)
+    input_produtos = st.multiselect(
+        key='seletor_produtos_venda',
+        label='**Produtos**',
+        options=[row[1] for row in utils.consulta_produtos()],
+        default=[row[1] for row in utils.consulta_produtos()][0],
+        max_selections=10,
+        help='Selecione produtos para análise'
+    )
+    produtos = list(input_produtos)
+    utils.fig_evolucao_preco_medio_produto_venda(df_vendas_produtos, data, produtos)
 
 with tab3:
     #titulo da aba

@@ -53,7 +53,11 @@ def logout():
                     Bem-vindo ao Tijolada!
                 </h3>
                 <p>
-                    Este projeto consiste em uma aplicação que oferece uma interface para interação com banco de dados e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos, oferecendo insights para a tomada de decisões do negócio.
+                    Este projeto consiste em uma aplicação que oferece uma interface Streamlit para interação com 
+                    banco de dados PostgreSQL e foi desenvolvida com o objetivo de permitir a realização de todas as 
+                    operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos 
+                    dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de 
+                    gráficos interativos.
                 </p>
             </div>
         
