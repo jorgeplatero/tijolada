@@ -121,7 +121,7 @@ with tab2:
     #produtos no ano selecionado
     df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
     df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_vendas_produtos)
-    df_vendas_produtos = pd.merge(df_vendas_produtos, df_vendas, how='outer', on='ID venda')
+    df_vendas_produtos = pd.merge(df_vendas_produtos, df_vendas, how='outer', on='ID Venda')
     df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='left', on='ID Produto')
     #cards
     #---------------------------------------------------------------

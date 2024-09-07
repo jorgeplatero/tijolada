@@ -823,7 +823,6 @@ def fig_despesa_por_fornecedor(df, data):
         y='Custo (R$)',
         text=df_custo_por_fornecedor['Custo (R$)'].apply(lambda x: f'R$ {x:.2f}'),
         color='Custo (R$)',
-        color_continuous_scale='YlOrRd', #YlGn, YlGnBu, YlOrbr
         hover_name='Nome',
         labels={'Custo (R$)': 'Despesa (R$)'}
     )
@@ -953,7 +952,7 @@ def fig_evolucao_preco_medio_produto(df, data, produtos):
     
 
 #evolução da média de faturamento por produto no ano selecionado
-def fig_evolucao_preco_medio_produto_compra(df, data, produtos):
+def fig_evolucao_preco_medio_produto_venda(df, data, produtos):
     df_faturamento_por_produto = df.sort_values('Data')
     df_faturamento_por_produto['Data'] = df_faturamento_por_produto['Data'].dt.date
     df_faturamento_por_produto = df_faturamento_por_produto.groupby(['Data', 'Nome'])['Preço Unitário (R$)'].median().reset_index().sort_values('Data')
