@@ -18,6 +18,18 @@ def select_fornecedores():
     return fornecedores
 
 
+#fornecedor selecionado
+def select_fornecedor_selecionado(id_fornecedor):
+    db.cursor.execute(f'SELECT * FROM fornecedor WHERE id_fornecedor = {id_fornecedor}')
+    row = db.cursor.fetchone()
+    if row:
+        return models.Fornecedor(
+            row[0], row[1], row[2], row[3], row[4], row[5]
+        )
+    else:
+        return None
+
+
 #produtos
 def select_produtos():
     db.cursor.execute('SELECT * FROM produto')
@@ -27,6 +39,18 @@ def select_produtos():
             models.Produto(row[0], row[1], row[2])
         )
     return produtos
+
+
+#produto selecionado
+def select_produto_selecionado(id_produto):
+    db.cursor.execute(f'SELECT * FROM produto WHERE id_produto = {id_produto}')
+    row = db.cursor.fetchone()
+    if row:
+        return models.Produto(
+            row[0], row[1], row[2]
+        )
+    else:
+        return None
 
 
 #estoque
@@ -54,6 +78,19 @@ def select_vendas():
     return vendas
 
 
+#venda selecionada
+def select_venda_selecionada(id_venda):
+    db.cursor.execute(f'SELECT * FROM venda WHERE id_venda = {id_venda}')
+    row = db.cursor.fetchone()
+    if row:
+        return models.Venda(
+            row[0], row[1], row[2], row[3], row[4], row[5],
+            row[6], row[7], row[8], row[9]
+        )
+    else:
+        return None
+    
+
 #itens de venda
 def select_vendas_produtos():
     db.cursor.execute('SELECT * FROM venda_produto')
@@ -66,6 +103,18 @@ def select_vendas_produtos():
         )
     return vendas_produtos
 
+
+#item de venda selecionado
+def select_vendas_produtos_selecionado(id_venda_produto):
+    db.cursor.execute(f'SELECT * FROM venda_produto WHERE id_venda_produto = {id_venda_produto}')
+    row = db.cursor.fetchone()
+    if row:
+        return models.VendaProduto(
+            row[0], row[1], row[2], row[3], row[4]
+        )
+    else:
+        return None
+    
 
 #compras
 def select_compras():
@@ -80,6 +129,18 @@ def select_compras():
     return compras
 
 
+#compra selecionada
+def select_venda_selecionada(id_compra):
+    db.cursor.execute(f'SELECT * FROM compra WHERE id_compra = {id_compra}')
+    row = db.cursor.fetchone()
+    if row:
+        return models.Compra(
+            row[0], row[1], row[2], row[3], row[4], row[5], row[6]
+        )
+    else:
+        return None
+    
+
 #itens de compra
 def select_compras_produtos():
     db.cursor.execute('SELECT * FROM compra_produto')
@@ -93,6 +154,18 @@ def select_compras_produtos():
     return compras_produtos
 
 
+#item de compra selecionado
+def select_compras_produtos_selecionado(id_compra_produto):
+    db.cursor.execute(f'SELECT * FROM compra_produto WHERE id_compra_produto = {id_compra_produto}')
+    row = db.cursor.fetchone()
+    if row:
+        return models.CompraProduto(
+            row[0], row[1], row[2], row[3], row[4]
+        )
+    else:
+        return None
+    
+
 #clientes
 def select_clientes():
     db.cursor.execute('SELECT * FROM cliente')
@@ -104,6 +177,18 @@ def select_clientes():
                 )
         )
     return clientes
+
+
+#cliente selecionado
+def select_cliente_selecionado(id_cliente):
+    db.cursor.execute(f'SELECT * FROM cliente WHERE id_cliente = {id_cliente}')
+    row = db.cursor.fetchone()
+    if row:
+        return models.Cliente(
+            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]
+        )
+    else:
+        return None
 
 
 #inserts
