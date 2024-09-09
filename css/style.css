@@ -1,6 +1,6 @@
 
 /*
-primaryColor='#F2C63A'
+primaryColor='#F7D568'
 backgroundColor='#0E1117'
 secondaryBackgroundColor='#262730'
 textColor='#FAFAFA'
@@ -11,7 +11,7 @@ textColor='#FAFAFA'
 
 /*fundo*/
 [data-testid='stForm'] {
-    background: #F2C63A;
+    background: #F7D568;
     padding: 20px; 
     border: none;
     max-width: 1000px;
@@ -27,18 +27,20 @@ textColor='#FAFAFA'
 }
 /*botoes*/
 .stButton > button {
-    background: #262730;
-    color: #FAFAFA;
+    background: #0E1117;
+    color: #FFFFFF;
     border: none;
     width: 88px;
-    margin-top: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
     box-shadow: none;
 }
 .stButton > button:hover {
-    background: #FAFAFA;
-    color: #262730;
+    background: #F0F2F6;
+    color: #0E1117;
     border: none;
     width: 88px;
-    margin-top: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
     box-shadow: 5px 5px 5px #262730;
 }

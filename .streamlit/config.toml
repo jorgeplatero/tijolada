@@ -2,7 +2,5 @@
 maxMessageSize=1000
 
 [theme]
-primaryColor='#F2C63A'
-backgroundColor='#FFFFFF'
-secondaryBackgroundColor='#F0F2F6'
-textColor='#31333F'
+base="dark"
+primaryColor="#f7d568"

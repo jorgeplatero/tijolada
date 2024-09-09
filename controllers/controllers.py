@@ -130,7 +130,7 @@ def select_compras():
 
 
 #compra selecionada
-def select_venda_selecionada(id_compra):
+def select_compra_selecionada(id_compra):
     db.cursor.execute(f'SELECT * FROM compra WHERE id_compra = {id_compra}')
     row = db.cursor.fetchone()
     if row:
@@ -339,9 +339,9 @@ def update_fornecedores(fornecedor):
             """
         )
         db.conn.commit()
-        st.success('Fornecedor atualizado!')
+        st.write('Fornecedor atualizado!')
     except Exception as e:
-        st.error(f'{e}')
+        st.write(f'{e}')
         db.conn.rollback()
 
 
