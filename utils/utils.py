@@ -992,7 +992,7 @@ def fig_despesa_por_fornecedor(df, data):
 
 
 #evolução da média de custo por produto no ano selecionado
-def fig_evolucao_despesa_por_produto_compra(df, data, produtos):
+def fig_evolucao_despesa_por_produto(df, data, produtos):
     df_custo_por_produto = df.sort_values('Data')
     df_custo_por_produto['Data'] = df_custo_por_produto['Data'].dt.date
     df_custo_por_produto = df_custo_por_produto.groupby(['Data', 'Nome'])['Preço Unitário (R$)'].sum().reset_index().sort_values('Data')
@@ -1074,11 +1074,12 @@ def fig_faturamento_por_cliente(df, data):
     
 
 #evolução da média de faturamento por produto no ano selecionado
-def fig_evolucao_faturamento_por_produto_venda(df, data, produtos):
+def fig_evolucao_faturamento_por_produto(df, data, produtos):
     df_faturamento_por_produto = df.sort_values('Data')
     df_faturamento_por_produto['Data'] = df_faturamento_por_produto['Data'].dt.date
     df_faturamento_por_produto = df_faturamento_por_produto.groupby(['Data', 'Nome'])['Preço Unitário (R$)'].sum().reset_index().sort_values('Data')
     df_faturamento_por_produto = df_faturamento_por_produto[df_faturamento_por_produto['Nome'].isin(produtos)]
+    st.dataframe(df_faturamento_por_produto)
     fig = px.line(
         data_frame=df_faturamento_por_produto, 
         x='Data', 

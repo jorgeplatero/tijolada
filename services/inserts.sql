@@ -137,10 +137,10 @@ INSERT INTO compra (fornecedor_ID_fornecedor, situacao_pagamento_compra, situaca
     (6, 'Não realizado', 'Não realizada', 'Débito', '2024-06-12 13:30:00'),
     (7, 'Não realizado', 'Não realizada', 'Dinheiro', '2024-07-28 16:15:00'),
     (8, 'Não realizado', 'Não realizada', 'PIX', '2024-08-15 10:45:00'),
-    (9, 'Realizado', 'Realizada', 'Crédito', '2023-01-20 10:00:00'),
-    (10, 'Realizado', 'Realizada', 'Débito', '2023-02-10 14:30:00'),
-    (11, 'Realizado', 'Realizada', 'Dinheiro', '2023-03-25 16:15:00'),
-    (12, 'Realizado', 'Realizada', 'PIX', '2023-04-15 09:45:00');
+    (9, 'Realizado', 'Realizada', 'Crédito', '2024-09-20 10:00:00'),
+    (10, 'Realizado', 'Realizada', 'Débito', '2024-10-10 14:30:00'),
+    (11, 'Realizado', 'Realizada', 'Dinheiro', '2024-11-25 16:15:00'),
+    (12, 'Realizado', 'Realizada', 'PIX', '2024-12-15 09:45:00');
 
 --itens de compra
 ----------------------------------------------------------------

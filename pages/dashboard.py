@@ -95,7 +95,7 @@ with tab1:
         help='Selecione produtos para análise'
     )
     produtos = list(input_produtos)
-    utils.fig_evolucao_despesa_por_produto_compra(df_compras_produtos, data, produtos)
+    utils.fig_evolucao_despesa_por_produto(df_compras_produtos, data, produtos)
 
 with tab2:
     #titulo da aba
@@ -146,11 +146,11 @@ with tab2:
         label='**Produtos**',
         options=[row[1] for row in utils.consulta_produtos()],
         default=[row[1] for row in utils.consulta_produtos()][0],
-        max_selections=10,
+        max_selections=15,
         help='Selecione produtos para análise'
     )
     produtos = list(input_produtos)
-    utils.fig_evolucao_faturamento_por_produto_venda(df_vendas_produtos, data, produtos)
+    utils.fig_evolucao_faturamento_por_produto(df_vendas_produtos, data, produtos)
 
 with tab3:
     #titulo da aba
