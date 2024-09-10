@@ -161,7 +161,7 @@ def insert_clientes():
         input_referencia_cliente = st.text_input(label='Referência', max_chars=255, label_visibility='collapsed')
         st.write('**Situação**')
         input_situacao_cliente = st.selectbox(label='Situação', options=['Adimplente', 'Inadimplente'], placeholder='Selecione a situação do cliente', index=None, label_visibility='collapsed')
-        input_botao_inserir_cliente = st.form_submit_button('**Inserir**')
+        input_botao_inserir_cliente = st.form_submit_button('**Inserir**', type='primary')
     if input_botao_inserir_cliente:
         try:
             controllers.insert_clientes(
@@ -195,7 +195,7 @@ def insert_fornecedores():
         with col2:
             st.write('**Bairro**')
             input_bairro_fornecedor = st.text_input(label='Bairro', max_chars=50, label_visibility='collapsed')
-        input_botao_inserir_fornecedor = st.form_submit_button('**Inserir**')
+        input_botao_inserir_fornecedor = st.form_submit_button('**Inserir**', type='primary')
     if input_botao_inserir_fornecedor:
         try:
             controllers.insert_fornecedores(
@@ -215,7 +215,7 @@ def insert_produtos():
         input_nome_produto = st.text_input(label='Nome', max_chars=255, label_visibility='collapsed')
         st.write('**Unidade de Medida**')
         input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', placeholder='Selecione a unidade de medida', index=None, options=opcoes_unidade_medida, label_visibility='collapsed')
-        input_botao_inserir_produto = st.form_submit_button('**Inserir**')
+        input_botao_inserir_produto = st.form_submit_button('**Inserir**', type='primary')
     if input_botao_inserir_produto:
         try:
             controllers.insert_produtos(
@@ -270,7 +270,7 @@ def insert_compras():
             num_rows='dynamic', 
             use_container_width=False
         )
-        input_botao_inserir_compra = st.form_submit_button('**Inserir**')
+        input_botao_inserir_compra = st.form_submit_button('**Inserir**', type='primary')
     if input_botao_inserir_compra:
         try:
             id_compra = controllers.insert_compras(
@@ -341,7 +341,7 @@ def insert_vendas():
             num_rows='dynamic', 
             use_container_width=False
         )
-        input_botao_inserir_venda = st.form_submit_button('**Inserir**')
+        input_botao_inserir_venda = st.form_submit_button('**Inserir**', type='primary')
     if input_botao_inserir_venda:
         try:
             id_venda = controllers.insert_vendas(
@@ -384,8 +384,7 @@ def update_clientes():
             )
         if input_id_cliente:
             cliente_selecionado = controllers.select_cliente_selecionado(input_id_cliente)
-        st.form_submit_button('**Buscar**')
-        
+        st.form_submit_button('**Buscar**', type='primary')
         if cliente_selecionado:
             st.write('**Nome**')
             input_nome_cliente = st.text_input(
@@ -429,7 +428,7 @@ def update_clientes():
                 index=[0 if cliente_selecionado.situacao_cliente == 'Adimplente' else 1][0], 
                 placeholder='Selecione a situação do cliente', label_visibility='collapsed'
             )
-            input_botao_alterar_cliente = st.form_submit_button('**Atualizar**')
+            input_botao_alterar_cliente = st.form_submit_button('**Atualizar**', type='primary')
             if input_botao_alterar_cliente:
                 try:
                     controllers.update_clientes(
@@ -459,7 +458,7 @@ def update_fornecedores():
             )
         if input_id_fornecedor:
             fornecedor_selecionado = controllers.select_fornecedor_selecionado(input_id_fornecedor)
-        st.form_submit_button('**Buscar**')
+        st.form_submit_button('**Buscar**', type='primary')
         if fornecedor_selecionado:
             st.write('**Nome**')
             input_nome_fornecedor = st.text_input(
@@ -487,7 +486,7 @@ def update_fornecedores():
                 input_bairro_fornecedor = st.text_input(
                     label='Bairro', value=fornecedor_selecionado.bairro_fornecedor, max_chars=50, label_visibility='collapsed'
                 )
-            input_botao_alterar_fornecedor = st.form_submit_button('**Atualizar**')
+            input_botao_alterar_fornecedor = st.form_submit_button('**Atualizar**', type='primary')
             if input_botao_alterar_fornecedor:
                 try:
                     controllers.update_fornecedores(
@@ -516,7 +515,7 @@ def update_produtos():
             )
         if input_id_produto:
             produto_selecionado = controllers.select_produto_selecionado(input_id_produto)
-        st.form_submit_button('**Buscar**')
+        st.form_submit_button('**Buscar**', type='primary')
         if produto_selecionado:
             st.write('**Nome**')
             input_nome_produto = st.text_input(
@@ -530,7 +529,7 @@ def update_produtos():
                     index=opcoes_unidade_medida.index(produto_selecionado.unidade_medida_produto), 
                     placeholder='Selecione a unidade de medida', label_visibility='collapsed'
                 )
-            input_botao_alterar_produto = st.form_submit_button('**Atualizar**')
+            input_botao_alterar_produto = st.form_submit_button('**Atualizar**', type='primary')
             if input_botao_alterar_produto:
                 try:
                     controllers.update_produtos(
@@ -560,7 +559,7 @@ def update_compras():
             )
         if input_id_compra:
             compra_selecionada = controllers.select_compra_selecionada(input_id_compra)
-        st.form_submit_button('**Buscar**')
+        st.form_submit_button('**Buscar**', type='primary')
         if compra_selecionada:
             st.write('**ID do Fornecedor**')
             input_fornecedor_id_fornecedor = st.selectbox(
@@ -594,7 +593,7 @@ def update_compras():
                 index=opcoes_pagamento.index(compra_selecionada.forma_pagamento_compra), 
                 placeholder='Selecione a forma de pagamento', label_visibility='collapsed'
             )
-            input_botao_alterar_compra = st.form_submit_button('**Atualizar**')
+            input_botao_alterar_compra = st.form_submit_button('**Atualizar**', type='primary')
             if input_botao_alterar_compra:
                 try:
                     controllers.update_compras(
@@ -626,7 +625,7 @@ def update_compras_produtos():
             )
         if input_id_compra_produto:
             compra_produto_selecionado = controllers.select_compras_produtos_selecionado(input_id_compra_produto)
-        st.form_submit_button('**Buscar**')
+        st.form_submit_button('**Buscar**', type='primary')
         if compra_produto_selecionado:
             st.write('**ID do Produto**')
             input_produto_ID_produto = st.selectbox(
@@ -653,7 +652,7 @@ def update_compras_produtos():
                     value=int(compra_produto_selecionado.quantidade_produto_compra),
                     label_visibility='collapsed'
                 )
-            input_botao_alterar_item_compra = st.form_submit_button('**Atualizar**')
+            input_botao_alterar_item_compra = st.form_submit_button('**Atualizar**', type='primary')
             if input_botao_alterar_item_compra:
                 try:
                     controllers.update_compras_produtos(
@@ -685,7 +684,7 @@ def update_vendas():
             )
         if input_id_venda:
             venda_selecionada = controllers.select_venda_selecionada(input_id_venda)
-        st.form_submit_button('**Buscar**')
+        st.form_submit_button('**Buscar**', type='primary')
         if venda_selecionada:
             st.write('**ID do Cliente**')
             input_cliente_id_cliente = st.selectbox(
@@ -746,7 +745,7 @@ def update_vendas():
                 placeholder='Selecione a forma de pagamento', 
                 label_visibility='collapsed'
             )
-            input_botao_alterar_venda = st.form_submit_button('**Atualizar**')
+            input_botao_alterar_venda = st.form_submit_button('**Atualizar**', type='primary')
             if input_botao_alterar_venda:
                 try:
                     controllers.update_vendas(
@@ -781,7 +780,7 @@ def update_vendas_produtos():
             )
             if input_id_venda_produto:
                 venda_produto_selecionado = controllers.select_vendas_produtos_selecionado(input_id_venda_produto)
-        st.form_submit_button('**Buscar**')
+        st.form_submit_button('**Buscar**', type='primary')
         if venda_produto_selecionado:
             st.write('**ID do Produto**')
             input_produto_ID_produto = st.selectbox(
@@ -808,7 +807,7 @@ def update_vendas_produtos():
                     value=int(venda_produto_selecionado.quantidade_produto_venda),
                     label_visibility='collapsed'
                 )
-            input_botao_alterar_item_venda = st.form_submit_button('**Atualizar**')
+            input_botao_alterar_item_venda = st.form_submit_button('**Atualizar**', type='primary')
             if input_botao_alterar_item_venda:
                 try:
                     controllers.update_vendas_produtos(
@@ -840,7 +839,7 @@ def delete_compras():
                 label_visibility='collapsed'
 
             )
-            input_botao_excluir_compra = st.form_submit_button('**Excluír**')
+            input_botao_excluir_compra = st.form_submit_button('**Excluír**', type='primary')
     if input_botao_excluir_compra:
         try:
             controllers.delete_compras(input_id_compra)
@@ -863,7 +862,7 @@ def delete_compras_produtos():
                 index=None,
                 label_visibility='collapsed'
             )
-            input_botao_excluir_item_compra = st.form_submit_button('**Excluír**')
+            input_botao_excluir_item_compra = st.form_submit_button('**Excluír**', type='primary')
     if input_botao_excluir_item_compra:
         try:
             controllers.delete_compras_produtos(input_id_compra_produto)
@@ -886,7 +885,7 @@ def delete_vendas():
                 index=None,
                 label_visibility='collapsed'
             )
-            input_botao_excluir_venda = st.form_submit_button('**Excluír**')
+            input_botao_excluir_venda = st.form_submit_button('**Excluír**', type='primary')
     if input_botao_excluir_venda:
         try:
             controllers.delete_vendas(input_id_venda)
@@ -909,7 +908,7 @@ def delete_vendas_produtos():
                 index=None,
                 label_visibility='collapsed'
             )
-            input_botao_excluir_item_venda = st.form_submit_button('**Excluír**')
+            input_botao_excluir_item_venda = st.form_submit_button('**Excluír**', type='primary')
     if input_botao_excluir_item_venda:
         try:
             controllers.delete_vendas_produtos(input_id_venda_produto)

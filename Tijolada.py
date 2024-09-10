@@ -23,7 +23,7 @@ def login():
             usuario = st.text_input(label='**Usuário**', label_visibility='collapsed')
             st.write('**Senha**')
             senha = st.text_input(label='**Senha**', type='password', label_visibility='collapsed')
-            botao_login = st.form_submit_button('**Entrar**')
+            botao_login = st.form_submit_button('**Entrar**', type='primary')
         if botao_login:
             if usuario == st.secrets['usuario'] and senha == st.secrets['senha']:
                 st.session_state.logged_in = True
@@ -64,7 +64,7 @@ def logout():
         ''',
         unsafe_allow_html=True
     )
-    if st.button('**Sair**'):
+    if st.button('**Sair**', type='primary'):
         st.session_state.logged_in = False
         st.session_state.authentication_status = None
         st.rerun()
