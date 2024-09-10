@@ -12,10 +12,10 @@ st.set_page_config(
 )
 
 colunas_venda = [
-    'ID', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
+    'ID Venda', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
     'Preço Total', 'Situação do Pagamento', 'Situação da Entrega', 'Forma de Pagamento'
 ]
-colunas_itens_venda = ['ID', 'ID Venda', 'ID Produto', 'Preço Unitário', 'Quantidade']
+colunas_itens_venda = ['ID Item de Venda', 'ID Venda', 'ID Produto', 'Preço Unitário', 'Quantidade']
 colunas_estoques = ['ID', 'ID Produto', 'Quantidade em Estoque']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 
@@ -68,7 +68,7 @@ elif opcoes_menu_vendas == 'Alterar':
         #dados
         try:
             df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
-            st.dataframe(df_vendas.sort_values(by='ID'), hide_index=True)
+            st.dataframe(df_vendas.sort_values(by='ID Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
     elif opcoes_alterar == 'Itens de Venda':
@@ -77,7 +77,11 @@ elif opcoes_menu_vendas == 'Alterar':
         #dados
         try:
             df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)
-            st.dataframe(df_vendas_produtos.sort_values(by='ID'), hide_index=True)
+            df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
+            df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='outer', on='ID Produto')
+            df_vendas_produtos = df_vendas_produtos[['ID Item de Venda', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
+            st.dataframe(df_vendas_produtos.sort_values(by='ID Item de Venda'), hide_index=True)
+
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')  
 #opcao excluir
@@ -99,7 +103,7 @@ elif opcoes_menu_vendas == 'Excluír':
         #dados
         try:
             df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
-            st.dataframe(df_vendas.sort_values(by='ID'), hide_index=True)
+            st.dataframe(df_vendas.sort_values(by='ID Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')  
     elif opcoes_excluir == 'Itens de Venda':
@@ -108,7 +112,7 @@ elif opcoes_menu_vendas == 'Excluír':
         #dados
         try:
             df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)
-            st.dataframe(df_vendas_produtos.sort_values(by='ID'), hide_index=True)
+            st.dataframe(df_vendas_produtos.sort_values(by='ID Item de Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
 #opcao consultar
@@ -128,13 +132,16 @@ elif opcoes_menu_vendas == 'Consultar':
         #dados
         try:
             df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
-            st.dataframe(df_vendas.sort_values(by='ID'), hide_index=True)
+            st.dataframe(df_vendas.sort_values(by='ID Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')  
     elif opcoes_consultar == 'Itens de Venda':
         #dados
         try:
             df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)
-            st.dataframe(df_vendas_produtos.sort_values(by='ID'), hide_index=True)
+            df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
+            df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='outer', on='ID Produto')
+            df_vendas_produtos = df_vendas_produtos[['ID Item de Venda', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
+            st.dataframe(df_vendas_produtos.sort_values(by='ID Item de Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')

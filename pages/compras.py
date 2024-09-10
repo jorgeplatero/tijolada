@@ -12,11 +12,11 @@ st.set_page_config(
 )
 
 colunas_compras = [
-    'ID', 'Data', 'ID Fornecedor', 'Preço Total', 'Situação do Pagamento', 
+    'ID Compra', 'Data', 'ID Fornecedor', 'Preço Total', 'Situação do Pagamento', 
     'Situação da Entrega', 'Forma de Pagamento'
 ]
-colunas_itens_compra = ['ID', 'ID Compra', 'ID Produto', 'Preço Unitário', 'Quantidade']
-colunas_produtos = ['ID', 'Nome', 'Unidade de Medida']
+colunas_itens_compra = ['ID Item de Compra', 'ID Compra', 'ID Produto', 'Preço Unitário', 'Quantidade']
+colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 
 #titulo da pagina
 col1, col2 = st.columns([.2, .8])
@@ -42,7 +42,7 @@ if opcoes_menu_compras == 'Cadastrar':
     #dados
     try:
         df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
-        st.dataframe(df_produtos.sort_values(by='ID'), use_container_width=False, hide_index=True)
+        st.dataframe(df_produtos.sort_values(by='ID Produto'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
 #opcao alterar
@@ -61,7 +61,7 @@ elif opcoes_menu_compras == 'Alterar':
         #dados
         try:
             df_compras = pd.DataFrame(utils.consulta_compras(), columns=colunas_compras)
-            st.dataframe(df_compras.sort_values(by='ID'), hide_index=True)
+            st.dataframe(df_compras.sort_values(by='ID Compra'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass
@@ -70,8 +70,11 @@ elif opcoes_menu_compras == 'Alterar':
         utils.update_compras_produtos()
         #dados
         try:
-            df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)
-            st.dataframe(df_compras_produtos.sort_values(by='ID'), hide_index=True)
+            df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)     
+            df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
+            df_compras_produtos = pd.merge(df_compras_produtos, df_produtos, how='outer', on='ID Produto')
+            df_compras_produtos = df_compras_produtos[['ID Item de Compra', 'ID Compra', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
+            st.dataframe(df_compras_produtos.sort_values(by='ID Item de Compra'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass   
@@ -91,7 +94,7 @@ elif opcoes_menu_compras == 'Excluír':
         #dados
         try:
             df_compras = pd.DataFrame(utils.consulta_compras(), columns=colunas_compras)
-            st.dataframe(df_compras.sort_values(by='ID'), hide_index=True)
+            st.dataframe(df_compras.sort_values(by='ID Compra'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass
@@ -101,7 +104,7 @@ elif opcoes_menu_compras == 'Excluír':
         #dados
         try:
             df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)
-            st.dataframe(df_compras_produtos.sort_values(by='ID'), hide_index=True)
+            st.dataframe(df_compras_produtos.sort_values(by='ID Item de Compra'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass  
@@ -119,15 +122,18 @@ elif opcoes_menu_compras == 'Consultar':
         #dados
         try:
             df_compras = pd.DataFrame(utils.consulta_compras(), columns=colunas_compras)
-            st.dataframe(df_compras.sort_values(by='ID'), hide_index=True)
+            st.dataframe(df_compras.sort_values(by='ID Compra'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass
     elif opcoes_consultar == 'Itens de Compra':
         #dados
         try:
-            df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)
-            st.dataframe(df_compras_produtos.sort_values(by='ID'), hide_index=True)
+            df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)     
+            df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
+            df_compras_produtos = pd.merge(df_compras_produtos, df_produtos, how='outer', on='ID Produto')
+            df_compras_produtos = df_compras_produtos[['ID Item de Compra', 'ID Compra', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
+            st.dataframe(df_compras_produtos.sort_values(by='ID Item de Compra'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
             pass   
