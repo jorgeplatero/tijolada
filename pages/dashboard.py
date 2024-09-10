@@ -56,7 +56,7 @@ with tab1:
     st.write('')
     #dataframes
     #---------------------------------------------------------------
-    #vendas no ano selecionado
+    #compras no ano selecionado
     df_compras = pd.DataFrame(utils.consulta_compras(), columns=colunas_compras)
     df_compras = df_compras[df_compras.Data.dt.year == data.year]
     #fornecedores no ano selecionado

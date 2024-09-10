@@ -1079,7 +1079,6 @@ def fig_evolucao_faturamento_por_produto(df, data, produtos):
     df_faturamento_por_produto['Data'] = df_faturamento_por_produto['Data'].dt.date
     df_faturamento_por_produto = df_faturamento_por_produto.groupby(['Data', 'Nome'])['Preço Unitário (R$)'].sum().reset_index().sort_values('Data')
     df_faturamento_por_produto = df_faturamento_por_produto[df_faturamento_por_produto['Nome'].isin(produtos)]
-    st.dataframe(df_faturamento_por_produto)
     fig = px.line(
         data_frame=df_faturamento_por_produto, 
         x='Data', 
