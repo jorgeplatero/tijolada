@@ -274,7 +274,6 @@ def insert_produtos_vendas(venda_produto):
             """
         )
         db.conn.commit()
-        st.success('Iten(s) de venda inserido(s)!')
     except db.erro as e:
         db.conn.rollback()
         delete_vendas(venda_produto.venda_id_venda) 
@@ -313,7 +312,6 @@ def insert_produtos_compras(compra_produto):
             """
         )
         db.conn.commit()
-        st.success('Iten(s) de compra inserido(s)!')
     except Exception as e:
         db.conn.rollback()
         delete_compras(compra_produto.compra_id_compra)

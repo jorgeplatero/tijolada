@@ -16,7 +16,7 @@ colunas_venda = [
     'ID Venda', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
     'Faturamento (R$)', 'Situação do Pagamento', 'Situação da Entrega', 'Forma de Pagamento'
 ]
-colunas_vendas_produtos = ['ID Item Compra', 'ID Venda', 'ID Produto', 'Preço Unitário (R$)', 'Quantidade']
+colunas_vendas_produtos = ['ID Item Venda', 'ID Venda', 'ID Produto', 'Preço Unitário (R$)', 'Quantidade']
 colunas_compras = [
     'ID Compra', 'Data', 'ID Fornecedor', 'Custo (R$)', 'Situação do Pagamento', 
     'Situação da Entrega', 'Forma de Pagamento'
@@ -63,9 +63,9 @@ with tab1:
     df_fornecedor =  pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedor)
     df_fornecedor = pd.merge(df_compras, df_fornecedor, how='outer', on='ID Fornecedor')
     #produtos no ano selecionado
-    df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
+    df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
     df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_compras_produtos)
-    df_compras_produtos = pd.merge(df_compras_produtos, df_compras, how='outer', on='ID Compra')
+    df_compras_produtos = pd.merge(df_compras_produtos, df_compras[['ID Compra', 'Data']], how='inner', on='ID Compra')
     df_compras_produtos = pd.merge(df_compras_produtos, df_produtos, how='left', on='ID Produto')
     #cards
     #---------------------------------------------------------------
@@ -119,9 +119,9 @@ with tab2:
     df_clientes =  pd.DataFrame(utils.consulta_clientes(), columns=colunas_cliente)
     df_clientes = pd.merge(df_vendas, df_clientes, how='outer', on='ID Cliente')
     #produtos no ano selecionado
-    df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
+    df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
     df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_vendas_produtos)
-    df_vendas_produtos = pd.merge(df_vendas_produtos, df_vendas, how='outer', on='ID Venda')
+    df_vendas_produtos = pd.merge(df_vendas_produtos, df_vendas[['ID Venda', 'Data']], how='inner', on='ID Venda')
     df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='left', on='ID Produto')
     #cards
     #---------------------------------------------------------------

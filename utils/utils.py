@@ -372,7 +372,7 @@ def insert_vendas():
 
 #clientes
 def update_clientes():
-    with st.form(key='update_clientes'):
+    with st.form(key='update_clientes_busca'):
         #formulário
         cliente_selecionado = None
         col1, _ = st.columns([.3, .7])
@@ -385,6 +385,7 @@ def update_clientes():
         if input_id_cliente:
             cliente_selecionado = controllers.select_cliente_selecionado(input_id_cliente)
         st.form_submit_button('**Buscar**', type='primary')
+    with st.form(key='update_clientes_dados'):    
         if cliente_selecionado:
             st.write('**Nome**')
             input_nome_cliente = st.text_input(
@@ -446,7 +447,7 @@ def update_clientes():
 
 #fornecedores
 def update_fornecedores():
-    with st.form(key='update_fornedores'):
+    with st.form(key='update_fornedores_busca'):
         #formulário
         fornecedor_selecionado = None
         col1, _ = st.columns([.3, .7])
@@ -459,6 +460,7 @@ def update_fornecedores():
         if input_id_fornecedor:
             fornecedor_selecionado = controllers.select_fornecedor_selecionado(input_id_fornecedor)
         st.form_submit_button('**Buscar**', type='primary')
+    with st.form(key='update_fornedores_dados'):
         if fornecedor_selecionado:
             st.write('**Nome**')
             input_nome_fornecedor = st.text_input(
@@ -502,7 +504,7 @@ def update_fornecedores():
 
 #produtos
 def update_produtos():
-    with st.form(key='update_produtos'):
+    with st.form(key='update_produtos_busca'):
         opcoes_unidade_medida = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
         #formulário
         produto_selecionado = None
@@ -516,6 +518,7 @@ def update_produtos():
         if input_id_produto:
             produto_selecionado = controllers.select_produto_selecionado(input_id_produto)
         st.form_submit_button('**Buscar**', type='primary')
+    with st.form(key='update_produtos_dados'):    
         if produto_selecionado:
             st.write('**Nome**')
             input_nome_produto = st.text_input(
@@ -543,7 +546,7 @@ def update_produtos():
 
 #compras    
 def update_compras():
-    with st.form(key='update_compras'):
+    with st.form(key='update_compras_busca'):
         opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         #formulário
         compra_selecionada = None
@@ -560,6 +563,7 @@ def update_compras():
         if input_id_compra:
             compra_selecionada = controllers.select_compra_selecionada(input_id_compra)
         st.form_submit_button('**Buscar**', type='primary')
+    with st.form(key='update_compras_dados'):    
         if compra_selecionada:
             st.write('**ID do Fornecedor**')
             input_fornecedor_id_fornecedor = st.selectbox(
@@ -610,7 +614,7 @@ def update_compras():
 
 #itens de compra
 def update_compras_produtos():
-    with st.form(key='update_compras_produtos'):
+    with st.form(key='update_compras_produtos_busca'):
         #formulário
         compra_produto_selecionado = None
         col1, _ = st.columns([.3, .7])
@@ -626,6 +630,7 @@ def update_compras_produtos():
         if input_id_compra_produto:
             compra_produto_selecionado = controllers.select_compras_produtos_selecionado(input_id_compra_produto)
         st.form_submit_button('**Buscar**', type='primary')
+    with st.form(key='update_compras_produtos_dados'):
         if compra_produto_selecionado:
             st.write('**ID do Produto**')
             input_produto_ID_produto = st.selectbox(
@@ -668,7 +673,7 @@ def update_compras_produtos():
         
 #vendas
 def update_vendas():
-    with st.form(key='update_vendas'):
+    with st.form(key='update_vendas_busca'):
         opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         #formulário
         venda_selecionada = None
@@ -685,6 +690,7 @@ def update_vendas():
         if input_id_venda:
             venda_selecionada = controllers.select_venda_selecionada(input_id_venda)
         st.form_submit_button('**Buscar**', type='primary')
+    with st.form(key='update_vendas_dados'):    
         if venda_selecionada:
             st.write('**ID do Cliente**')
             input_cliente_id_cliente = st.selectbox(
@@ -765,7 +771,7 @@ def update_vendas():
 
 #itens de venda
 def update_vendas_produtos():
-    with st.form(key='update_vendas_produtos'):
+    with st.form(key='update_vendas_produtos_busca'):
         #formulário
         venda_produto_selecionado = None
         col1, _ = st.columns([.3, .7])
@@ -781,6 +787,7 @@ def update_vendas_produtos():
             if input_id_venda_produto:
                 venda_produto_selecionado = controllers.select_vendas_produtos_selecionado(input_id_venda_produto)
         st.form_submit_button('**Buscar**', type='primary')
+    with st.form(key='update_vendas_produtos_dados'):    
         if venda_produto_selecionado:
             st.write('**ID do Produto**')
             input_produto_ID_produto = st.selectbox(
@@ -990,17 +997,18 @@ def fig_despesa_por_fornecedor(df, data):
     st.plotly_chart(fig)
 
 
-#evolução da média de custo por produto no ano selecionado
+#evolução da despesa por produto no ano selecionado
 def fig_evolucao_despesa_por_produto(df, data, produtos):
-    df_custo_por_produto = df.sort_values('Data')
-    df_custo_por_produto['Data'] = df_custo_por_produto['Data'].dt.date
-    df_custo_por_produto = df_custo_por_produto.groupby(['Data', 'Nome'])['Preço Unitário (R$)'].sum().reset_index().sort_values('Data')
-    df_custo_por_produto = df_custo_por_produto[df_custo_por_produto['Nome'].isin(produtos)]
+    df_despesa_por_produto = df.sort_values('Data')
+    df_despesa_por_produto['Data'] = df_despesa_por_produto['Data'].dt.date
+    df_despesa_por_produto['Despesa (R$)'] = df_despesa_por_produto['Preço Unitário (R$)'].astype(float) * df_despesa_por_produto['Quantidade']
+    df_despesa_por_produto = df_despesa_por_produto.groupby(['Data', 'Nome'])['Despesa (R$)'].sum().reset_index().sort_values('Data')
+    df_despesa_por_produto = df_despesa_por_produto[df_despesa_por_produto['Nome'].isin(produtos)]
     fig = px.line(
-        data_frame=df_custo_por_produto, 
+        data_frame=df_despesa_por_produto, 
         x='Data', 
-        y='Preço Unitário (R$)',
-        text=df_custo_por_produto['Preço Unitário (R$)'].apply(lambda x: f'R$ {x:.2f}'),
+        y='Despesa (R$)',
+        text=df_despesa_por_produto['Despesa (R$)'].apply(lambda x: f'R$ {x:.2f}'),
         hover_name='Nome',
         color='Nome'
     )
@@ -1070,22 +1078,22 @@ def fig_faturamento_por_cliente(df, data):
         tickangle=45
     )
     st.plotly_chart(fig)
-    
 
-#evolução da média de faturamento por produto no ano selecionado
+
+#evolução do faturamento por produto no ano selecionado
 def fig_evolucao_faturamento_por_produto(df, data, produtos):
     df_faturamento_por_produto = df.sort_values('Data')
     df_faturamento_por_produto['Data'] = df_faturamento_por_produto['Data'].dt.date
-    df_faturamento_por_produto = df_faturamento_por_produto.groupby(['Data', 'Nome'])['Preço Unitário (R$)'].sum().reset_index().sort_values('Data')
+    df_faturamento_por_produto['Faturamento (R$)'] = df_faturamento_por_produto['Preço Unitário (R$)'].astype(float) * df_faturamento_por_produto['Quantidade']
+    df_faturamento_por_produto = df_faturamento_por_produto.groupby(['Data', 'Nome'])['Faturamento (R$)'].sum().reset_index().sort_values('Data')
     df_faturamento_por_produto = df_faturamento_por_produto[df_faturamento_por_produto['Nome'].isin(produtos)]
     fig = px.line(
         data_frame=df_faturamento_por_produto, 
         x='Data', 
-        y='Preço Unitário (R$)',
-        text=df_faturamento_por_produto['Preço Unitário (R$)'].apply(lambda x: f'R$ {x:.2f}'),
+        y='Faturamento (R$)',
+        text=df_faturamento_por_produto['Faturamento (R$)'].apply(lambda x: f'R$ {x:.2f}'),
         hover_name='Nome',
         color='Nome',
-        labels={'Preço Unitário (R$)': 'Faturamento (R$)'}
     )
     fig.update_layout(
         title=f'Evolução do Faturamento Por Produto em {data.year}',
