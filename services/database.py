@@ -1,6 +1,10 @@
 import psycopg2 as ps
+import warnings
+warnings.filterwarnings('ignore')
 
 
+#conexao com banco de dados
+#---------------------------------------------------------------
 conn = ps.connect(
     dbname = 'tijolada',
     user ='postgres',

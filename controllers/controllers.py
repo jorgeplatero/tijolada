@@ -1,7 +1,6 @@
 import streamlit as st
 import services.database as db
 import models.models as models
-import re
 
 
 #consultas

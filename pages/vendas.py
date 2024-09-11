@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
-import utils.utils as utils
+import modules.form_module as forms
+import modules.utils_module as utils
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -39,7 +40,7 @@ opcoes_menu_vendas = st.selectbox(
 #opcao cadastrar
 if opcoes_menu_vendas == 'Cadastrar':
     #formulario
-    utils.insert_vendas()
+    forms.insert_vendas()
     #dados
     try:
         st.write('')
@@ -64,7 +65,7 @@ elif opcoes_menu_vendas == 'Alterar':
     )
     if opcoes_alterar == 'Venda':
         #formulario
-        utils.update_vendas()
+        forms.update_vendas()
         #dados
         try:
             df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
@@ -73,7 +74,7 @@ elif opcoes_menu_vendas == 'Alterar':
             st.error(f'Erro durante consulta: {e}')
     elif opcoes_alterar == 'Itens de Venda':
         #formulario
-        utils.update_vendas_produtos()
+        forms.update_vendas_produtos()
         #dados
         try:
             df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)
@@ -99,7 +100,7 @@ elif opcoes_menu_vendas == 'Excluír':
     )
     if opcoes_excluir == 'Venda':
         #formulario
-        utils.delete_vendas()
+        forms.delete_vendas()
         #dados
         try:
             df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
@@ -108,7 +109,7 @@ elif opcoes_menu_vendas == 'Excluír':
             st.error(f'Erro durante consulta: {e}')  
     elif opcoes_excluir == 'Itens de Venda':
         #formulario
-        utils.delete_vendas_produtos()
+        forms.delete_vendas_produtos()
         #dados
         try:
             df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)

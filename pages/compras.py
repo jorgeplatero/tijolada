@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
-import utils.utils as utils
+import modules.form_module as forms
+import modules.utils_module as utils
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -38,7 +39,7 @@ opcoes_menu_compras = st.selectbox(
 #opcao cadastrar
 if opcoes_menu_compras == 'Cadastrar':
     #formulario
-    utils.insert_compras()
+    forms.insert_compras()
     #dados
     try:
         df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
@@ -57,7 +58,7 @@ elif opcoes_menu_compras == 'Alterar':
     )
     if opcoes_alterar == 'Compra':
         #formulario
-        utils.update_compras()
+        forms.update_compras()
         #dados
         try:
             df_compras = pd.DataFrame(utils.consulta_compras(), columns=colunas_compras)
@@ -67,7 +68,7 @@ elif opcoes_menu_compras == 'Alterar':
             pass
     elif opcoes_alterar == 'Itens de Compra':
         #formulario
-        utils.update_compras_produtos()
+        forms.update_compras_produtos()
         #dados
         try:
             df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)     
@@ -90,7 +91,7 @@ elif opcoes_menu_compras == 'Excluír':
     )
     if opcoes_excluir == 'Compra':
         #formulario
-        utils.delete_compras()
+        forms.delete_compras()
         #dados
         try:
             df_compras = pd.DataFrame(utils.consulta_compras(), columns=colunas_compras)
@@ -100,7 +101,7 @@ elif opcoes_menu_compras == 'Excluír':
             pass
     elif opcoes_excluir == 'Itens de Compra':
         #formulario
-        utils.delete_compras_produtos()
+        forms.delete_compras_produtos()
         #dados
         try:
             df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)

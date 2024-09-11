@@ -1,136 +1,10 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import controllers.controllers as controllers
 import models.models as models
-
-
-#consultas
-#---------------------------------------------------------------
-
-#clientes
-def consulta_clientes():
-    clientes = []
-    try:
-        for item in controllers.select_clientes():
-            clientes.append(
-                [
-                    item.id_cliente, item.nome_cliente, item.tipo_cliente, item.cpf_cnpj_cliente,
-                    item.endereco_cliente, item.bairro_cliente, item.telefone_cliente, 
-                    item.referencia_cliente, item.situacao_cliente
-                ]
-            )
-    except Exception as e:
-            st.error(f'Erro durante consulta: {e}')
-    return clientes
-
-
-#fornecedores
-def consulta_fornecedores():
-    fornecedores = []
-    try:
-        for item in controllers.select_fornecedores():
-            fornecedores.append(
-                [
-                    item.id_fornecedor, item.nome_fornecedor, item.cnpj_fornecedor,
-                    item.endereco_fornecedor, item.bairro_fornecedor, item.telefone_fornecedor
-                ]
-            )
-    except Exception as e:
-            st.error(f'Erro durante consulta: {e}')
-    return fornecedores
-
-
-#produtos
-def consulta_produtos():
-    produtos = []
-    try:
-        for item in controllers.select_produtos():
-            produtos.append([item.id_produto, item.nome_produto, item.unidade_medida_produto])
-    except Exception as e:
-            st.error(f'Erro durante consulta: {e}')
-    return produtos
-
-
-#compras
-def consulta_compras():
-    compras = []
-    try:
-        for item in controllers.select_compras():
-            compras.append(
-                [
-                    item.id_compra, item.data_compra, item.fornecedor_id_fornecedor, item.preco_total_compra, 
-                    item.situacao_pagamento_compra, item.situacao_entrega_compra, item.forma_pagamento_compra
-                ]
-            )
-    except Exception as e:
-            st.error(f'Erro durante consulta: {e}')
-    return compras
-
-
-#itens de compras
-def consulta_compras_produtos():
-    compras_produtos = []
-    try:
-        for item in controllers.select_compras_produtos():
-            compras_produtos.append(
-                [
-                    item.id_compra_produto, item.compra_id_compra, item.produto_id_produto, 
-                    item.preco_unitario_produto_compra, item.quantidade_produto_compra
-                ]
-            )
-    except Exception as e:
-            st.error(f'Erro durante consulta: {e}')
-    return compras_produtos
-
-
-#vendas
-def consulta_vendas():
-    vendas = []
-    try:
-        for item in controllers.select_vendas():
-            vendas.append(
-                [
-                    item.id_venda, item.data_venda, item.cliente_id_cliente,
-                    item.endereco_entrega_venda, item.bairro_entrega_venda, item.observacoes_venda,
-                    item.preco_total_venda, item.situacao_pagamento_venda, item.situacao_entrega_venda,
-                    item.forma_pagamento_venda
-                ]
-            )
-    except Exception as e:
-            st.error(f'Erro durante consulta: {e}')
-    return vendas
-
-
-#itens de vendas
-def consulta_vendas_produtos():
-    vendas_produtos = []
-    try:
-        for item in controllers.select_vendas_produtos():
-            vendas_produtos.append(
-                [
-                    item.id_venda_produto, item.venda_id_venda, item.produto_id_produto, 
-                    item.preco_unitario_produto_venda, item.quantidade_produto_venda
-                ]
-            )
-    except Exception as e:
-            st.error(f'Erro durante consulta: {e}')
-    return vendas_produtos
-
-
-#estoque
-def consulta_estoques():
-    estoques = []
-    try:
-        for item in controllers.select_estoques():
-            estoques.append(
-                [
-                    item.id_estoque, item.produto_id_produto, item.quantidade_estoque
-                ]
-            )
-    except Exception as e:
-            st.error(f'Erro durante consulta: {e}')
-    return estoques
+import modules.utils_module as utils
+import warnings
+warnings.filterwarnings('ignore')
 
 
 #inserts
@@ -234,7 +108,7 @@ def insert_compras():
         df_compra_produto = pd.DataFrame(columns=['ID Produto', 'Preço Unitário', 'Quantidade'])
         #compra
         st.write('**ID do Fornecedor**')
-        input_fornecedor_id_fornecedor = st.selectbox(label='ID Fornecedor', options=[row[0] for row in consulta_fornecedores()], placeholder='Selecione o ID do cliente', index=None, label_visibility='collapsed')
+        input_fornecedor_id_fornecedor = st.selectbox(label='ID Fornecedor', options=[row[0] for row in utils.consulta_fornecedores()], placeholder='Selecione o ID do cliente', index=None, label_visibility='collapsed')
         col1, col2 = st.columns(2)
         with col1:
             st.write('**Situação do Pagamento**')
@@ -252,7 +126,7 @@ def insert_compras():
                 'ID Produto': st.column_config.SelectboxColumn(
                     label='ID do Fornecedor',
                     help='Selecione o codigo do produto',
-                    options=[row[0] for row in consulta_produtos()],
+                    options=[row[0] for row in utils.consulta_produtos()],
                     required=True
                 ),
                 'Preço Unitário': st.column_config.NumberColumn(
@@ -303,7 +177,7 @@ def insert_vendas():
         df_venda_produto = pd.DataFrame(columns=['ID Produto', 'Quantidade'])
         #venda
         st.write('**ID do Cliente**')
-        input_cliente_id_cliente = st.selectbox(label='ID Cliente', options=[row[0] for row in consulta_clientes()], placeholder='Selecione o ID cliente', index=None, label_visibility= 'collapsed')
+        input_cliente_id_cliente = st.selectbox(label='ID Cliente', options=[row[0] for row in utils.consulta_clientes()], placeholder='Selecione o ID cliente', index=None, label_visibility= 'collapsed')
         col1, col2 = st.columns([.6, .4])
         with col1:
             st.write('**Endereço de Entrega**')
@@ -329,7 +203,7 @@ def insert_vendas():
                 'ID Produto': st.column_config.SelectboxColumn(
                     label='ID do Produto',
                     help='Selecione o ID do produto',
-                    options=[row[0] for row in consulta_produtos()],
+                    options=[row[0] for row in utils.consulta_produtos()],
                     required=True
                 ),
                 'Quantidade': st.column_config.NumberColumn(
@@ -379,7 +253,7 @@ def update_clientes():
         with col1:
             st.write('**ID do Cliente**')
             input_id_cliente = st.selectbox(
-                label='ID Cliente', options=[row[0] for row in consulta_clientes()], 
+                label='ID Cliente', options=[row[0] for row in utils.consulta_clientes()], 
                 placeholder='Selecione o ID do cliente', index=None, label_visibility='collapsed'
             )
         if input_id_cliente:
@@ -454,7 +328,7 @@ def update_fornecedores():
         with col1:
             st.write('**ID do Fornecedor**')
             input_id_fornecedor = st.selectbox(
-                label='ID Fornecedor', options=[row[0] for row in consulta_fornecedores()], 
+                label='ID Fornecedor', options=[row[0] for row in utils.consulta_fornecedores()], 
                 placeholder='Selecione o ID do fornecedor', index=None, label_visibility='collapsed'
             )
         if input_id_fornecedor:
@@ -512,7 +386,7 @@ def update_produtos():
         with col1:
             st.write('**ID do Produto**')
             input_id_produto = st.selectbox(
-                label='ID Produto', options=[row[0] for row in consulta_produtos()], 
+                label='ID Produto', options=[row[0] for row in utils.consulta_produtos()], 
                 placeholder='Selecione o ID do produto', index=None, label_visibility='collapsed'
             )
         if input_id_produto:
@@ -556,7 +430,7 @@ def update_compras():
             input_id_compra = st.selectbox(
                 label='ID Compra', 
                 placeholder='Selecione o ID da compra', 
-                options=[row[0] for row in consulta_compras()],
+                options=[row[0] for row in utils.consulta_compras()],
                 index=None,
                 label_visibility='collapsed'
             )
@@ -569,8 +443,8 @@ def update_compras():
             input_fornecedor_id_fornecedor = st.selectbox(
                 label='ID Fornecedor', 
                 placeholder='Selecione o ID do fornecedor',
-                options=[row[0] for row in consulta_fornecedores()],
-                index=[row[0] for row in consulta_fornecedores()].index(compra_selecionada.fornecedor_id_fornecedor),
+                options=[row[0] for row in utils.consulta_fornecedores()],
+                index=[row[0] for row in utils.consulta_fornecedores()].index(compra_selecionada.fornecedor_id_fornecedor),
                 label_visibility='collapsed'
             )
             col1, col2 = st.columns(2)
@@ -623,7 +497,7 @@ def update_compras_produtos():
             input_id_compra_produto = st.selectbox(
                 label='ID', 
                 placeholder='Selecione o ID do item da compra', 
-                options=[row[0] for row in consulta_compras_produtos()], 
+                options=[row[0] for row in utils.consulta_compras_produtos()], 
                 index=None, 
                 label_visibility='collapsed'
             )
@@ -636,8 +510,8 @@ def update_compras_produtos():
             input_produto_ID_produto = st.selectbox(
                 label='ID Produto',
                 placeholder='Selecione o ID do produto',
-                options=[row[0] for row in consulta_produtos()], 
-                index=[row[0] for row in consulta_produtos()].index(compra_produto_selecionado.produto_id_produto),
+                options=[row[0] for row in utils.consulta_produtos()], 
+                index=[row[0] for row in utils.consulta_produtos()].index(compra_produto_selecionado.produto_id_produto),
                 label_visibility='collapsed'
             )
             col1, col2 = st.columns(2)
@@ -683,7 +557,7 @@ def update_vendas():
             input_id_venda = st.selectbox(
                 label='ID Venda', 
                 placeholder='Selecione o ID da venda', 
-                options=[row[0] for row in consulta_vendas()], 
+                options=[row[0] for row in utils.consulta_vendas()], 
                 index=None,
                 label_visibility='collapsed'
             )
@@ -696,8 +570,8 @@ def update_vendas():
             input_cliente_id_cliente = st.selectbox(
                 label='ID Cliente', 
                 placeholder='Selecione o ID do cliente', 
-                options=[row[0] for row in consulta_clientes()],
-                index=[row[0] for row in consulta_clientes()].index(venda_selecionada.cliente_id_cliente),
+                options=[row[0] for row in utils.consulta_clientes()],
+                index=[row[0] for row in utils.consulta_clientes()].index(venda_selecionada.cliente_id_cliente),
                 label_visibility='collapsed'
             )
             col1, col2 = st.columns([.6, .4])
@@ -780,7 +654,7 @@ def update_vendas_produtos():
             input_id_venda_produto = st.selectbox(
                 label='ID', 
                 placeholder='Selecione o ID do item da venda', 
-                options=[row[0] for row in consulta_vendas_produtos()], 
+                options=[row[0] for row in utils.consulta_vendas_produtos()], 
                 index=None,
                 label_visibility='collapsed'
             )
@@ -793,8 +667,8 @@ def update_vendas_produtos():
             input_produto_ID_produto = st.selectbox(
                 label='ID Produto',
                 placeholder='Selecione o ID do produto',
-                options=[row[0] for row in consulta_produtos()], 
-                index=[row[0] for row in consulta_produtos()].index(venda_produto_selecionado.produto_id_produto),
+                options=[row[0] for row in utils.consulta_produtos()], 
+                index=[row[0] for row in utils.consulta_produtos()].index(venda_produto_selecionado.produto_id_produto),
                 label_visibility='collapsed'
             )
             col1, col2 = st.columns(2)
@@ -841,7 +715,7 @@ def delete_compras():
             input_id_compra = st.selectbox(
                 label='ID', 
                 placeholder='Selecione o ID da compra', 
-                options=[row[0] for row in consulta_compras()], 
+                options=[row[0] for row in utils.consulta_compras()], 
                 index=None,
                 label_visibility='collapsed'
 
@@ -865,7 +739,7 @@ def delete_compras_produtos():
             input_id_compra_produto = st.selectbox(
                 label='ID', 
                 placeholder='Selecione o ID do item da compra', 
-                options=[row[0] for row in consulta_compras_produtos()], 
+                options=[row[0] for row in utils.consulta_compras_produtos()], 
                 index=None,
                 label_visibility='collapsed'
             )
@@ -888,7 +762,7 @@ def delete_vendas():
             input_id_venda = st.selectbox(
                 label='ID', 
                 placeholder='Selecione o ID da venda', 
-                options=[row[0] for row in consulta_vendas()], 
+                options=[row[0] for row in utils.consulta_vendas()], 
                 index=None,
                 label_visibility='collapsed'
             )
@@ -911,7 +785,7 @@ def delete_vendas_produtos():
             input_id_venda_produto = st.selectbox(
                 label='ID', 
                 placeholder='Selecione o ID do item da venda', 
-                options=[row[0] for row in consulta_vendas_produtos()], 
+                options=[row[0] for row in utils.consulta_vendas_produtos()], 
                 index=None,
                 label_visibility='collapsed'
             )
@@ -923,186 +797,3 @@ def delete_vendas_produtos():
             st.error(f'Erro durante exclusão: {e}')
     else:
         pass
-
-
-#formatacoes
-#---------------------------------------------------------------
-
-#valores
-def formata_valor(valor, prefixo = ''):
-    for unidade in ['', 'mil']:
-        if valor < 1000:
-            return f'{prefixo} {valor:.2f} {unidade}'
-        valor /= 1000
-    return f'{prefixo} {valor:.2f} milhões'
-
-
-#graficos
-#---------------------------------------------------------------
-
-#evolução de despesas no ano selecionado
-def fig_evolucao_despesa(df, data):
-    df_compras_custo_mensal = df.sort_values('Data')
-    df_compras_custo_mensal['Data'] = df_compras_custo_mensal['Data'].dt.date
-    df_compras_custo_mensal = df_compras_custo_mensal.groupby('Data')['Custo (R$)'].sum().reset_index()
-    fig = px.line(
-        data_frame=df_compras_custo_mensal, 
-        x='Data', 
-        y='Custo (R$)',
-        hover_name='Data',
-        labels={'Custo (R$)': 'Despesa (R$)'}
-    )
-    fig.update_layout(
-        title=f'Evolução de Despesas em {data.year}',
-        xaxis_title='Data', 
-        yaxis_showticklabels=True,
-        height=500
-    )
-    fig.update_traces(
-        textposition='top center',
-        hovertemplate='Data: %{hovertext}<br>Despesa: R$ %{y:.2f}'
-    )
-    st.plotly_chart(fig)
-
-
-#despesa por fornecedor no ano selecionado
-def fig_despesa_por_fornecedor(df, data):
-    df_custo_por_fornecedor = df
-    df_custo_por_fornecedor = df_custo_por_fornecedor.groupby('Nome')['Custo (R$)'].sum().reset_index()
-    df_custo_por_fornecedor = df_custo_por_fornecedor.sort_values('Custo (R$)', ascending=False).head()
-    df_custo_por_fornecedor['Custo (R$)'] = df_custo_por_fornecedor['Custo (R$)'].astype('float64')
-    fig = px.bar(
-        data_frame=df_custo_por_fornecedor, 
-        x='Nome', 
-        y='Custo (R$)',
-        text=df_custo_por_fornecedor['Custo (R$)'].apply(lambda x: f'R$ {x:.2f}'),
-        color='Custo (R$)',
-        hover_name='Nome',
-        labels={'Custo (R$)': 'Despesa (R$)'}
-    )
-    fig.update_layout(
-        title=f'Top 5 Clientes em {data.year}',
-        xaxis_type='category',
-        yaxis_showticklabels=False,
-        height=500
-    )
-    fig.update_traces(
-        showlegend=False,
-        textposition='outside',
-        hovertemplate='Nome: %{hovertext}<br>Custo: R$ %{y:.2f}'
-    )
-    fig.update_xaxes(
-        tickangle=45
-    )
-    st.plotly_chart(fig)
-
-
-#evolução da despesa por produto no ano selecionado
-def fig_evolucao_despesa_por_produto(df, data, produtos):
-    df_despesa_por_produto = df.sort_values('Data')
-    df_despesa_por_produto['Data'] = df_despesa_por_produto['Data'].dt.date
-    df_despesa_por_produto['Despesa (R$)'] = df_despesa_por_produto['Preço Unitário (R$)'].astype(float) * df_despesa_por_produto['Quantidade']
-    df_despesa_por_produto = df_despesa_por_produto.groupby(['Data', 'Nome'])['Despesa (R$)'].sum().reset_index().sort_values('Data')
-    df_despesa_por_produto = df_despesa_por_produto[df_despesa_por_produto['Nome'].isin(produtos)]
-    fig = px.line(
-        data_frame=df_despesa_por_produto, 
-        x='Data', 
-        y='Despesa (R$)',
-        text=df_despesa_por_produto['Despesa (R$)'].apply(lambda x: f'R$ {x:.2f}'),
-        hover_name='Nome',
-        color='Nome'
-    )
-    fig.update_layout(
-        title=f'Evolução da Despesa Por Produto em {data.year}',
-        xaxis_title='Data', 
-        yaxis_showticklabels=False,
-        height=500
-    )
-    fig.update_traces(
-        textposition='top center',
-        hovertemplate='Produto: %{hovertext}<br>Despesa (R$): %{y:.2f}<br>Data: %{x}'
-    )
-    st.plotly_chart(fig)
-
-
-#evolucao do faturamento no ano selecionado
-def fig_evolucao_faturamento(df, data):
-    df_vendas_faturamento_mensal = df.sort_values('Data')
-    df_vendas_faturamento_mensal['Data'] = df_vendas_faturamento_mensal['Data'].dt.date
-    df_vendas_faturamento_mensal = df_vendas_faturamento_mensal[df_vendas_faturamento_mensal['Situação do Pagamento'] == 'Realizado']
-    df_vendas_faturamento_mensal = df_vendas_faturamento_mensal.groupby('Data')['Faturamento (R$)'].sum().reset_index()
-    fig = px.line(
-        data_frame=df_vendas_faturamento_mensal, 
-        x='Data', 
-        y='Faturamento (R$)',
-        hover_name='Data'
-    )
-    fig.update_layout(
-        title=f'Faturamento Mensal em {data.year}',
-        xaxis_title='Data',
-        height=500
-    )
-    fig.update_traces(
-        textposition='top center',
-        hovertemplate='Data: %{hovertext}<br>Faturamento: R$ %{y:.2f}'
-    )
-    st.plotly_chart(fig)
-    
-
-#faturamento por cliente no ano selecionado
-def fig_faturamento_por_cliente(df, data):
-    df_faturamento_por_cliente = df[df['Situação do Pagamento'] == 'Realizado']
-    df_faturamento_por_cliente = df_faturamento_por_cliente.groupby('Nome')['Faturamento (R$)'].sum().reset_index()
-    df_faturamento_por_cliente = df_faturamento_por_cliente.sort_values('Faturamento (R$)', ascending=False).head()
-    df_faturamento_por_cliente['Faturamento (R$)'] = df_faturamento_por_cliente['Faturamento (R$)'].astype('float64')
-    fig = px.bar(
-        data_frame=df_faturamento_por_cliente, 
-        x='Nome', 
-        y='Faturamento (R$)',
-        text=df_faturamento_por_cliente['Faturamento (R$)'].apply(lambda x: f'R$ {x:.2f}'),
-        color='Faturamento (R$)',
-        hover_name='Nome'
-    )
-    fig.update_layout(
-        title=f'Top 5 Clientes em {data.year}',
-        xaxis_type='category',
-        yaxis_showticklabels=False,
-        height=500
-    )
-    fig.update_traces(
-        showlegend=False,
-        textposition='outside',
-        hovertemplate='Nome: %{hovertext}<br>Faturamento: R$ %{y:.2f}'
-    )
-    fig.update_xaxes(
-        tickangle=45
-    )
-    st.plotly_chart(fig)
-
-
-#evolução do faturamento por produto no ano selecionado
-def fig_evolucao_faturamento_por_produto(df, data, produtos):
-    df_faturamento_por_produto = df.sort_values('Data')
-    df_faturamento_por_produto['Data'] = df_faturamento_por_produto['Data'].dt.date
-    df_faturamento_por_produto['Faturamento (R$)'] = df_faturamento_por_produto['Preço Unitário (R$)'].astype(float) * df_faturamento_por_produto['Quantidade']
-    df_faturamento_por_produto = df_faturamento_por_produto.groupby(['Data', 'Nome'])['Faturamento (R$)'].sum().reset_index().sort_values('Data')
-    df_faturamento_por_produto = df_faturamento_por_produto[df_faturamento_por_produto['Nome'].isin(produtos)]
-    fig = px.line(
-        data_frame=df_faturamento_por_produto, 
-        x='Data', 
-        y='Faturamento (R$)',
-        text=df_faturamento_por_produto['Faturamento (R$)'].apply(lambda x: f'R$ {x:.2f}'),
-        hover_name='Nome',
-        color='Nome',
-    )
-    fig.update_layout(
-        title=f'Evolução do Faturamento Por Produto em {data.year}',
-        xaxis_title='Data', 
-        yaxis_showticklabels=False,
-        height=500
-    )
-    fig.update_traces(
-        textposition='top center',
-        hovertemplate='Produto: %{hovertext}<br>Faturamento (R$): %{y:.2f}<br>Data: %{x}'
-    )
-    st.plotly_chart(fig)

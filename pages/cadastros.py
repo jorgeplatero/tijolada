@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
-import utils.utils as utils
+import modules.form_module as forms
+import modules.utils_module as utils
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -50,10 +51,10 @@ if opcao_menu_cadastros == 'Cliente':
     )
     if opcoes_cadastro_clientes =='Cadastrar':
         #formulario
-        utils.insert_clientes()
+        forms.insert_clientes()
     elif opcoes_cadastro_clientes == 'Alterar':
         #formulario
-        utils.update_clientes()
+        forms.update_clientes()
     #dados
     try:
         df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=colunas_cliente)
@@ -75,10 +76,10 @@ elif opcao_menu_cadastros == 'Fornecedor':
     )
     if opcoes_cadastro_fornecedor =='Cadastrar':
         #formulario
-        utils.insert_fornecedores()
+        forms.insert_fornecedores()
     elif opcoes_cadastro_fornecedor == 'Alterar':
         #formulario
-        utils.update_fornecedores()
+        forms.update_fornecedores()
     #dados
     try:
         df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedor)
@@ -100,10 +101,10 @@ elif opcao_menu_cadastros == 'Produto':
     )
     if opcoes_cadastro_produto =='Cadastrar':
         #formulario
-        utils.insert_produtos()
+        forms.insert_produtos()
     elif opcoes_cadastro_produto == 'Alterar':
         #formulario
-        utils.update_produtos()
+        forms.update_produtos()
     #dados
     try:
         df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)

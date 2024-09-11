@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import utils.utils as utils
+import modules.fig_module as figures
+import modules.utils_module as utils
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -84,8 +85,8 @@ with tab1:
         st.metric('**Despesa do ano**', f'R$ {total_despesa_ano}')
     #graficos
     #---------------------------------------------------------------
-    utils.fig_evolucao_despesa(df_compras, data)
-    utils.fig_despesa_por_fornecedor(df_fornecedor, data)
+    figures.fig_evolucao_despesa(df_compras, data)
+    figures.fig_despesa_por_fornecedor(df_fornecedor, data)
     input_produtos = st.multiselect(
         key='seletor_produtos_compra',
         label='**Produtos**',
@@ -95,7 +96,7 @@ with tab1:
         help='Selecione produtos para análise'
     )
     produtos = list(input_produtos)
-    utils.fig_evolucao_despesa_por_produto(df_compras_produtos, data, produtos)
+    figures.fig_evolucao_despesa_por_produto(df_compras_produtos, data, produtos)
 
 with tab2:
     #titulo da aba
@@ -139,8 +140,8 @@ with tab2:
     with col3:
         st.metric('**Faturamento do ano**', f'R$ {total_faturamento_ano}')
     #graficos
-    utils.fig_evolucao_faturamento(df_vendas, data)
-    utils.fig_faturamento_por_cliente(df_clientes, data)
+    figures.fig_evolucao_faturamento(df_vendas, data)
+    figures.fig_faturamento_por_cliente(df_clientes, data)
     input_produtos = st.multiselect(
         key='seletor_produtos_venda',
         label='**Produtos**',
@@ -150,7 +151,7 @@ with tab2:
         help='Selecione produtos para análise'
     )
     produtos = list(input_produtos)
-    utils.fig_evolucao_faturamento_por_produto(df_vendas_produtos, data, produtos)
+    figures.fig_evolucao_faturamento_por_produto(df_vendas_produtos, data, produtos)
 
 with tab3:
     #titulo da aba
