@@ -38,7 +38,7 @@ textColor='#FAFAFA'
 .stButton > button:hover {
     background: #FFFFFF;
     color: #262730;
-    border: 1px solid #262730;
+    border: none;
     width: 88px;
     margin-top: 15px;
     margin-bottom: 10px;
