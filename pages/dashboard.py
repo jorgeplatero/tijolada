@@ -90,8 +90,8 @@ with tab1:
     input_produtos = st.multiselect(
         key='seletor_produtos_compra',
         label='**Produtos**',
-        options=[row[1] for row in utils.consulta_produtos()],
-        default=[row[1] for row in utils.consulta_produtos()][0],
+        options=[row for row in df_compras_produtos['Nome']],
+        default=[row for row in df_compras_produtos['Nome']][0],
         max_selections=10,
         help='Selecione produtos para análise'
     )
@@ -145,8 +145,8 @@ with tab2:
     input_produtos = st.multiselect(
         key='seletor_produtos_venda',
         label='**Produtos**',
-        options=[row[1] for row in utils.consulta_produtos()],
-        default=[row[1] for row in utils.consulta_produtos()][0],
+        options=[row for row in df_vendas_produtos['Nome']],
+        default=[row for row in df_vendas_produtos['Nome']][0],
         max_selections=15,
         help='Selecione produtos para análise'
     )

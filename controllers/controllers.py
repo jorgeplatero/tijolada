@@ -319,7 +319,7 @@ def insert_produtos_compras(compra_produto):
 
 #updates
 #---------------------------------------------------------------
-        
+
 #fornecedores
 def update_fornecedores(fornecedor):
     try:

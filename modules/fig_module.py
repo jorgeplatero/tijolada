@@ -87,7 +87,8 @@ def fig_evolucao_despesa_por_produto(df, data, produtos):
     )
     fig.update_traces(
         textposition='top center',
-        hovertemplate='Produto: %{hovertext}<br>Despesa (R$): %{y:.2f}<br>Data: %{x}'
+        hovertemplate='Produto: %{hovertext}<br>Despesa (R$): %{y:.2f}<br>Data: %{x}',
+        name=''
     )
     st.plotly_chart(fig)
 
@@ -170,6 +171,7 @@ def fig_evolucao_faturamento_por_produto(df, data, produtos):
     )
     fig.update_traces(
         textposition='top center',
-        hovertemplate='Produto: %{hovertext}<br>Faturamento (R$): %{y:.2f}<br>Data: %{x}'
+        hovertemplate='Produto: %{hovertext}<br>Faturamento (R$): %{y:.2f}<br>Data: %{x}',
+        name=''
     )
     st.plotly_chart(fig)

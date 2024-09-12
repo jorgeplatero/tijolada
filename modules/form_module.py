@@ -246,6 +246,7 @@ def insert_vendas():
 
 #clientes
 def update_clientes():
+    input_botao_alterar_cliente = ''
     with st.form(key='update_clientes_busca'):
         #formulário
         cliente_selecionado = None
@@ -304,23 +305,24 @@ def update_clientes():
                 placeholder='Selecione a situação do cliente', label_visibility='collapsed'
             )
             input_botao_alterar_cliente = st.form_submit_button('**Atualizar**', type='primary')
-            if input_botao_alterar_cliente:
-                try:
-                    controllers.update_clientes(
-                        models.Cliente(
-                            input_id_cliente, input_nome_cliente, input_tipo_cliente, input_cpf_cnpj_cliente, 
-                            input_endereco_cliente, input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, 
-                            input_situacao_cliente
-                        )
-                    )
-                except Exception as e:
-                    st.error(f'Erro durante update: {e}')
-        else:
-            pass
+    if input_botao_alterar_cliente:
+        try:
+            controllers.update_clientes(
+                models.Cliente(
+                    input_id_cliente, input_nome_cliente, input_tipo_cliente, input_cpf_cnpj_cliente, 
+                    input_endereco_cliente, input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, 
+                    input_situacao_cliente
+                )
+            )
+        except Exception as e:
+            st.error(f'Erro durante update: {e}')
+    else:
+        pass
 
 
 #fornecedores
 def update_fornecedores():
+    input_botao_alterar_fornecedor = ''
     with st.form(key='update_fornedores_busca'):
         #formulário
         fornecedor_selecionado = None
@@ -363,21 +365,22 @@ def update_fornecedores():
                     label='Bairro', value=fornecedor_selecionado.bairro_fornecedor, max_chars=50, label_visibility='collapsed'
                 )
             input_botao_alterar_fornecedor = st.form_submit_button('**Atualizar**', type='primary')
-            if input_botao_alterar_fornecedor:
-                try:
-                    controllers.update_fornecedores(
-                        models.Fornecedor(
-                            input_id_fornecedor, input_nome_fornecedor, input_cnpj_fornecedor, 
-                            input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
-                    )
-                except Exception as e:
-                    st.error(f'Erro durante update: {e}')
-        else:
-            pass
+    if input_botao_alterar_fornecedor:
+        try:
+            controllers.update_fornecedores(
+                models.Fornecedor(
+                    input_id_fornecedor, input_nome_fornecedor, input_cnpj_fornecedor, 
+                    input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
+            )
+        except Exception as e:
+            st.error(f'Erro durante update: {e}')
+    else:
+        pass
 
 
 #produtos
 def update_produtos():
+    input_botao_alterar_produto = ''
     with st.form(key='update_produtos_busca'):
         opcoes_unidade_medida = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
         #formulário
@@ -407,19 +410,20 @@ def update_produtos():
                     placeholder='Selecione a unidade de medida', label_visibility='collapsed'
                 )
             input_botao_alterar_produto = st.form_submit_button('**Atualizar**', type='primary')
-            if input_botao_alterar_produto:
-                try:
-                    controllers.update_produtos(
-                        models.Produto(input_id_produto, input_nome_produto, input_unidade_medida_produto)
-                    )
-                except Exception as e:
-                    st.error(f'Erro durante update: {e}')
-        else:
-            pass
+    if input_botao_alterar_produto:
+        try:
+            controllers.update_produtos(
+                models.Produto(input_id_produto, input_nome_produto, input_unidade_medida_produto)
+            )
+        except Exception as e:
+            st.error(f'Erro durante update: {e}')
+    else:
+        pass
         
 
 #compras    
 def update_compras():
+    input_botao_alterar_compra = ''
     with st.form(key='update_compras_busca'):
         opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         #formulário
@@ -472,22 +476,23 @@ def update_compras():
                 placeholder='Selecione a forma de pagamento', label_visibility='collapsed'
             )
             input_botao_alterar_compra = st.form_submit_button('**Atualizar**', type='primary')
-            if input_botao_alterar_compra:
-                try:
-                    controllers.update_compras(
-                        models.Compra(
-                            input_id_compra, 0, input_fornecedor_id_fornecedor, 0, 
-                            input_situacao_pagamento_compra, input_situacao_entrega_compra, input_forma_pagamento_compra
-                        )
-                    )
-                except Exception as e:
-                    st.error(f'Erro durante update: {e}')
-        else:
-            pass
+    if input_botao_alterar_compra:
+        try:
+            controllers.update_compras(
+                models.Compra(
+                    input_id_compra, 0, input_fornecedor_id_fornecedor, 0, 
+                    input_situacao_pagamento_compra, input_situacao_entrega_compra, input_forma_pagamento_compra
+                )
+            )
+        except Exception as e:
+            st.error(f'Erro durante update: {e}')
+    else:
+        pass
 
 
 #itens de compra
 def update_compras_produtos():
+    input_botao_alterar_item_compra = ''
     with st.form(key='update_compras_produtos_busca'):
         #formulário
         compra_produto_selecionado = None
@@ -532,21 +537,22 @@ def update_compras_produtos():
                     label_visibility='collapsed'
                 )
             input_botao_alterar_item_compra = st.form_submit_button('**Atualizar**', type='primary')
-            if input_botao_alterar_item_compra:
-                try:
-                    controllers.update_compras_produtos(
-                        models.CompraProduto(
-                            input_id_compra_produto, 0, input_produto_ID_produto, 
-                            input_preco_unitario_produto_compra, input_quantidade_produto_compra
-                        )
-                    )
-                except Exception as e:
-                    st.error(f'Erro durante update: {e}')
-        else:
-            pass
+    if input_botao_alterar_item_compra:
+        try:
+            controllers.update_compras_produtos(
+                models.CompraProduto(
+                    input_id_compra_produto, 0, input_produto_ID_produto, 
+                    input_preco_unitario_produto_compra, input_quantidade_produto_compra
+                )
+            )
+        except Exception as e:
+            st.error(f'Erro durante update: {e}')
+    else:
+        pass
         
 #vendas
 def update_vendas():
+    input_botao_alterar_venda = ''
     with st.form(key='update_vendas_busca'):
         opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         #formulário
@@ -626,25 +632,26 @@ def update_vendas():
                 label_visibility='collapsed'
             )
             input_botao_alterar_venda = st.form_submit_button('**Atualizar**', type='primary')
-            if input_botao_alterar_venda:
-                try:
-                    controllers.update_vendas(
-                        models.Venda(
-                            input_id_venda, 0, input_cliente_id_cliente, 
-                            input_endereco_entrega_venda, input_bairro_entrega_venda,
-                            input_observacoes_venda, 0, 
-                            input_situacao_pagamento_venda, input_situacao_entrega_venda, 
-                            input_forma_pagamento_venda
-                        )
-                    )
-                except Exception as e:
-                    st.error(f'Erro durante update: {e}')
-        else:
-            pass
-        
+    if input_botao_alterar_venda:
+        try:
+            controllers.update_vendas(
+                models.Venda(
+                    input_id_venda, 0, input_cliente_id_cliente, 
+                    input_endereco_entrega_venda, input_bairro_entrega_venda,
+                    input_observacoes_venda, 0, 
+                    input_situacao_pagamento_venda, input_situacao_entrega_venda, 
+                    input_forma_pagamento_venda
+                )
+            )
+        except Exception as e:
+            st.error(f'Erro durante update: {e}')
+    else:
+        pass
+
 
 #itens de venda
 def update_vendas_produtos():
+    input_botao_alterar_item_venda = ''
     with st.form(key='update_vendas_produtos_busca'):
         #formulário
         venda_produto_selecionado = None
@@ -689,18 +696,18 @@ def update_vendas_produtos():
                     label_visibility='collapsed'
                 )
             input_botao_alterar_item_venda = st.form_submit_button('**Atualizar**', type='primary')
-            if input_botao_alterar_item_venda:
-                try:
-                    controllers.update_vendas_produtos(
-                        models.VendaProduto(
-                            input_id_venda_produto, 0, input_produto_ID_produto, 
-                            input_preco_unitario_produto_venda, input_quantidade_produto_venda
-                        )
-                    )
-                except Exception as e:
-                    st.error(f'Erro durante update: {e}')
-        else:
-            pass
+    if input_botao_alterar_item_venda:
+        try:
+            controllers.update_vendas_produtos(
+                models.VendaProduto(
+                    input_id_venda_produto, 0, input_produto_ID_produto, 
+                    input_preco_unitario_produto_venda, input_quantidade_produto_venda
+                )
+            )
+        except Exception as e:
+            st.error(f'Erro durante update: {e}')
+    else:
+        pass
         
 
 #deletes

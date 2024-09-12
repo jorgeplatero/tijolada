@@ -10,7 +10,7 @@ def login():
         page_icon='img/ico.ico',
         layout='wide'
     )
-    _, col2, _ = st.columns([.3 ,.4, .3])
+    _, col2, _ = st.columns([.25, .4, .25])
     with col2:
         col1, col2 = st.columns([.4, .6])
         with col1:
