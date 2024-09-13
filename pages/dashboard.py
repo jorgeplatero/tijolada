@@ -37,7 +37,7 @@ with col1:
     st.image('img/logo.png')
 with col2:
     st.title('Tijolada')
-    st.subheader('Dashboard')
+    st.subheader('Dashboard :material/dashboard:')
 
 #abas da pagina
 tab1, tab2, tab3, tab4 = st.tabs(['Compras', 'Vendas', 'Produtos', 'Estoque'])

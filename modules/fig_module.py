@@ -80,7 +80,7 @@ def fig_evolucao_despesa_por_produto(df, data, produtos):
         color='Nome'
     )
     fig.update_layout(
-        title=f'Evolução da Despesa Por Produto em {data.year}',
+        title=f'Evolução da Despesa por Produto em {data.year}',
         xaxis_title='Data', 
         yaxis_showticklabels=False,
         height=500
@@ -88,7 +88,6 @@ def fig_evolucao_despesa_por_produto(df, data, produtos):
     fig.update_traces(
         textposition='top center',
         hovertemplate='Produto: %{hovertext}<br>Despesa (R$): %{y:.2f}<br>Data: %{x}',
-        name=''
     )
     st.plotly_chart(fig)
 
@@ -164,14 +163,13 @@ def fig_evolucao_faturamento_por_produto(df, data, produtos):
         color='Nome',
     )
     fig.update_layout(
-        title=f'Evolução do Faturamento Por Produto em {data.year}',
+        title=f'Evolução do Faturamento por Produto em {data.year}',
         xaxis_title='Data', 
         yaxis_showticklabels=False,
         height=500
     )
     fig.update_traces(
         textposition='top center',
-        hovertemplate='Produto: %{hovertext}<br>Faturamento (R$): %{y:.2f}<br>Data: %{x}',
-        name=''
+        hovertemplate='Faturamento (R$): %{y:.2f}<br>Data: %{x}'
     )
     st.plotly_chart(fig)
