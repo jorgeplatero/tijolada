@@ -29,13 +29,15 @@ with col2:
 
 #menu    
 st.write('**Operações**')
-opcoes_menu_compras = st.selectbox(
-    label='**Operações**', 
-    options=['Cadastrar', 'Alterar', 'Excluír', 'Consultar'],
-    index=None,
-    placeholder='Selecione uma opção do menu'    ,
-    label_visibility='collapsed'                      
-)
+col1, _ = st.columns(2)
+with col1:
+    opcoes_menu_compras = st.selectbox(
+        label='**Operações**', 
+        options=['Cadastrar', 'Alterar', 'Excluír', 'Consultar'],
+        index=None,
+        placeholder='Selecione uma opção do menu'    ,
+        label_visibility='collapsed'                      
+    )
 #opcao cadastrar
 if opcoes_menu_compras == 'Cadastrar':
     #formulario

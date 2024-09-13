@@ -336,7 +336,7 @@ def update_fornecedores(fornecedor):
             """
         )
         db.conn.commit()
-        st.write('Fornecedor atualizado!')
+        st.success('Fornecedor atualizado!')
     except Exception as e:
         st.write(f'{e}')
         db.conn.rollback()

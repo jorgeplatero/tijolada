@@ -428,7 +428,7 @@ def update_compras():
         opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         #formulário
         compra_selecionada = None
-        col1, _ = st.columns([.3, .7])
+        col1, _ = st.columns(2)
         with col1:
             st.write('**ID da Compra**')
             input_id_compra = st.selectbox(
@@ -443,14 +443,24 @@ def update_compras():
         st.form_submit_button('**Buscar**', type='primary')
     with st.form(key='update_compras_dados'):    
         if compra_selecionada:
-            st.write('**ID do Fornecedor**')
-            input_fornecedor_id_fornecedor = st.selectbox(
-                label='ID Fornecedor', 
-                placeholder='Selecione o ID do fornecedor',
-                options=[row[0] for row in utils.consulta_fornecedores()],
-                index=[row[0] for row in utils.consulta_fornecedores()].index(compra_selecionada.fornecedor_id_fornecedor),
-                label_visibility='collapsed'
-            )
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write('**ID do Fornecedor**')
+                input_fornecedor_id_fornecedor = st.selectbox(
+                    label='ID Fornecedor', 
+                    placeholder='Selecione o ID do fornecedor',
+                    options=[row[0] for row in utils.consulta_fornecedores()],
+                    index=[row[0] for row in utils.consulta_fornecedores()].index(compra_selecionada.fornecedor_id_fornecedor),
+                    label_visibility='collapsed'
+                )
+            with col2:
+                st.write('**Forma de Pagamento**')
+                input_forma_pagamento_compra = st.selectbox(
+                    label='Forma de Pagamento', 
+                    options=opcoes_pagamento, 
+                    index=opcoes_pagamento.index(compra_selecionada.forma_pagamento_compra), 
+                    placeholder='Selecione a forma de pagamento', label_visibility='collapsed'
+                )
             col1, col2 = st.columns(2)
             with col1:
                 st.write('**Situação do Pagamento**')
@@ -468,13 +478,6 @@ def update_compras():
                     index=[0 if compra_selecionada.situacao_entrega_compra == 'Não realizada' else 1][0], 
                     placeholder='Selecione a situação da entrega', label_visibility='collapsed'
                 )
-            st.write('**Forma de Pagamento**')
-            input_forma_pagamento_compra = st.selectbox(
-                label='Forma de Pagamento', 
-                options=opcoes_pagamento, 
-                index=opcoes_pagamento.index(compra_selecionada.forma_pagamento_compra), 
-                placeholder='Selecione a forma de pagamento', label_visibility='collapsed'
-            )
             input_botao_alterar_compra = st.form_submit_button('**Atualizar**', type='primary')
     if input_botao_alterar_compra:
         try:
@@ -496,7 +499,7 @@ def update_compras_produtos():
     with st.form(key='update_compras_produtos_busca'):
         #formulário
         compra_produto_selecionado = None
-        col1, _ = st.columns([.3, .7])
+        col1, _ = st.columns(2)
         with col1:
             st.write('**ID do Item da Compra**')
             input_id_compra_produto = st.selectbox(
@@ -512,13 +515,15 @@ def update_compras_produtos():
     with st.form(key='update_compras_produtos_dados'):
         if compra_produto_selecionado:
             st.write('**ID do Produto**')
-            input_produto_ID_produto = st.selectbox(
-                label='ID Produto',
-                placeholder='Selecione o ID do produto',
-                options=[row[0] for row in utils.consulta_produtos()], 
-                index=[row[0] for row in utils.consulta_produtos()].index(compra_produto_selecionado.produto_id_produto),
-                label_visibility='collapsed'
-            )
+            col1, _ = st.columns(2)
+            with col1:
+                input_produto_ID_produto = st.selectbox(
+                    label='ID Produto',
+                    placeholder='Selecione o ID do produto',
+                    options=[row[0] for row in utils.consulta_produtos()], 
+                    index=[row[0] for row in utils.consulta_produtos()].index(compra_produto_selecionado.produto_id_produto),
+                    label_visibility='collapsed'
+                )
             col1, col2 = st.columns(2)
             with col1:
                 st.write('**Preço Unitário (R$)**')
@@ -557,7 +562,7 @@ def update_vendas():
         opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         #formulário
         venda_selecionada = None
-        col1, _ = st.columns([.3, .7])
+        col1, _ = st.columns(2)
         with col1:
             st.write('**ID da Venda**')
             input_id_venda = st.selectbox(
@@ -572,14 +577,25 @@ def update_vendas():
         st.form_submit_button('**Buscar**', type='primary')
     with st.form(key='update_vendas_dados'):    
         if venda_selecionada:
-            st.write('**ID do Cliente**')
-            input_cliente_id_cliente = st.selectbox(
-                label='ID Cliente', 
-                placeholder='Selecione o ID do cliente', 
-                options=[row[0] for row in utils.consulta_clientes()],
-                index=[row[0] for row in utils.consulta_clientes()].index(venda_selecionada.cliente_id_cliente),
-                label_visibility='collapsed'
-            )
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write('**ID do Cliente**')
+                input_cliente_id_cliente = st.selectbox(
+                    label='ID Cliente', 
+                    placeholder='Selecione o ID do cliente', 
+                    options=[row[0] for row in utils.consulta_clientes()],
+                    index=[row[0] for row in utils.consulta_clientes()].index(venda_selecionada.cliente_id_cliente),
+                    label_visibility='collapsed'
+                )
+            with col2:
+                st.write('**Forma de Pagamento**')
+                input_forma_pagamento_venda = st.selectbox(
+                    label='Forma de Pagamento', 
+                    options=opcoes_pagamento, 
+                    index=opcoes_pagamento.index(venda_selecionada.forma_pagamento_venda), 
+                    placeholder='Selecione a forma de pagamento', 
+                    label_visibility='collapsed'
+                )
             col1, col2 = st.columns([.6, .4])
             with col1:
                 st.write('**Endereço**')
@@ -623,14 +639,6 @@ def update_vendas():
                     placeholder='Selecione a situação do entrega', 
                     label_visibility='collapsed'
                 )
-            st.write('**Forma de Pagamento**')
-            input_forma_pagamento_venda = st.selectbox(
-                label='Forma de Pagamento', 
-                options=opcoes_pagamento, 
-                index=opcoes_pagamento.index(venda_selecionada.forma_pagamento_venda), 
-                placeholder='Selecione a forma de pagamento', 
-                label_visibility='collapsed'
-            )
             input_botao_alterar_venda = st.form_submit_button('**Atualizar**', type='primary')
     if input_botao_alterar_venda:
         try:
@@ -655,7 +663,7 @@ def update_vendas_produtos():
     with st.form(key='update_vendas_produtos_busca'):
         #formulário
         venda_produto_selecionado = None
-        col1, _ = st.columns([.3, .7])
+        col1, _ = st.columns(2)
         with col1:
             st.write('**ID do Item de Venda**')
             input_id_venda_produto = st.selectbox(
@@ -670,14 +678,16 @@ def update_vendas_produtos():
         st.form_submit_button('**Buscar**', type='primary')
     with st.form(key='update_vendas_produtos_dados'):    
         if venda_produto_selecionado:
-            st.write('**ID do Produto**')
-            input_produto_ID_produto = st.selectbox(
-                label='ID Produto',
-                placeholder='Selecione o ID do produto',
-                options=[row[0] for row in utils.consulta_produtos()], 
-                index=[row[0] for row in utils.consulta_produtos()].index(venda_produto_selecionado.produto_id_produto),
-                label_visibility='collapsed'
-            )
+            col1, _ = st.columns(2)
+            with col1:
+                st.write('**ID do Produto**')
+                input_produto_ID_produto = st.selectbox(
+                    label='ID Produto',
+                    placeholder='Selecione o ID do produto',
+                    options=[row[0] for row in utils.consulta_produtos()], 
+                    index=[row[0] for row in utils.consulta_produtos()].index(venda_produto_selecionado.produto_id_produto),
+                    label_visibility='collapsed'
+                )
             col1, col2 = st.columns(2)
             with col1:
                 st.write('**Preço Unitário (R$)**')

@@ -72,7 +72,7 @@ def logout():
 
 login_page = st.Page(login, title='Log in', icon=':material/login:')
 logout_page = st.Page(logout, title='Configurações', icon=':material/settings:', default =True)
-cadastros = st.Page('pages/cadastros.py', title='Cadastro', icon=':material/app_registration:')
+cadastros = st.Page('pages/cadastro.py', title='Cadastro', icon=':material/app_registration:')
 compras = st.Page('pages/compras.py', title='Compras', icon=':material/add_shopping_cart:',)
 vendas = st.Page('pages/vendas.py', title='Vendas', icon=':material/remove_shopping_cart:')
 estoque = st.Page('pages/estoque.py', title='Estoque', icon=':material/warehouse:')

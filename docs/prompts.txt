@@ -1,23 +1,23 @@
 Vendas
 ----------------------------------------------------------------
 CREATE TABLE venda (
-    ID_venda SERIAL PRIMARY KEY,
-	data_venda TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
-    cliente_ID_cliente INTEGER REFERENCES cliente (ID_cliente) ON UPDATE CASCADE,
-    endereco_entrega_venda VARCHAR(100),
-    bairro_entrega_venda VARCHAR(50),
-    observacoes_venda VARCHAR(255),
-    preco_total_venda DECIMAL,
-    situacao_pagamento_venda VARCHAR(50),
-    situacao_entrega_venda VARCHAR(50),
-    forma_pagamento_venda VARCHAR(50)
+ID_venda SERIAL PRIMARY KEY,
+data_venda TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+cliente_ID_cliente INTEGER REFERENCES cliente (ID_cliente) ON UPDATE CASCADE,
+endereco_entrega_venda VARCHAR(100),
+bairro_entrega_venda VARCHAR(50),
+observacoes_venda VARCHAR(255),
+preco_total_venda DECIMAL,
+situacao_pagamento_venda VARCHAR(50),
+situacao_entrega_venda VARCHAR(50),
+forma_pagamento_venda VARCHAR(50)
 );
 
-Crie inserts postgresql para a tabela acima. Considere que o campo cliente_ID_cliente deve ser necessariamente preenchido com um valor entre 1 e 20. 
-O campo situacao_pagamento_venda deve ser preenchido com o valor 'Não realizado' ou com o valor 'Realizado'. O campo  situacao_entrega_venda deve ser preenchido  
-com o valor 'Não realizada' ou com o valor 'Realizada' e o campo forma_pagamento_venda deve ser preenchido com um dos valores a seguir: 'Crédito', 'Débito', 
-'Dinheiro', 'PIX'. Desconsidere o campo preco_total_venda e considere que o campo observacoes_venda deve ser preenchido com detalhes de entrega, como a quem chamar 
-para receber o produto ou outro fato que seja importante para a entrega. Insira no campo data_venda valores para o ano de 2023 e 2024 com meses e dias diferentes. Faça apenas 40 linhas.
+Crie inserts postgresql para a tabela acima. Considere que o campo cliente_ID_cliente deve ser necessariamente preenchido com um valor entre 1 e 20.
+O campo situacao_pagamento_venda deve ser preenchido com o valor 'Não realizado' ou com o valor 'Realizado'. O campo situacao_entrega_venda deve ser preenchido
+com o valor 'Não realizada' ou com o valor 'Realizada' e o campo forma_pagamento_venda deve ser preenchido com um dos valores a seguir: 'Crédito', 'Débito',
+'Dinheiro', 'PIX'. Desconsidere o campo preco_total_venda e considere que o campo observacoes_venda deve ser preenchido com detalhes de entrega, como a quem chamar
+para receber o produto ou outro fato que seja importante para a entrega. Insira os dados para o campo data_venda com valores aleatórios para o ano de 2023 e 2024 com meses e dias diferentes. Faça 80 linhas.
 
 CREATE TABLE venda_produto (
     ID_venda_produto SERIAL PRIMARY KEY,
@@ -27,8 +27,9 @@ CREATE TABLE venda_produto (
     quantidade_produto_venda REAL NOT NULL
 );
 
-Crie inserts postgresql para a tabela acima. Considere que o campo venda_ID_venda deve ser necessariamente preenchido com um valor entre 1 e 40. O campo produto_ID_produto 
-deve ser necessariamente preenchido com um valor entre 1 e 68. O campo quantidade_produto_venda deve ser deve ser necessariamente preenchido com um valor entre 1 e 10. 
+Crie inserts postgresql para a tabela acima. Considere que o campo venda_ID_venda deve ser necessariamente preenchido com um valor entre 1 e 80. O campo produto_ID_produto 
+deve ser necessariamente preenchido com valores entre 1 e 68 (incluindo todos ao menos duas vezes). O campo quantidade_produto_venda deve ser deve ser necessariamente preenchido com um valor entre 1 e 10. 
+Desconsidere o campo preco_unitario_produto_venda.
 
 Compras
 ----------------------------------------------------------------
@@ -45,15 +46,15 @@ CREATE TABLE compra (
 Crie inserts postgresql para a tabela acima. Considere que o campo fornecedor_ID_fornecedor deve ser necessariamente preenchido com um valor entre 1 e 12. 
 O campo situacao_pagamento_compra deve ser preenchido com o valor 'Não realizado' ou com o valor 'Realizado'. O campo  situacao_entrega_compra deve ser preenchido  
 com o valor 'Não realizada' ou com o valor 'Realizada' e o campo forma_pagamento_venda deve ser preenchido com um dos valores a seguir: 'Crédito', 'Débito', 
-'Dinheiro', 'PIX'. Desconsidere o campo preco_total_compra. Insira no campo data_compra valores para o ano de 2023 e 2024 com meses e dias diferentes. Faça apenas 24 linhas.
+'Dinheiro', 'PIX'. Desconsidere o campo preco_total_compra. Insira os dados para o campo data_compra com valores aleatórios para o ano de 2023 e 2024 com meses e dias diferentes. Faça 48 linhas.
 
 CREATE TABLE compra_produto (
-    ID_compra_produto SERIAL PRIMARY KEY,
-    compra_ID_compra INTEGER REFERENCES compra (ID_compra) ON UPDATE CASCADE,
-    produto_ID_produto INTEGER REFERENCES produto (ID_produto) ON UPDATE CASCADE,
-    preco_unitario_produto_compra DECIMAL NOT NULL,
-    quantidade_produto_compra REAL NOT NULL
+ID_compra_produto SERIAL PRIMARY KEY,
+compra_ID_compra INTEGER REFERENCES compra (ID_compra) ON UPDATE CASCADE,
+produto_ID_produto INTEGER REFERENCES produto (ID_produto) ON UPDATE CASCADE,
+preco_unitario_produto_compra DECIMAL NOT NULL,
+quantidade_produto_compra REAL NOT NULL
 );
 
-Crie inserts postgresql para a tabela acima. Considere que o campo compra_ID_compra deve ser necessariamente preenchido com um valor entre 1 e 24. O campo produto_ID_produto 
-deve ser necessariamente preenchido com um valor entre 1 e 68. O campo quantidade_produto_compra deve ser deve ser necessariamente preenchido com um valor entre 60 e 200.
+Crie inserts postgresql para a tabela acima. Considere que o campo compra_ID_compra deve ser necessariamente preenchido com valores entre 1 e 48. O campo produto_ID_produto
+deve ser necessariamente preenchido com valores entre 1 e 68 (incluindo todos ao menos duas vezes) em ordem aleatória. O campo quantidade_produto_compra deve ser deve ser necessariamente preenchido com um valor entre 60 e 200.
