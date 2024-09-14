@@ -75,7 +75,7 @@ elif opcoes_menu_compras == 'Alterar':
         try:
             df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)     
             df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
-            df_compras_produtos = pd.merge(df_compras_produtos, df_produtos, how='outer', on='ID Produto')
+            df_compras_produtos = pd.merge(df_compras_produtos, df_produtos, how='left', on='ID Produto')
             df_compras_produtos = df_compras_produtos[['ID Item de Compra', 'ID Compra', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
             st.dataframe(df_compras_produtos.sort_values(by='ID Item de Compra'), hide_index=True)
         except Exception as e:

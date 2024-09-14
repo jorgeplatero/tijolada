@@ -23,7 +23,6 @@ textColor='#FAFAFA'
 [data-testid='stForm'] input[type='password'],
 [data-testid='stForm'] select[type='box'],
 [data-testid='stForm'] textarea {
-    color: #262730;
     background: #262730;
     border: none;
 }

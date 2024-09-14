@@ -250,7 +250,7 @@ def update_clientes():
     with st.form(key='update_clientes_busca'):
         #formulário
         cliente_selecionado = None
-        col1, _ = st.columns([.3, .7])
+        col1, _ = st.columns(2)
         with col1:
             st.write('**ID do Cliente**')
             input_id_cliente = st.selectbox(
@@ -326,7 +326,7 @@ def update_fornecedores():
     with st.form(key='update_fornedores_busca'):
         #formulário
         fornecedor_selecionado = None
-        col1, _ = st.columns([.3, .7])
+        col1, _ = st.columns(2)
         with col1:
             st.write('**ID do Fornecedor**')
             input_id_fornecedor = st.selectbox(
@@ -385,7 +385,7 @@ def update_produtos():
         opcoes_unidade_medida = ['un', 'm', 'm²', 'm³', 'l', 'kg', 'lata', 'caminhão']
         #formulário
         produto_selecionado = None
-        col1, _ = st.columns([.3, .7])
+        col1, _ = st.columns(2)
         with col1:
             st.write('**ID do Produto**')
             input_id_produto = st.selectbox(

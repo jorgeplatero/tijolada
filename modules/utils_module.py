@@ -16,6 +16,20 @@ def formata_valor(valor, prefixo = ''):
     return f'{prefixo} {valor:.2f} milhões'
 
 
+#calculos
+#---------------------------------------------------------------
+
+#nivel do estoque
+def categoriza_quantidade_estoque(qtd):
+    if 1 <= qtd <= 10:
+        return 'Baixo'  
+    elif 10 <= qtd <= 100:
+        return 'Médio'  
+    elif qtd >= 100:
+        return 'Alto'
+    else:
+        return 'Sem Estoque'
+
 #consultas
 #---------------------------------------------------------------
 

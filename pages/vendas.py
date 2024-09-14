@@ -81,7 +81,7 @@ elif opcoes_menu_vendas == 'Alterar':
         try:
             df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)
             df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
-            df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='outer', on='ID Produto')
+            df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='left', on='ID Produto')
             df_vendas_produtos = df_vendas_produtos[['ID Item de Venda', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
             st.dataframe(df_vendas_produtos.sort_values(by='ID Item de Venda'), hide_index=True)
 
