@@ -1,6 +1,9 @@
 import streamlit as st
 import services.database as db
 import models.models as models
+import modules.utils_module as utils
+import warnings
+warnings.filterwarnings('ignore')
 
 
 #consultas
@@ -203,9 +206,9 @@ def insert_clientes(cliente):
             """
         )
         db.conn.commit()
-        st.success('Cliente inserido!')
+        utils.mensagem_sucesso('Cliente inserido')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
 
         
@@ -219,9 +222,9 @@ def insert_fornecedores(fornecedor):
             """
         )
         db.conn.commit()
-        st.success('Fornecedor inserido!')
+        utils.mensagem_sucesso('Fornecedor inserido')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
         
 
@@ -235,9 +238,9 @@ def insert_produtos(produto):
             """
         )
         db.conn.commit()
-        st.success('Produto inserido!')
+        utils.mensagem_sucesso('Produto inserido')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
 
 
@@ -254,12 +257,11 @@ def insert_vendas(venda):
             """
         )
         db.conn.commit()
-        st.success('Venda inserida!')
+        db.cursor.execute(f'SELECT LASTVAL()')
+        return db.cursor.fetchone()[0]
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
-    db.cursor.execute(f'SELECT LASTVAL()')
-    return db.cursor.fetchone()[0]
 
 
 #itens de venda
@@ -274,9 +276,9 @@ def insert_produtos_vendas(venda_produto):
         )
         db.conn.commit()
     except db.erro as e:
+        utils.mensagem_erro(e)
         db.conn.rollback()
-        delete_vendas(venda_produto.venda_id_venda) 
-        st.error(f'{e}')
+        delete_vendas_sem_estoque(venda_produto.venda_id_venda)
 
 
 #compras
@@ -291,12 +293,11 @@ def insert_compras(compra):
             """
         )
         db.conn.commit()
-        st.success(f'Compra inserida')
+        db.cursor.execute(f'SELECT LASTVAL()')
+        return db.cursor.fetchone()[0]
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
-    db.cursor.execute(f'SELECT LASTVAL()')
-    return db.cursor.fetchone()[0]
 
 
 #itens de compra
@@ -312,9 +313,9 @@ def insert_produtos_compras(compra_produto):
         )
         db.conn.commit()
     except Exception as e:
+        utils.mensagem_erro(e)
         db.conn.rollback()
         delete_compras(compra_produto.compra_id_compra)
-        st.error(f'{e}')
 
 
 #updates
@@ -336,9 +337,9 @@ def update_fornecedores(fornecedor):
             """
         )
         db.conn.commit()
-        st.success('Fornecedor atualizado!')
+        utils.mensagem_sucesso('Fornecedor atualizado')
     except Exception as e:
-        st.write(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
 
 
@@ -355,9 +356,9 @@ def update_produtos(produto):
             """
         )
         db.conn.commit()
-        st.success('Produto atualizado!')
+        utils.mensagem_sucesso('Produto atualizado')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
 
 
@@ -380,9 +381,9 @@ def update_clientes(cliente):
             """
         )
         db.conn.commit()
-        st.success('Cliente atualizado!')
+        utils.mensagem_sucesso('Cliente atualizado')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
         
 
@@ -401,9 +402,9 @@ def update_compras(compra):
             """
         )
         db.conn.commit()
-        st.success('Compra atualizada!')
+        utils.mensagem_sucesso('Compra atualizada')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
         
 
@@ -423,7 +424,7 @@ def update_compras_produtos(compra_produto):
         db.conn.commit()
         st.success('Item de compra atualizado!')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
         
 
@@ -445,9 +446,9 @@ def update_vendas(venda):
             """
         )
         db.conn.commit()
-        st.success('Venda atualizada!')
+        utils.mensagem_sucesso('Venda atualizada')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
         
 
@@ -465,9 +466,9 @@ def update_vendas_produtos(venda_produto):
             """
         )
         db.conn.commit()
-        st.success('Item de venda atualizado!')
+        utils.mensagem_sucesso('Item de venda atualizado')
     except Exception as e:
-        st.error(f'{e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
 
 
@@ -483,7 +484,7 @@ def delete_compras(id_compra):
             """
         )
         db.conn.commit()
-        st.success('Compra excluída!')
+        utils.mensagem_sucesso('Compra excluída')
     except Exception as e:
         st.error(f'Erro durante exclusão: {e}')
         db.conn.rollback()
@@ -498,7 +499,7 @@ def delete_compras_produtos(id_compra_produto):
             """
         )
         db.conn.commit()
-        st.success('Item de compra excluído!')
+        utils.mensagem_sucesso('Item de compra excluído')
     except Exception as e:
         st.error(f'Erro durante exclusão: {e}')
         db.conn.rollback()
@@ -513,7 +514,22 @@ def delete_vendas(id_venda):
             """
         )
         db.conn.commit()
-        st.success('Venda excluída!')
+        utils.mensagem_sucesso('Venda excluída')
+    except Exception as e:
+        st.error(f'Erro durante exclusão: {e}')
+        db.conn.rollback()
+
+
+#vendas sem estoque
+def delete_vendas_sem_estoque(id_venda):
+    try:
+        db.cursor.execute(
+            f"""
+                DELETE FROM venda WHERE ID_venda = {id_venda};
+            """
+        )
+        db.conn.commit()
+        utils.mensagem_aviso('Venda não realizada')
     except Exception as e:
         st.error(f'Erro durante exclusão: {e}')
         db.conn.rollback()
@@ -528,7 +544,7 @@ def delete_vendas_produtos(id_venda_produto):
             """
         )
         db.conn.commit()
-        st.success('Item de venda excluído!')
+        utils.mensagem_sucesso('Item de venda excluído')
     except Exception as e:
         st.error(f'Erro durante exclusão: {e}')
         db.conn.rollback()

@@ -13,11 +13,15 @@ st.set_page_config(
 )
 
 colunas_cliente = [
-    'ID', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
+    'ID Cliente', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
     'Referência', 'Situação'
 ]
-colunas_fornecedor = ['ID', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
-colunas_produtos = ['ID', 'Nome', 'Unidade de Medida']
+colunas_fornecedor = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
+colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
+
+df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=colunas_cliente)
+df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedor)
+df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
 
 #titulo da pagina
 col1, col2 = st.columns([.2, .8])
@@ -59,8 +63,8 @@ if opcao_menu_cadastros == 'Cliente':
         forms.update_clientes()
     #dados
     try:
-        df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=colunas_cliente)
-        st.dataframe(df_clientes.sort_values(by='ID'), use_container_width=False, hide_index=True)
+        st.write('**Clientes**')
+        st.dataframe(df_clientes.sort_values(by='ID Cliente'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
 #opcao fornecedor        
@@ -84,8 +88,8 @@ elif opcao_menu_cadastros == 'Fornecedor':
         forms.update_fornecedores()
     #dados
     try:
-        df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedor)
-        st.dataframe(df_fornecedores.sort_values(by='ID'), use_container_width=False, hide_index=True)
+        st.write('**Fornecedores**')
+        st.dataframe(df_fornecedores.sort_values(by='ID Fornecedor'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')
 #opcao cadastro
@@ -109,7 +113,7 @@ elif opcao_menu_cadastros == 'Produto':
         forms.update_produtos()
     #dados
     try:
-        df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
-        st.dataframe(df_produtos.sort_values(by='ID'), use_container_width=False, hide_index=True)
+        st.write('**Produtos**')
+        st.dataframe(df_produtos.sort_values(by='ID Produto'), use_container_width=False, hide_index=True)
     except Exception as e:
         st.error(f'Erro durante consulta: {e}')

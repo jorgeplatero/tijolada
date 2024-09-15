@@ -57,7 +57,7 @@ def fig_despesa_por_fornecedor(df, data):
         hover_name='Fornecedor',
     )
     fig.update_layout(
-        title=f'Top 5 Clientes em {data.year}',
+        title=f'Top 5 Fornecedores em {data.year}',
         yaxis_showticklabels=False
     )
     fig.update_traces(
@@ -74,7 +74,6 @@ def fig_evolucao_despesa_por_produto(df, data, produtos):
     df_despesa_por_produto['Despesa (R$)'] = df_despesa_por_produto['Preço Unitário (R$)'].astype(float) * df_despesa_por_produto['Quantidade']
     df_despesa_por_produto = df_despesa_por_produto.groupby(['Mês', 'Nome'])['Despesa (R$)'].sum().reset_index().sort_values('Mês')
     df_despesa_por_produto = df_despesa_por_produto[df_despesa_por_produto['Nome'].isin(produtos)]
-    st.dataframe(df_despesa_por_produto)
     fig = px.line(
         data_frame=df_despesa_por_produto, 
         x='Mês', 
@@ -158,7 +157,6 @@ def fig_evolucao_faturamento_por_produto(df, data, produtos):
     df_faturamento_por_produto['Faturamento (R$)'] = df_faturamento_por_produto['Preço Unitário (R$)'].astype(float) * df_faturamento_por_produto['Quantidade']
     df_faturamento_por_produto = df_faturamento_por_produto.groupby(['Mês', 'Nome'])['Faturamento (R$)'].sum().reset_index().sort_values('Mês')
     df_faturamento_por_produto = df_faturamento_por_produto[df_faturamento_por_produto['Nome'].isin(produtos)]
-    st.dataframe(df_faturamento_por_produto)
     fig = px.line(
         data_frame=df_faturamento_por_produto, 
         x='Mês', 

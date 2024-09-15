@@ -20,6 +20,11 @@ colunas_itens_venda = ['ID Item de Venda', 'ID Venda', 'ID Produto', 'Preço Uni
 colunas_estoques = ['ID', 'ID Produto', 'Quantidade em Estoque']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 
+df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
+df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda) 
+df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=colunas_estoques)
+df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
+
 #titulo da pagina
 col1, col2 = st.columns([.2, .8])
 with col1:
@@ -34,7 +39,7 @@ col1, _ = st.columns(2)
 with col1:
     opcoes_menu_vendas = st.selectbox(
         label='**Operações**', 
-        options=['Cadastrar', 'Alterar', 'Excluír', 'Consultar'],
+        options=['Cadastrar', 'Alterar', 'Excluir', 'Consultar'],
         index=None,
         placeholder='Selecione uma opção do menu',
         label_visibility='collapsed'                  
@@ -45,11 +50,10 @@ if opcoes_menu_vendas == 'Cadastrar':
     forms.insert_vendas()
     #dados
     try:
-        st.write('')
-        df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=colunas_estoques)[['ID Produto', 'Quantidade em Estoque']]
-        df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
-        df_estoques_produtos = pd.merge(df_produtos, df_estoques, how='outer', on='ID Produto')
-        st.dataframe(df_estoques_produtos.sort_values(by='ID Produto'), hide_index=True)
+        st.write('Estoque')
+        df_estoques_produtos_cadastrar = pd.merge(df_produtos, df_estoques[['ID Produto', 'Quantidade em Estoque']], how='left', on='ID Produto')
+        df_estoques_produtos_cadastrar['Quantidade em Estoque'] = df_estoques_produtos_cadastrar['Quantidade em Estoque'].fillna(0)
+        st.dataframe(df_estoques_produtos_cadastrar.sort_values(by='ID Produto'), hide_index=True)
     except Exception as e:
         print(st.error(f'Erro durante consulta: {e}'))
 #opcao alterar
@@ -70,7 +74,7 @@ elif opcoes_menu_vendas == 'Alterar':
         forms.update_vendas()
         #dados
         try:
-            df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
+            st.write('Vendas')
             st.dataframe(df_vendas.sort_values(by='ID Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
@@ -79,23 +83,22 @@ elif opcoes_menu_vendas == 'Alterar':
         forms.update_vendas_produtos()
         #dados
         try:
-            df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)
-            df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
-            df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='left', on='ID Produto')
-            df_vendas_produtos = df_vendas_produtos[['ID Item de Venda', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
-            st.dataframe(df_vendas_produtos.sort_values(by='ID Item de Venda'), hide_index=True)
-
+            st.write('Itens de Venda')     
+            df_vendas_produtos_alterar = pd.merge(df_vendas_produtos, df_produtos[['ID Produto', 'Nome']], how='left', on='ID Produto')
+            df_vendas_produtos_alterar = pd.merge(df_vendas, df_vendas_produtos_alterar, how='inner', on='ID Venda')
+            df_vendas_produtos_alterar = df_vendas_produtos_alterar[['ID Item de Venda', 'Data', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
+            st.dataframe(df_vendas_produtos_alterar.sort_values(by='ID Item de Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')  
 #opcao excluir
-elif opcoes_menu_vendas == 'Excluír':
+elif opcoes_menu_vendas == 'Excluir':
     st.write('**Opções**')
     opcoes_excluir = st.radio(
         label='**Opções**', 
         options=['Venda', 'Itens de Venda'], 
         captions=[
-            'Excluír venda',
-            'Excluír itens de venda'
+            'Excluir venda',
+            'Excluir itens de venda'
         ], 
         horizontal=True,
         label_visibility='collapsed'
@@ -105,7 +108,7 @@ elif opcoes_menu_vendas == 'Excluír':
         forms.delete_vendas()
         #dados
         try:
-            df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
+            st.write('Vendas')
             st.dataframe(df_vendas.sort_values(by='ID Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')  
@@ -114,8 +117,11 @@ elif opcoes_menu_vendas == 'Excluír':
         forms.delete_vendas_produtos()
         #dados
         try:
-            df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)
-            st.dataframe(df_vendas_produtos.sort_values(by='ID Item de Venda'), hide_index=True)
+            st.write('Itens de Venda')
+            df_vendas_produtos_excluir = pd.merge(df_vendas_produtos, df_produtos[['ID Produto', 'Nome']], how='left', on='ID Produto')
+            df_vendas_produtos_excluir = pd.merge(df_vendas, df_vendas_produtos_excluir, how='inner', on='ID Venda')
+            df_vendas_produtos_excluir = df_vendas_produtos_excluir[['ID Item de Venda', 'Data', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
+            st.dataframe(df_vendas_produtos_excluir.sort_values(by='ID Item de Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')
 #opcao consultar
@@ -134,17 +140,14 @@ elif opcoes_menu_vendas == 'Consultar':
     if opcoes_consultar == 'Venda':
         #dados
         try:
-            df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
             st.dataframe(df_vendas.sort_values(by='ID Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')  
     elif opcoes_consultar == 'Itens de Venda':
         #dados
         try:
-            df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda)
-            df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
-            df_vendas_produtos = pd.merge(df_vendas_produtos, df_produtos, how='outer', on='ID Produto')
-            df_vendas_produtos = df_vendas_produtos[['ID Item de Venda', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
-            st.dataframe(df_vendas_produtos.sort_values(by='ID Item de Venda'), hide_index=True)
+            df_vendas_produtos_consultar = pd.merge(df_vendas_produtos, df_produtos[['ID Produto', 'Nome']], how='outer', on='ID Produto')
+            df_vendas_produtos_consultar = df_vendas_produtos_consultar[['ID Item de Venda', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
+            st.dataframe(df_vendas_produtos_consultar.sort_values(by='ID Item de Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')

@@ -1,5 +1,6 @@
 --venda
 ----------------------------------------------------------------
+
 --trigger para atualizar preço total de uma venda
 CREATE OR REPLACE FUNCTION calcular_preco_total_venda()
 RETURNS TRIGGER AS $$
@@ -42,6 +43,7 @@ EXECUTE PROCEDURE calcular_preco_unitario_venda();
 
 --compra
 ----------------------------------------------------------------
+
 --trigger para atualizar preço total de uma compra
 CREATE OR REPLACE FUNCTION calcular_preco_total_compra()
 RETURNS TRIGGER AS $$
@@ -62,7 +64,8 @@ FOR EACH ROW EXECUTE PROCEDURE calcular_preco_total_compra();
 
 --estoque
 ----------------------------------------------------------------
---trigger para inserir um novo produto no estoque após uma compra inédita
+
+--trigger para inserir um novo produto no estoque após uma compra
 CREATE OR REPLACE FUNCTION atualizar_estoque_compra()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -90,15 +93,13 @@ EXECUTE FUNCTION atualizar_estoque_compra();
 CREATE OR REPLACE FUNCTION atualizar_estoque_venda() RETURNS TRIGGER AS $$
 BEGIN
     -- Verifica se a nova quantidade em estoque não ficará negativa
-    IF (SELECT quantidade_estoque FROM estoque WHERE produto_ID_produto = NEW.produto_ID_produto) - NEW.quantidade_produto_venda < 0 THEN
+    IF ((SELECT quantidade_estoque FROM estoque WHERE produto_ID_produto = NEW.produto_ID_produto) - NEW.quantidade_produto_venda) < 0 THEN
         RAISE EXCEPTION 'Quantidade em estoque insuficiente!';
     END IF;
-
     -- Atualiza a quantidade em estoque
     UPDATE estoque
     SET quantidade_estoque = quantidade_estoque - NEW.quantidade_produto_venda
     WHERE produto_ID_produto = NEW.produto_ID_produto;
-
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

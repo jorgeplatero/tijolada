@@ -44,8 +44,10 @@ def insert_clientes():
                     input_bairro_cliente, input_telefone_cliente, input_referencia_cliente, input_situacao_cliente
                 )
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
+            pass
     else:
         pass
 
@@ -56,7 +58,7 @@ def insert_fornecedores():
         col1, col2 = st.columns([.6, .4])
         with col1:
             st.write('**Nome**')
-            input_nome_fornecedor = st.text_input(label='Nome', max_chars=100, label_visibility='collapsed')
+            input_nome_fornecedor = st.text_input(label='Nome', max_chars=100, label_visibility='collapsed', value='')
         with col2:
             st.write('**Telefone**')
             input_telefone_fornecedor = st.text_input(label='Telefone', max_chars=15, label_visibility='collapsed')
@@ -75,8 +77,10 @@ def insert_fornecedores():
             controllers.insert_fornecedores(
                 models.Fornecedor(0, input_nome_fornecedor, input_cnpj_fornecedor, input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
+            pass
     else:
         pass
 
@@ -88,15 +92,19 @@ def insert_produtos():
         st.write('**Nome**')
         input_nome_produto = st.text_input(label='Nome', max_chars=255, label_visibility='collapsed')
         st.write('**Unidade de Medida**')
-        input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', placeholder='Selecione a unidade de medida', index=None, options=opcoes_unidade_medida, label_visibility='collapsed')
+        col1, _ = st.columns(2)
+        with col1:
+            input_unidade_medida_produto = st.selectbox(label='Unidade de Medida', placeholder='Selecione a unidade de medida', index=None, options=opcoes_unidade_medida, label_visibility='collapsed')
         input_botao_inserir_produto = st.form_submit_button('**Inserir**', type='primary')
     if input_botao_inserir_produto:
         try:
             controllers.insert_produtos(
                 models.Produto(0, input_nome_produto, input_unidade_medida_produto)
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
+            pass
     else:
         pass
     
@@ -107,8 +115,10 @@ def insert_compras():
         opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         df_compra_produto = pd.DataFrame(columns=['ID Produto', 'Preço Unitário', 'Quantidade'])
         #compra
-        st.write('**ID do Fornecedor**')
-        input_fornecedor_id_fornecedor = st.selectbox(label='ID Fornecedor', options=[row[0] for row in utils.consulta_fornecedores()], placeholder='Selecione o ID do cliente', index=None, label_visibility='collapsed')
+        col1, _ = st.columns(2)
+        with col1:
+            st.write('**ID do Fornecedor**')
+            input_fornecedor_id_fornecedor = st.selectbox(label='ID Fornecedor', options=[row[0] for row in utils.consulta_fornecedores()], placeholder='Selecione o ID do fornecedor', index=None, label_visibility='collapsed')
         col1, col2 = st.columns(2)
         with col1:
             st.write('**Situação do Pagamento**')
@@ -116,15 +126,15 @@ def insert_compras():
         with col2:
             st.write('**Situação da Entrega**')
             input_situacao_entrega_compra = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'], placeholder='Selecione a situação da entrega', index=None, label_visibility='collapsed')
-        st.write('**Forma de pagamento**')
-        input_forma_pagamento_compra = st.selectbox(label='Forma de pagamento', options=opcoes_pagamento, placeholder='Selecione a forma de pagamento', index=None, label_visibility='collapsed')
+        st.write('**Forma de Pagamento**')
+        input_forma_pagamento_compra = st.selectbox(label='Forma de Pagamento', options=opcoes_pagamento, placeholder='Selecione a forma de pagamento', index=None, label_visibility='collapsed')
         #itens de venda
         st.write('**Itens de Compra**')
         df_compra_produto = st.data_editor(
             df_compra_produto,
             column_config={
                 'ID Produto': st.column_config.SelectboxColumn(
-                    label='ID do Fornecedor',
+                    label='ID do Produto',
                     help='Selecione o codigo do produto',
                     options=[row[0] for row in utils.consulta_produtos()],
                     required=True
@@ -164,20 +174,24 @@ def insert_compras():
                                 input_quantidade_produto_compra
                             )
                     )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
+            pass
     else:
         pass
     
     
 #vendas
 def insert_vendas():
-    with st.form(key='insert_vendas'):
+    with st.form(key='0das'):
         opcoes_pagamento = ['Crédito', 'Débito', 'Dinheiro', 'PIX']
         df_venda_produto = pd.DataFrame(columns=['ID Produto', 'Quantidade'])
         #venda
-        st.write('**ID do Cliente**')
-        input_cliente_id_cliente = st.selectbox(label='ID Cliente', options=[row[0] for row in utils.consulta_clientes()], placeholder='Selecione o ID cliente', index=None, label_visibility= 'collapsed')
+        col1, _ = st.columns(2)
+        with col1:
+            st.write('**ID do Cliente**')
+            input_cliente_id_cliente = st.selectbox(label='ID Cliente', options=[row[0] for row in utils.consulta_clientes()], placeholder='Selecione o ID do cliente', index=None, label_visibility= 'collapsed')
         col1, col2 = st.columns([.6, .4])
         with col1:
             st.write('**Endereço de Entrega**')
@@ -194,16 +208,17 @@ def insert_vendas():
         with col2:
             st.write('**Situação da Entrega**')
             input_situacao_entrega_venda = st.selectbox(label='Situação da Entrega', options=['Não realizada', 'Realizado'], placeholder='Selecione a situação da entrega', index=None, label_visibility='collapsed')
-        st.write('**Forma de pagamento**')
-        input_forma_pagamento_venda = st.selectbox(label='Forma de pagamento', options=opcoes_pagamento, placeholder='Selecione a forma de pagamento', index=None, label_visibility='collapsed')
+        st.write('**Forma de Pagamento**')
+        input_forma_pagamento_venda = st.selectbox(label='Forma de Pagamento', options=opcoes_pagamento, placeholder='Selecione a forma de pagamento', index=None, label_visibility='collapsed')
         #itens de venda
+        st.write('**Itens de Venda**')
         df_venda_produto = st.data_editor(
             df_venda_produto,
             column_config={
                 'ID Produto': st.column_config.SelectboxColumn(
                     label='ID do Produto',
                     help='Selecione o ID do produto',
-                    options=[row[0] for row in utils.consulta_produtos()],
+                    options=[row[1] for row in utils.consulta_estoques()],
                     required=True
                 ),
                 'Quantidade': st.column_config.NumberColumn(
@@ -235,8 +250,10 @@ def insert_vendas():
                             input_quantidade_produto_venda
                         )
                 )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
+            pass
     else:
         pass
 
@@ -314,8 +331,10 @@ def update_clientes():
                     input_situacao_cliente
                 )
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante update: {e}')
+            pass
     else:
         pass
 
@@ -372,8 +391,10 @@ def update_fornecedores():
                     input_id_fornecedor, input_nome_fornecedor, input_cnpj_fornecedor, 
                     input_endereco_fornecedor, input_bairro_fornecedor, input_telefone_fornecedor)
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante update: {e}')
+            pass
     else:
         pass
 
@@ -401,7 +422,7 @@ def update_produtos():
             input_nome_produto = st.text_input(
                 label='Nome', value=produto_selecionado.nome_produto, max_chars=255, label_visibility='collapsed'
             )
-            col1, _ = st.columns([.3, .7])
+            col1, _ = st.columns(2)
             with col1:
                 st.write('**Unidade de Medida**')
                 input_unidade_medida_produto = st.selectbox(
@@ -415,8 +436,10 @@ def update_produtos():
             controllers.update_produtos(
                 models.Produto(input_id_produto, input_nome_produto, input_unidade_medida_produto)
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante update: {e}')
+            pass
     else:
         pass
         
@@ -487,8 +510,10 @@ def update_compras():
                     input_situacao_pagamento_compra, input_situacao_entrega_compra, input_forma_pagamento_compra
                 )
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante update: {e}')
+            pass
     else:
         pass
 
@@ -550,8 +575,10 @@ def update_compras_produtos():
                     input_preco_unitario_produto_compra, input_quantidade_produto_compra
                 )
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante update: {e}')
+            pass
     else:
         pass
         
@@ -651,8 +678,10 @@ def update_vendas():
                     input_forma_pagamento_venda
                 )
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante update: {e}')
+            pass
     else:
         pass
 
@@ -714,8 +743,10 @@ def update_vendas_produtos():
                     input_preco_unitario_produto_venda, input_quantidade_produto_venda
                 )
             )
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante update: {e}')
+            pass
     else:
         pass
         
@@ -743,6 +774,7 @@ def delete_compras():
             controllers.delete_compras(input_id_compra)
         except Exception as e:
             st.error(f'Erro durante exclusão: {e}')
+            pass
     else:
         pass
 
@@ -764,8 +796,10 @@ def delete_compras_produtos():
     if input_botao_excluir_item_compra:
         try:
             controllers.delete_compras_produtos(input_id_compra_produto)
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante exclusão: {e}')
+            pass
     else:
         pass
 
@@ -787,8 +821,10 @@ def delete_vendas():
     if input_botao_excluir_venda:
         try:
             controllers.delete_vendas(input_id_venda)
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante exclusão: {e}')
+            pass
     else:
         pass
 
@@ -810,7 +846,9 @@ def delete_vendas_produtos():
     if input_botao_excluir_item_venda:
         try:
             controllers.delete_vendas_produtos(input_id_venda_produto)
+            st.rerun()
         except Exception as e:
             st.error(f'Erro durante exclusão: {e}')
+            pass
     else:
         pass

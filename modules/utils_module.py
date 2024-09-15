@@ -1,5 +1,6 @@
 import streamlit as st
 import controllers.controllers as controllers
+import time
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -14,6 +15,23 @@ def formata_valor(valor, prefixo = ''):
             return f'{prefixo} {valor:.2f} {unidade}'
         valor /= 1000
     return f'{prefixo} {valor:.2f} milhões'
+
+
+#formatacoes
+#---------------------------------------------------------------
+
+#valores
+def mensagem_sucesso(mensagem):
+    st.success(f'{mensagem}!')
+    time.sleep(2)
+    
+def mensagem_erro(mensagem):
+    st.error(f'{mensagem}')
+    time.sleep(5)
+    
+def mensagem_aviso(mensagem):
+    st.warning(f'{mensagem}!')
+    time.sleep(2)
 
 
 #calculos
