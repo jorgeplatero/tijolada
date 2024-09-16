@@ -146,8 +146,9 @@ elif opcoes_menu_vendas == 'Consultar':
     elif opcoes_consultar == 'Itens de Venda':
         #dados
         try:
-            df_vendas_produtos_consultar = pd.merge(df_vendas_produtos, df_produtos[['ID Produto', 'Nome']], how='outer', on='ID Produto')
-            df_vendas_produtos_consultar = df_vendas_produtos_consultar[['ID Item de Venda', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
+            df_vendas_produtos_consultar = pd.merge(df_vendas_produtos, df_produtos[['ID Produto', 'Nome']], how='left', on='ID Produto')
+            df_vendas_produtos_consultar = pd.merge(df_vendas, df_vendas_produtos_consultar, how='inner', on='ID Venda')
+            df_vendas_produtos_consultar = df_vendas_produtos_consultar[['ID Item de Venda', 'Data', 'ID Venda', 'ID Produto', 'Nome', 'Preço Unitário', 'Quantidade']]
             st.dataframe(df_vendas_produtos_consultar.sort_values(by='ID Item de Venda'), hide_index=True)
         except Exception as e:
             st.error(f'Erro durante consulta: {e}')

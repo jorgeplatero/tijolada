@@ -163,17 +163,7 @@ def insert_compras():
                         input_situacao_pagamento_compra, input_situacao_entrega_compra, input_forma_pagamento_compra
                     )
             )
-            for _, row in df_compra_produto.iterrows():
-                input_compra_id_compra = id_compra
-                input_produto_id_produto = row[0]
-                input_preco_unitario_produto_compra = row[1]
-                input_quantidade_produto_compra = row[2]
-                controllers.insert_produtos_compras(
-                        models.CompraProduto(
-                                0, input_compra_id_compra, input_produto_id_produto, input_preco_unitario_produto_compra,
-                                input_quantidade_produto_compra
-                            )
-                    )
+            controllers.insert_produtos_compras(id_compra, df_compra_produto)
             st.rerun()
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')
@@ -240,16 +230,7 @@ def insert_vendas():
                         input_forma_pagamento_venda
                     )
             )
-            for _, row in df_venda_produto.iterrows():
-                input_venda_id_venda = id_venda
-                input_produto_id_produto = row[0]
-                input_quantidade_produto_venda = row[1]
-                controllers.insert_produtos_vendas(
-                    models.VendaProduto(
-                            0, input_venda_id_venda, input_produto_id_produto, 0,
-                            input_quantidade_produto_venda
-                        )
-                )
+            controllers.insert_produtos_vendas(id_venda, df_venda_produto)
             st.rerun()
         except Exception as e:
             st.error(f'Erro durante inserção: {e}')

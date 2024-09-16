@@ -24,14 +24,11 @@ def formata_valor(valor, prefixo = ''):
 def mensagem_sucesso(mensagem):
     st.success(f'{mensagem}!')
     time.sleep(2)
-    
+
+
 def mensagem_erro(mensagem):
     st.error(f'{mensagem}')
     time.sleep(5)
-    
-def mensagem_aviso(mensagem):
-    st.warning(f'{mensagem}!')
-    time.sleep(2)
 
 
 #calculos

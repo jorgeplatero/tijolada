@@ -265,20 +265,22 @@ def insert_vendas(venda):
 
 
 #itens de venda
-def insert_produtos_vendas(venda_produto):
+def insert_produtos_vendas(id_venda, df_venda_produto):
     try:
-        db.cursor.execute(
-            f"""
-                INSERT INTO venda_produto (venda_ID_venda, produto_ID_produto, quantidade_produto_venda)
-                VALUES ('{venda_produto.venda_id_venda}', '{venda_produto.produto_id_produto}', 
-                '{venda_produto.quantidade_produto_venda}');
+        data_venda_produtos = [(id_venda, row[0], row[1]) for _, row in df_venda_produto.iterrows()]
+        db.cursor.executemany(
             """
+            INSERT INTO venda_produto (venda_ID_venda, produto_ID_produto, quantidade_produto_venda)
+            VALUES (%s, %s, %s)
+            """,
+            data_venda_produtos
         )
         db.conn.commit()
+        utils.mensagem_sucesso('Venda inserida')
     except db.erro as e:
         utils.mensagem_erro(e)
         db.conn.rollback()
-        delete_vendas_sem_estoque(venda_produto.venda_id_venda)
+        delete_vendas(id_venda)
 
 
 #compras
@@ -301,21 +303,23 @@ def insert_compras(compra):
 
 
 #itens de compra
-def insert_produtos_compras(compra_produto):
+def insert_produtos_compras(id_compra, df_compra_produto):
     try:
-        db.cursor.execute(
-            f"""
-                INSERT INTO compra_produto (compra_ID_compra, produto_ID_produto, preco_unitario_produto_compra, 
-                quantidade_produto_compra)
-                VALUES ('{compra_produto.compra_id_compra}', '{compra_produto.produto_id_produto}', 
-                '{compra_produto.preco_unitario_produto_compra}', '{compra_produto.quantidade_produto_compra}');
+        df_compra_produto = [(id_compra, row[0], row[1], row[2]) for _, row in df_compra_produto.iterrows()]
+        db.cursor.executemany(
             """
+            INSERT INTO compra_produto (compra_ID_compra, produto_ID_produto, preco_unitario_produto_compra, 
+            quantidade_produto_compra)
+            VALUES (%s, %s, %s, %s)
+            """,
+            df_compra_produto
         )
         db.conn.commit()
+        utils.mensagem_sucesso('Compra inserida')
     except Exception as e:
         utils.mensagem_erro(e)
         db.conn.rollback()
-        delete_compras(compra_produto.compra_id_compra)
+        delete_compras(id_compra)
 
 
 #updates
@@ -515,21 +519,6 @@ def delete_vendas(id_venda):
         )
         db.conn.commit()
         utils.mensagem_sucesso('Venda excluída')
-    except Exception as e:
-        st.error(f'Erro durante exclusão: {e}')
-        db.conn.rollback()
-
-
-#vendas sem estoque
-def delete_vendas_sem_estoque(id_venda):
-    try:
-        db.cursor.execute(
-            f"""
-                DELETE FROM venda WHERE ID_venda = {id_venda};
-            """
-        )
-        db.conn.commit()
-        utils.mensagem_aviso('Venda não realizada')
     except Exception as e:
         st.error(f'Erro durante exclusão: {e}')
         db.conn.rollback()
