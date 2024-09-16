@@ -1,6 +1,6 @@
 # CRUD com PostgreSQL e Streamlit
 
-<img src='https://github.com/jorgeplatero/tijoladaock/blob/8885db4add268b90f76b9aac7324273168902525/img/logo.png' width='150'/>
+<img src='https://github.com/jorgeplatero/tijolada/blob/8885db4add268b90f76b9aac7324273168902525/img/logo.png' width='150'/>
 
 ## Descrição do Projeto
 
