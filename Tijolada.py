@@ -46,24 +46,6 @@ def logout():
     with col2:
         st.title('Tijolada')
         st.subheader('Configurações')
-    st.markdown(
-        '''
-            <div style='text-align: justify;'>
-                <h3>
-                    Bem-vindo ao Tijolada!
-                </h3>
-                <p>
-                    Este projeto consiste em uma aplicação que oferece uma interface Streamlit para interação com 
-                    banco de dados PostgreSQL e foi desenvolvida com o objetivo de permitir a realização de todas as 
-                    operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos 
-                    dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de 
-                    gráficos interativos.
-                </p>
-            </div>
-        
-        ''',
-        unsafe_allow_html=True
-    )
     if st.button('**Sair**', type='primary'):
         st.session_state.logged_in = False
         st.session_state.authentication_status = None
@@ -72,10 +54,11 @@ def logout():
 
 login_page = st.Page(login, title='Log in', icon=':material/login:')
 logout_page = st.Page(logout, title='Configurações', icon=':material/settings:', default =True)
+sobre =  st.Page('pages/sobre.py', title='Sobre', icon=':material/description:')
 cadastros = st.Page('pages/cadastro.py', title='Cadastro', icon=':material/app_registration:')
 compras = st.Page('pages/compras.py', title='Compras', icon=':material/add_shopping_cart:',)
 vendas = st.Page('pages/vendas.py', title='Vendas', icon=':material/remove_shopping_cart:')
-estoque = st.Page('pages/estoque.py', title='Estoque', icon=':material/warehouse:')
+estoque = st.Page('pages/estoque.py', title='Estoque', icon=':material/inventory_2:')
 dashboard = st.Page('pages/dashboard.py', title='Dashboard', icon=':material/dashboard:')
 
 if 'logged_in' not in st.session_state:
@@ -90,7 +73,7 @@ with open(file_path) as f:
 if st.session_state.logged_in:
     pg = st.navigation(
         {
-            'MENU': [cadastros, compras, estoque, vendas],
+            'MENU': [sobre, cadastros, compras, estoque, vendas],
             'DADOS': [dashboard],
             'CONTA': [logout_page],
         }

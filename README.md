@@ -1,6 +1,6 @@
 # CRUD com PostgreSQL e Streamlit
 
-<img src='https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/logo.png' width='150'/>
+<img src='https://github.com/jorgeplatero/tijoladaock/blob/8885db4add268b90f76b9aac7324273168902525/img/logo.png' width='150'/>
 
 ## Descrição do Projeto
 
@@ -14,7 +14,7 @@ Este projeto consiste em uma aplicação que oferece uma interface Streamlit par
 
 ## Arquitetura do Projeto
 
-<p align="center"><img src='img/arquitetura_projeto_crud.png'/></p>
+<p align='center'><img src='img/arquitetura_projeto_crud.png'/></p>
 
 ### Banco de Dados
 
@@ -30,7 +30,7 @@ Os dados são extraídos da interface Streamlit dada as requisições do usuári
 
 <img src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original-wordmark.svg' width='50' height='50'/> 
 <img src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-plain-wordmark.svg' width='50' height='50'/> 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/streamlit/streamlit-original-wordmark.svg" width="60" height="60"/> 
+<img src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/streamlit/streamlit-original-wordmark.svg' width='60' height='60'/> 
 
 ## Fontes de Dados
 
