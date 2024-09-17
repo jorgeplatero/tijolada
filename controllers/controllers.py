@@ -426,7 +426,7 @@ def update_compras_produtos(compra_produto):
             """
         )
         db.conn.commit()
-        st.success('Item de compra atualizado!')
+        utils.mensagem_sucesso('Item de compra atualizado')
     except Exception as e:
         utils.mensagem_erro(e)
         db.conn.rollback()
@@ -490,7 +490,7 @@ def delete_compras(id_compra):
         db.conn.commit()
         utils.mensagem_sucesso('Compra excluída')
     except Exception as e:
-        st.error(f'Erro durante exclusão: {e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
 
 
@@ -505,7 +505,7 @@ def delete_compras_produtos(id_compra_produto):
         db.conn.commit()
         utils.mensagem_sucesso('Item de compra excluído')
     except Exception as e:
-        st.error(f'Erro durante exclusão: {e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
 
 
@@ -520,7 +520,7 @@ def delete_vendas(id_venda):
         db.conn.commit()
         utils.mensagem_sucesso('Venda excluída')
     except Exception as e:
-        st.error(f'Erro durante exclusão: {e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()
 
 
@@ -535,5 +535,5 @@ def delete_vendas_produtos(id_venda_produto):
         db.conn.commit()
         utils.mensagem_sucesso('Item de venda excluído')
     except Exception as e:
-        st.error(f'Erro durante exclusão: {e}')
+        utils.mensagem_erro(e)
         db.conn.rollback()

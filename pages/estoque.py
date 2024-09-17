@@ -29,8 +29,8 @@ try:
     df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=colunas_estoques)[['ID Produto', 'Quantidade em Estoque']]
     df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
     df_estoques_produtos = pd.merge(df_produtos, df_estoques, how='left', on='ID Produto')
-    df_estoques_produtos['Quantidade em Estoque'] = df_estoques_produtos['Quantidade em Estoque'].fillna(0)
+    df_estoques_produtos['Quantidade em Estoque'] = df_estoques_produtos['Quantidade em Estoque'].fillna(0).astype(int)
     df_estoques_produtos['Nível do Estoque'] = df_estoques_produtos['Quantidade em Estoque'].apply(utils.categoriza_quantidade_estoque)
-    st.dataframe(df_estoques_produtos.sort_values(by='ID Produto'), hide_index=True)
+    st.dataframe(df_estoques_produtos.sort_values('ID Produto').style.applymap(utils.estiliza_celula_estoque, subset=['Nível do Estoque']), hide_index=True)
 except Exception as e:
     print(st.error(f'Erro durante consulta: {e}'))

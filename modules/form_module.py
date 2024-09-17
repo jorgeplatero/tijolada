@@ -749,7 +749,7 @@ def delete_compras():
                 label_visibility='collapsed'
 
             )
-            input_botao_excluir_compra = st.form_submit_button('**Excluír**', type='primary')
+            input_botao_excluir_compra = st.form_submit_button('**Excluir**', type='primary')
     if input_botao_excluir_compra:
         try:
             controllers.delete_compras(input_id_compra)
@@ -773,7 +773,7 @@ def delete_compras_produtos():
                 index=None,
                 label_visibility='collapsed'
             )
-            input_botao_excluir_item_compra = st.form_submit_button('**Excluír**', type='primary')
+            input_botao_excluir_item_compra = st.form_submit_button('**Excluir**', type='primary')
     if input_botao_excluir_item_compra:
         try:
             controllers.delete_compras_produtos(input_id_compra_produto)
@@ -798,7 +798,7 @@ def delete_vendas():
                 index=None,
                 label_visibility='collapsed'
             )
-            input_botao_excluir_venda = st.form_submit_button('**Excluír**', type='primary')
+            input_botao_excluir_venda = st.form_submit_button('**Excluir**', type='primary')
     if input_botao_excluir_venda:
         try:
             controllers.delete_vendas(input_id_venda)
@@ -823,7 +823,7 @@ def delete_vendas_produtos():
                 index=None,
                 label_visibility='collapsed'
             )
-            input_botao_excluir_item_venda = st.form_submit_button('**Excluír**', type='primary')
+            input_botao_excluir_item_venda = st.form_submit_button('**Excluir**', type='primary')
     if input_botao_excluir_item_venda:
         try:
             controllers.delete_vendas_produtos(input_id_venda_produto)

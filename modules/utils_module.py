@@ -16,19 +16,13 @@ def formata_valor(valor, prefixo = ''):
         valor /= 1000
     return f'{prefixo} {valor:.2f} milhões'
 
-
-#formatacoes
+#estilos
 #---------------------------------------------------------------
 
-#valores
-def mensagem_sucesso(mensagem):
-    st.success(f'{mensagem}!')
-    time.sleep(2)
-
-
-def mensagem_erro(mensagem):
-    st.error(f'{mensagem}')
-    time.sleep(5)
+#estoque
+def estiliza_celula_estoque(nivel):
+    color = '#FF6347' if nivel == 'Sem Estoque' else '#3CB371' if nivel == 'Alto' else '#4682B4' if nivel == 'Médio' else '#FFFF00'
+    return f'background-color: {color}; color: black; font-weight: bold'
 
 
 #calculos
@@ -44,6 +38,21 @@ def categoriza_quantidade_estoque(qtd):
         return 'Alto'
     else:
         return 'Sem Estoque'
+
+
+#mensagens
+#---------------------------------------------------------------
+
+#valores
+def mensagem_sucesso(mensagem):
+    st.success(f'{mensagem}!')
+    time.sleep(2)
+
+
+def mensagem_erro(mensagem):
+    st.error(f'{mensagem}')
+    time.sleep(5)
+
 
 #consultas
 #---------------------------------------------------------------
