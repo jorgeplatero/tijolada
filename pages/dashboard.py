@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 
-colunas_venda = [
+colunas_vendas = [
     'ID Venda', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
     'Faturamento (R$)', 'Situação do Pagamento', 'Situação da Entrega', 'Forma de Pagamento'
 ]
@@ -23,11 +23,11 @@ colunas_compras = [
     'Situação da Entrega', 'Forma de Pagamento'
 ]
 colunas_compras_produtos = ['ID Item Compra', 'ID Compra', 'ID Produto', 'Preço Unitário (R$)', 'Quantidade']
-colunas_cliente = [
+colunas_clientes = [
     'ID Cliente', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
     'Referência', 'Situação'
 ]
-colunas_fornecedor = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
+colunas_fornecedores = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 colunas_estoques = ['ID Estoque', 'ID Produto', 'Quantidade']
 
@@ -61,7 +61,7 @@ with tab1:
     df_compras = pd.DataFrame(utils.consulta_compras(), columns=colunas_compras)
     df_compras = df_compras[df_compras.Data.dt.year == data.year]
     #fornecedores no ano selecionado
-    df_fornecedor =  pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedor)
+    df_fornecedor =  pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedores)
     df_fornecedor = pd.merge(df_compras, df_fornecedor, how='outer', on='ID Fornecedor')
     #produtos no ano selecionado
     df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]
@@ -114,10 +114,10 @@ with tab2:
     #dataframes
     #---------------------------------------------------------------
     #vendas no ano selecionado
-    df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
+    df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_vendas)
     df_vendas = df_vendas[df_vendas.Data.dt.year == data.year]
     #clientes no ano selecionado
-    df_clientes =  pd.DataFrame(utils.consulta_clientes(), columns=colunas_cliente)
+    df_clientes =  pd.DataFrame(utils.consulta_clientes(), columns=colunas_clientes)
     df_clientes = pd.merge(df_vendas, df_clientes, how='outer', on='ID Cliente')
     #produtos no ano selecionado
     df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)[['ID Produto', 'Nome']]

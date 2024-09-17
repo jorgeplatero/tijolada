@@ -12,18 +12,23 @@ st.set_page_config(
     layout='wide'
 )
 
-colunas_venda = [
+colunas_vendas = [
     'ID Venda', 'Data', 'ID Cliente', 'Endereço de Entrega', 'Bairro de Entrega', 'Observações', 
     'Preço Total', 'Situação do Pagamento', 'Situação da Entrega', 'Forma de Pagamento'
+]
+colunas_clientes = [
+    'ID Cliente', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
+    'Referência', 'Situação'
 ]
 colunas_itens_venda = ['ID Item de Venda', 'ID Venda', 'ID Produto', 'Preço Unitário', 'Quantidade']
 colunas_estoques = ['ID', 'ID Produto', 'Quantidade em Estoque']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 
-df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_venda)
+df_vendas = pd.DataFrame(utils.consulta_vendas(), columns=colunas_vendas)
 df_vendas_produtos = pd.DataFrame(utils.consulta_vendas_produtos(), columns=colunas_itens_venda) 
 df_estoques = pd.DataFrame(utils.consulta_estoques(), columns=colunas_estoques)
 df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
+df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=colunas_clientes)[['ID Cliente', 'Nome', 'CPF/CNPJ']]
 
 #titulo da pagina
 col1, col2 = st.columns([.2, .8])
@@ -49,13 +54,22 @@ if opcoes_menu_vendas == 'Cadastrar':
     #formulario
     forms.insert_vendas()
     #dados
-    try:
-        st.write('Estoque')
-        df_estoques_produtos_cadastrar = pd.merge(df_produtos, df_estoques[['ID Produto', 'Quantidade em Estoque']], how='left', on='ID Produto')
-        df_estoques_produtos_cadastrar['Quantidade em Estoque'] = df_estoques_produtos_cadastrar['Quantidade em Estoque'].fillna(0)
-        st.dataframe(df_estoques_produtos_cadastrar.sort_values(by='ID Produto'), hide_index=True)
-    except Exception as e:
-        print(st.error(f'Erro durante consulta: {e}'))
+    col1, col2 = st.columns([.4, .6])
+    with col1:
+        try:
+            st.write('**Clintes**')
+            st.dataframe(df_clientes.iloc[:, 0:3].sort_values(by='ID Cliente'), hide_index=True)
+        except Exception as e:
+            st.error(f'Erro durante consulta: {e}')
+            pass
+    with col2:
+        try:
+            st.write('Estoque')
+            df_estoques_produtos_cadastrar = pd.merge(df_produtos, df_estoques[['ID Produto', 'Quantidade em Estoque']], how='left', on='ID Produto')
+            df_estoques_produtos_cadastrar['Quantidade em Estoque'] = df_estoques_produtos_cadastrar['Quantidade em Estoque'].fillna(0)
+            st.dataframe(df_estoques_produtos_cadastrar.sort_values(by='ID Produto'), use_container_width=True, hide_index=True)
+        except Exception as e:
+            print(st.error(f'Erro durante consulta: {e}'))
 #opcao alterar
 elif opcoes_menu_vendas == 'Alterar':
     st.write('**Opções**')

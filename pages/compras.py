@@ -18,10 +18,10 @@ colunas_compras = [
 ]
 colunas_itens_compra = ['ID Item de Compra', 'ID Compra', 'ID Produto', 'Preço Unitário', 'Quantidade']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
-colunas_fornecedor = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
+colunas_fornecedores = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
 
 df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
-df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedor)
+df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedores)
 df_compras = pd.DataFrame(utils.consulta_compras(), columns=colunas_compras)
 df_compras_produtos = pd.DataFrame(utils.consulta_compras_produtos(), columns=colunas_itens_compra)
 

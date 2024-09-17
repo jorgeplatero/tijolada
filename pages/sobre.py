@@ -24,17 +24,14 @@ st.markdown(
         '''
             <div style='text-align: justify;'>
                 <h3>
-                    CRUD com PostgreSQL e Streamlit
+                    CRUD com PostgreSQL e Streamlit 🗃️📊
                 </h3>
                 <h4>
                     Descrição do Projeto
                 </h4>
                 <p>
-                    Este projeto consiste em uma aplicação que oferece uma interface Streamlit para interação com 
-                    banco de dados PostgreSQL e foi desenvolvida com o objetivo de permitir a realização de todas as 
-                    operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos 
-                    dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de 
-                    gráficos interativos.
+                    Este projeto consiste em uma aplicação que oferece uma interface Streamlit para interação com banco de dados PostgreSQL e foi desenvolvida com o objetivo 
+                    de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos dados registrados pelo usuário, permitindo com que este possa visualizá-los em tempo real por meio de gráficos interativos.
                 </p>
                 <h4>
                     Benefícios das ferramentas utilizadas
@@ -132,7 +129,7 @@ st.markdown(
                 </h4>
                 <p>
                     Os dados foram gerados para teste via <a href='https://aistudio.google.com/app/prompts/new_chat?pli=1' style='text-decoration: none;'>Google AI Studio</a>. Os prompts e os comandos SQL utilizados para 
-                    construção da base de dados e inserção de dados estão disponíveis neste <a href='https://github.com/jorgeplatero/building_supply_stock/tree/cff6147441cef4ab3b8044f47283de4e42f504aa/services' style='text-decoration: none;'>repositório</a>.
+                    construção da base de dados e inserção de dados estão disponíveis neste <a href='https://github.com/jorgeplatero/tijolada/tree/5793c2aa3f6a697a88c3833fce101e501d87ab0e/docs' style='text-decoration: none;'>repositório</a>.
                 </p>
             </div>
         ''',

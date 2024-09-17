@@ -12,15 +12,15 @@ st.set_page_config(
     layout='wide'
 )
 
-colunas_cliente = [
+colunas_clientes = [
     'ID Cliente', 'Nome', 'Tipo', 'CPF/CNPJ', 'Endereço', 'Bairro', 'Telefone', 
     'Referência', 'Situação'
 ]
-colunas_fornecedor = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
+colunas_fornecedores = ['ID Fornecedor', 'Nome', 'CNPJ', 'Endereço', 'Bairro', 'Telefone']
 colunas_produtos = ['ID Produto', 'Nome', 'Unidade de Medida']
 
-df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=colunas_cliente)
-df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedor)
+df_clientes = pd.DataFrame(utils.consulta_clientes(), columns=colunas_clientes)
+df_fornecedores = pd.DataFrame(utils.consulta_fornecedores(), columns=colunas_fornecedores)
 df_produtos = pd.DataFrame(utils.consulta_produtos(), columns=colunas_produtos)
 
 #titulo da pagina

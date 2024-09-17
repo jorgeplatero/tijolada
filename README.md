@@ -34,4 +34,4 @@ Os dados são extraídos da interface Streamlit dada as requisições do usuári
 
 ## Fontes de Dados
 
-Os dados para teste foram gerados via [Google AI Studio](https://aistudio.google.com/app/prompts/new_chat?pli=1). Os prompts e os comandos SQL utilizados para construção da base de dados e inserção de dados estão disponíveis neste [repositório](https://github.com/jorgeplatero/building_supply_stock/tree/cff6147441cef4ab3b8044f47283de4e42f504aa/services).
+Os dados para teste foram gerados via [Google AI Studio](https://aistudio.google.com/app/prompts/new_chat?pli=1). Os prompts e os comandos SQL utilizados para construção da base de dados e inserção de dados estão disponíveis neste [repositório](https://github.com/jorgeplatero/tijolada/tree/5793c2aa3f6a697a88c3833fce101e501d87ab0e/docs).
