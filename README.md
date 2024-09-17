@@ -4,7 +4,7 @@
 
 ## Descrição do Projeto
 
-Este projeto consiste em uma aplicação que oferece uma interface Streamlit para interação com banco de dados PostgreSQL e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos dados registrados pelo usuário. O dashboard permite visualizar dados em tempo real por meio de gráficos interativos.
+Este projeto consiste em uma aplicação que oferece uma interface Streamlit para interação com banco de dados PostgreSQL e foi desenvolvida com o objetivo de permitir a realização de todas as operações CRUD. A aplicação também conta com um dashboard dinâmico para uma análise completa dos dados registrados pelo usuário, permitindo com que este possa visualizá-los em tempo real por meio de gráficos interativos.
 
 **Benefícios das ferramentas utilizadas**
 
@@ -18,7 +18,7 @@ Este projeto consiste em uma aplicação que oferece uma interface Streamlit par
 
 ### Banco de Dados
 
-O banco de dados conta com triggers que têm por funcionalidade inserir os valores totais de compras e vendas dado de itens de compra que contêm e também de atualizar o estoque dada compra ou venda de produtos. O ERD abaixo ilustra o esquema utilizado.
+O banco de dados conta com triggers que têm por funcionalidade inserir os valores totais de compras e vendas dado a quantidade de itens inseridos e também de atualizar o estoque. O ERD abaixo ilustra o esquema utilizado.
 
 ![erd](https://github.com/jorgeplatero/building_supply_stock/blob/8885db4add268b90f76b9aac7324273168902525/img/erd_tijolada.png)
 
@@ -34,4 +34,4 @@ Os dados são extraídos da interface Streamlit dada as requisições do usuári
 
 ## Fontes de Dados
 
-Os dados foram gerados para teste via [Google AI Studio](https://aistudio.google.com/app/prompts/new_chat?pli=1). Os prompts e os comandos SQL utilizados para construção da base de dados e inserção de dados estão disponíveis neste [repositório](https://github.com/jorgeplatero/building_supply_stock/tree/cff6147441cef4ab3b8044f47283de4e42f504aa/services).
+Os dados para teste foram gerados via [Google AI Studio](https://aistudio.google.com/app/prompts/new_chat?pli=1). Os prompts e os comandos SQL utilizados para construção da base de dados e inserção de dados estão disponíveis neste [repositório](https://github.com/jorgeplatero/building_supply_stock/tree/cff6147441cef4ab3b8044f47283de4e42f504aa/services).

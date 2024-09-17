@@ -136,7 +136,7 @@ with tab2:
     with col1:
         st.metric('**Faturamento do dia**', f'R$ {total_faturamento_dia}')
     with col2:
-        st.metric('**Faturamento do mes**', f'R$ {total_faturamento_mes}')
+        st.metric('**Faturamento do mês**', f'R$ {total_faturamento_mes}')
     with col3:
         st.metric('**Faturamento do ano**', f'R$ {total_faturamento_ano}')
     #graficos

@@ -46,7 +46,7 @@ def categoriza_quantidade_estoque(qtd):
 #valores
 def mensagem_sucesso(mensagem):
     st.success(f'{mensagem}!')
-    time.sleep(2)
+    time.sleep(1)
 
 
 def mensagem_erro(mensagem):
