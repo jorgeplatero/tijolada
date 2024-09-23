@@ -14,7 +14,7 @@ Este projeto consiste em uma aplicação que oferece uma interface Streamlit par
 
 ## Arquitetura do Projeto
 
-<p align='center'><img src='img/arquitetura_projeto_crud.png'/></p>
+<p align='center'><img src='img/arquitetura_projeto_crud.png'/ width=500></p>
 
 ### Banco de Dados
 
